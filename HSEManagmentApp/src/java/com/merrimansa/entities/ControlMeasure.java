@@ -51,7 +51,7 @@ public class ControlMeasure implements Serializable {
     @Size(max = 500)
     @Column(name = "ControlDescription")
     private String controlDescription;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlId")
     private Collection<Action> actionCollection;
     @JoinColumn(name = "HazardId", referencedColumnName = "HazardId")
     @ManyToOne(optional = false)

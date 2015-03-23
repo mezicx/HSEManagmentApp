@@ -30,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Action.findAll", query = "SELECT a FROM Action a"),
     @NamedQuery(name = "Action.findByActionId", query = "SELECT a FROM Action a WHERE a.actionId = :actionId"),
-    @NamedQuery(name = "Action.findByActionDescription", query = "SELECT a FROM Action a WHERE a.actionDescription = :actionDescription"),
-    @NamedQuery(name = "Action.findByControlId", query = "SELECT a FROM Action a WHERE a.controlId = :controlId")})
+    @NamedQuery(name = "Action.findByActionDescription", query = "SELECT a FROM Action a WHERE a.actionDescription = :actionDescription")})
 public class Action implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,16 +43,12 @@ public class Action implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "ActionDescription")
     private String actionDescription;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ControlId")
-    private int controlId;
-    @JoinColumn(name = "UserId", referencedColumnName = "ControlId")
+    @JoinColumn(name = "ControlId", referencedColumnName = "ControlId")
     @ManyToOne(optional = false)
-    private ControlMeasure userId;
+    private ControlMeasure controlId;
     @JoinColumn(name = "UserId", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
-    private User userId1;
+    private User userId;
 
     public Action() {
     }
@@ -62,10 +57,9 @@ public class Action implements Serializable {
         this.actionId = actionId;
     }
 
-    public Action(Integer actionId, String actionDescription, int controlId) {
+    public Action(Integer actionId, String actionDescription) {
         this.actionId = actionId;
         this.actionDescription = actionDescription;
-        this.controlId = controlId;
     }
 
     public Integer getActionId() {
@@ -84,28 +78,20 @@ public class Action implements Serializable {
         this.actionDescription = actionDescription;
     }
 
-    public int getControlId() {
+    public ControlMeasure getControlId() {
         return controlId;
     }
 
-    public void setControlId(int controlId) {
+    public void setControlId(ControlMeasure controlId) {
         this.controlId = controlId;
     }
 
-    public ControlMeasure getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(ControlMeasure userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    public User getUserId1() {
-        return userId1;
-    }
-
-    public void setUserId1(User userId1) {
-        this.userId1 = userId1;
     }
 
     @Override

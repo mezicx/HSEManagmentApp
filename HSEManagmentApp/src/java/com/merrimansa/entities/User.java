@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Steve
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "sysUSER")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -76,7 +76,7 @@ public class User implements Serializable {
     private Collection<ProcessAssessment> processAssessmentCollection;
     @OneToMany(mappedBy = "userId")
     private Collection<ProcessAssessment> processAssessmentCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Action> actionCollection;
 
     public User() {
