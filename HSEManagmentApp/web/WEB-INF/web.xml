@@ -25,5 +25,49 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    
+    <security-constraint>
+        <display-name>DashboardConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>AllUsers</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Secure/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>HSEManager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>User</role-name>
+            <role-name>Assessor</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>jdbcRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/loginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Any user responsible for administering safety assessments</description>
+        <role-name>HSEManager</role-name>
+    </security-role>
+    <security-role>
+        <description>System Administrator</description>
+        <role-name>Administrator</role-name>
+    </security-role>
+    <security-role>
+        <description>A user that can participate in an assessment</description>
+        <role-name>User</role-name>
+    </security-role>
+    <security-role>
+        <description>A user responsible for conducting assessments</description>
+        <role-name>Assessor</role-name>
+    </security-role>
 </web-app>

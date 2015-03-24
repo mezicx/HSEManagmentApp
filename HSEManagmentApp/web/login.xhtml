@@ -16,19 +16,22 @@
             <pm:page swatch="b">
                 
                 <pm:header>
-                    <h:graphicImage value="images/Conti.jpg" alt="it should be here"/>
+                    <h:graphicImage value="./images/Conti.jpg" alt="it should be here"/>
                     
                 </pm:header>
                 <pm:header title="Please Log In"></pm:header>
                 <pm:content>
                     <pm:field>
                         <p:outputLabel for="basic" value="User Name" />
-                        <p:inputText id="basic" />
+                        <p:inputText id="basic" value="#{userAuthBean.userName}" />
                     </pm:field>
 
                     <pm:field>
                         <p:outputLabel for="password" value="Password:" />
-                        <p:password id="password" />
+                        <p:password id="password" value="#{userAuthBean.password}"/>
+                    </pm:field>
+                    <pm:field>
+                        <p:commandButton actionListener="#{userAuthBean.login()}"/>
                     </pm:field>
                 </pm:content>
                 
