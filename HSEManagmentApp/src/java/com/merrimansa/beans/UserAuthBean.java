@@ -58,9 +58,9 @@ public class UserAuthBean implements Serializable {
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-
+        System.out.println(originalURL);
         if (originalURL == null) {
-            originalURL = externalContext.getRequestContextPath() + "/index.xhtml";
+            originalURL = externalContext.getRequestContextPath() + "/faces/index.xhtml";
         } else {
             String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
 
@@ -78,7 +78,9 @@ public class UserAuthBean implements Serializable {
             String PasswordHash = DigestUtils.sha256Hex(Password);
             System.out.println(PasswordHash);
             request.login(UserName, Password);
+            System.out.println("Login Sucessful");
             externalContext.redirect(originalURL);
+            
         } catch (ServletException ex) {
             Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
             String error = externalContext.getRequestContextPath() + "/loginError.xhtml";
