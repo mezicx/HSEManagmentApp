@@ -10,6 +10,7 @@ import com.merrimansa.entities.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,22 @@ public class UserFacade extends AbstractFacade<User> {
 
     public UserFacade() {
         super(User.class);
+    }
+    /**
+     * Find User Object by email, email is unique
+     * @param Email
+     * @return User object Identified
+     */
+    public User findByEmail(String Email){
+       //Construct query based on Named query in User Entity
+       Query q = em.createNamedQuery("User.findByEmail");
+       //Set query parameters taken from named query in User entity 
+       q.setParameter("email", Email);
+       // Execute query to obtain single result and cast to User object type
+       User u = (User)q.getSingleResult();
+       //return result
+       return u;
+               
     }
     
 }

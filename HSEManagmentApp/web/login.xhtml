@@ -9,18 +9,19 @@
         <title>Login Page</title>
     </h:head>
     <h:body>
-
+        <f:view renderKitId="PRIMEFACES_MOBILE" />
         <h:form>
+            
 
-            <f:view renderKitId="PRIMEFACES_MOBILE" />
             <pm:page swatch="b">
-                
+
                 <pm:header>
                     <h:graphicImage value="./images/Conti.jpg" alt="it should be here"/>
-                    
+
                 </pm:header>
                 <pm:header title="Please Log In"></pm:header>
                 <pm:content>
+                    <p:growl id="growl" showDetail="true"/>
                     <pm:field>
                         <p:outputLabel for="basic" value="User Name" />
                         <p:inputText id="basic" value="#{userAuthBean.userName}" />
@@ -31,10 +32,10 @@
                         <p:password id="password" value="#{userAuthBean.password}"/>
                     </pm:field>
                     <pm:field>
-                        <p:commandButton actionListener="#{userAuthBean.login()}"/>
+                        <p:commandButton actionListener="#{userAuthBean.login()}" value="Login" update="growl"/>
                     </pm:field>
                 </pm:content>
-                
+
                 <pm:footer>Footer here</pm:footer>
             </pm:page> 
         </h:form>

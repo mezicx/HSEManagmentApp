@@ -13,9 +13,9 @@
             
             
             <ui:define name="content">
-                <pm:header title="Mobile Dashbaord for #{request.getRealPath(path)}"></pm:header>
+                <pm:header title="Mobile Dashbaord for #{mobileDashBoardBean.userName}"></pm:header>
                 <pm:content>
-                    This is now the content and it is lush1
+                    Your role is #{mobileDashBoardBean.role}
                 </pm:content>
                 
             </ui:define>
