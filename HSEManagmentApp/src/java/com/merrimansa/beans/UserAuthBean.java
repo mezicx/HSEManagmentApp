@@ -90,7 +90,7 @@ public class UserAuthBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         ExternalContext externalContext = context.getExternalContext();
         User AuthUser;
-        String ErrorMsg ="General Error";
+        String ErrorMsg = "General Error";
         try {
 
             request.login(UserName, Password);
@@ -98,15 +98,14 @@ public class UserAuthBean implements Serializable {
             //Get User object based on principle 
             AuthUser = userFacade.findByEmail(externalContext.getUserPrincipal().getName());
             //Ensure user is active and has been found in the database 
-            
+
             if (AuthUser.getActive()) {
                 this.setRole(getHighestRole(AuthUser.getRoleCollection()));
-            }else{
+            } else {
                 externalContext.invalidateSession();
                 ErrorMsg = "User is Inactive";
                 throw new ServletException();
             }
-                
 
             externalContext.redirect(originalURL);
 
@@ -121,20 +120,19 @@ public class UserAuthBean implements Serializable {
     }
 
     private String getHighestRole(Collection<Role> roles) {
-
-        for(Role r:roles){
-            String role = r.getRole();
-            if(role.equalsIgnoreCase("Administrator")){
-                return role;
-            }else if(role.equalsIgnoreCase("HSEManager")){
-                return role;
-            }else if(role.equalsIgnoreCase("Assessor")){
-                return role;
+        String HighRoll = "Undefined";
+        for (Role r : roles) {
+            System.out.println(r.getRole() + " In Loop, String length "+ r.getRole().length());
+            
+            if (r.getRole().equalsIgnoreCase("Administrator")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+            break;
             }
             
-            
         }
-        return "User";
+
+        return HighRoll;
     }
 
 }

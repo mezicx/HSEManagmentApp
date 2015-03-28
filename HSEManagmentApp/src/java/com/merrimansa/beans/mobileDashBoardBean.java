@@ -38,4 +38,17 @@ public class mobileDashBoardBean {
         return authBean.getRole();
     }
     
+    /**
+     * Check if a component should be rendered user
+     * @param ReqRole
+     * @return boolean true if it should be rendered
+     */
+    public String renderChecker(String ReqRole){
+        String result = "false";
+        if(ReqRole.equalsIgnoreCase(authBean.getRole())){
+            result = "true";
+        }
+        return result;
+    }
+    
 }

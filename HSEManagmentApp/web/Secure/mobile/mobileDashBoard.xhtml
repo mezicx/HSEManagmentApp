@@ -3,19 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:pm="http://primefaces.org/mobile">
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Dashboard</title>
     </h:head>
     <h:body>
+        
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
             
             
             
             <ui:define name="content">
-                <pm:header title="Mobile Dashbaord for #{mobileDashBoardBean.userName}"></pm:header>
+                <pm:header title="Mobile Dashboard for #{mobileDashBoardBean.userName}"></pm:header>
                 <pm:content>
-                    Your role is #{mobileDashBoardBean.role}
+                    <p:outputLabel value="#{mobileDashBoardBean.role}" />
+                     <p:button value="List Required Assessments" rendered="#{mobileDashBoardBean.renderChecker('Administrator')}"/>
+                    
                 </pm:content>
                 
             </ui:define>

@@ -9,6 +9,7 @@
         <title>Login Page</title>
     </h:head>
     <h:body>
+        <p:growl id="growl" showDetail="true" sticky="true"/>
         <f:view renderKitId="PRIMEFACES_MOBILE" />
         <h:form>
             
@@ -21,7 +22,7 @@
                 </pm:header>
                 <pm:header title="Please Log In"></pm:header>
                 <pm:content>
-                    <p:growl id="growl" showDetail="true"/>
+                    
                     <pm:field>
                         <p:outputLabel for="basic" value="User Name" />
                         <p:inputText id="basic" value="#{userAuthBean.userName}" />
