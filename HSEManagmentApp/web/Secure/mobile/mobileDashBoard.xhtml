@@ -9,22 +9,38 @@
         <title>Dashboard</title>
     </h:head>
     <h:body>
-        
+        <p:growl id="growl" autoUpdate="true"/>
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
-            
-            
-            
+
+
+
             <ui:define name="content">
                 <pm:header title="Mobile Dashboard for #{mobileDashBoardBean.userName}"></pm:header>
                 <pm:content>
-                    <p:outputLabel value="#{mobileDashBoardBean.role}" />
-                     <p:button value="List Required Assessments" rendered="#{mobileDashBoardBean.renderChecker('Administrator')}"/>
-                    
+                    <p:panel header="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}">
+                        <p:button value="List and Assign Required Assessments"/>
+                        <p:button value="Aprove Submitted Assessments"/>
+
+                        <p:button value="Aprove Submitted Assessments"/>
+                    </p:panel>
+
+
+
+
+
                 </pm:content>
-                
+
             </ui:define>
- 
-    	</ui:composition>
+            <ui:define name="footer">
+                <pm:footer>
+                    <p:commandLink actionListener="#{mobileDashBoardBean.logout()}">
+                    <h:outputText value ="Log Out"/>
+                </p:commandLink>
+                </pm:footer>
+
+            </ui:define>
+
+        </ui:composition>
     </h:body>
 </html>
 

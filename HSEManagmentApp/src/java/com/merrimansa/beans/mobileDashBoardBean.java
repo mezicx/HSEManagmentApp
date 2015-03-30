@@ -5,6 +5,7 @@
  */
 package com.merrimansa.beans;
 
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -50,5 +51,10 @@ public class mobileDashBoardBean {
         }
         return result;
     }
+    
+    public void logout() throws IOException{
+        authBean.logout();
+    }
+            
     
 }

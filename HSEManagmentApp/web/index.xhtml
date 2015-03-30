@@ -23,7 +23,7 @@
 
 
                     <h:form>
-                        <p:commandLink actionListener="#">
+                        <p:commandLink actionListener="#{someRandomBean.logout}">
                             <h:outputText value ="This is a command link"/>
                         </p:commandLink>
                         <h1><h:outputText value="System users"/></h1>
@@ -67,6 +67,76 @@
                         </p:dataTable>
                     </h:form>
                 </f:view>
+                
+                <p:panel menuTitle="Assessments">
+                    <f:view>
+
+
+                        <h:form>
+                            <h1><h:outputText value="List"/></h1>
+                            <p:dataTable value="#{processAssessmentBean.assessments}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="AssessmentId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.assessmentId}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Title"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.title}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ReferenceNumber"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.referenceNumber}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="AssessmentDate"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.assessmentDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Preamble"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.preamble}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Approved"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.approved}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Submitted"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.submitted}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Process"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.processId.processName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="User"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.userId.forename} #{item.userId.surname}"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </h:form>
+                    </f:view>
+
+                </p:panel>
 
                 
             </h:form>

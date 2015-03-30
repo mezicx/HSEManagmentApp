@@ -9,6 +9,7 @@ package com.merrimansa.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -157,6 +158,10 @@ public class ProcessAssessment implements Serializable {
     @XmlTransient
     public Collection<User> getUserCollection() {
         return userCollection;
+    }
+    
+    public List<User> getUserCollectionList(){
+        return (List)getUserCollection();
     }
 
     public void setUserCollection(Collection<User> userCollection) {

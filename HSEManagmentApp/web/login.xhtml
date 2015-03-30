@@ -9,7 +9,7 @@
         <title>Login Page</title>
     </h:head>
     <h:body>
-        <p:growl id="growl" showDetail="true" sticky="true"/>
+        <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
         <f:view renderKitId="PRIMEFACES_MOBILE" />
         <h:form>
             
@@ -33,7 +33,7 @@
                         <p:password id="password" value="#{userAuthBean.password}"/>
                     </pm:field>
                     <pm:field>
-                        <p:commandButton actionListener="#{userAuthBean.login()}" value="Login" update="growl"/>
+                        <p:commandButton actionListener="#{userAuthBean.login()}" value="Login" update=":growl"/>
                     </pm:field>
                 </pm:content>
 

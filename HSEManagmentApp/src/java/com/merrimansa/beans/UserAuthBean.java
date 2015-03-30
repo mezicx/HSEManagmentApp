@@ -110,13 +110,22 @@ public class UserAuthBean implements Serializable {
             externalContext.redirect(originalURL);
 
         } catch (ServletException ex) {
-            Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
-            context.addMessage(null, new FacesMessage(ErrorMsg));
+            //Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
+            context.addMessage(null, new FacesMessage("Login Failure" ,ErrorMsg));
             System.out.println("Login Failed by Steve");
             //String error = externalContext.getRequestContextPath() + "/loginError.xhtml";
             //externalContext.redirect(error);
         }
 
+    }
+    
+    public void logout() throws IOException{
+        System.out.println("Log out called");
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.invalidateSession();
+        externalContext.redirect("faces/index.xhtml");
+        
     }
 
     private String getHighestRole(Collection<Role> roles) {
@@ -125,6 +134,21 @@ public class UserAuthBean implements Serializable {
             System.out.println(r.getRole() + " In Loop, String length "+ r.getRole().length());
             
             if (r.getRole().equalsIgnoreCase("Administrator")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+            break;
+            }
+            if (r.getRole().equalsIgnoreCase("HSEManager")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+            break;
+            }
+            if (r.getRole().equalsIgnoreCase("Assessor")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+            break;
+            }
+            if (r.getRole().equalsIgnoreCase("User")) {
                 System.out.println(r.getRole() + " has evaluated to true");
                 HighRoll = r.getRole();
             break;
