@@ -9,20 +9,21 @@
         <title>Login Page</title>
     </h:head>
     <h:body>
-        <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+
         <f:view renderKitId="PRIMEFACES_MOBILE" />
-        <h:form>
-            
 
-            <pm:page swatch="b">
 
-                <pm:header>
-                    <h:graphicImage value="./images/Conti.jpg" alt="it should be here"/>
+        <pm:page swatch="b">
 
-                </pm:header>
-                <pm:header title="Please Log In"></pm:header>
+            <pm:header>
+                <h:graphicImage value="/images/Conti.jpg" alt="it should be here"/>
+
+            </pm:header>
+            <pm:header title="Please Log In"></pm:header>
+            <h:form>
+               
                 <pm:content>
-                    
+                     <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
                     <pm:field>
                         <p:outputLabel for="basic" value="User Name" />
                         <p:inputText id="basic" value="#{userAuthBean.userName}" />
@@ -33,13 +34,15 @@
                         <p:password id="password" value="#{userAuthBean.password}"/>
                     </pm:field>
                     <pm:field>
-                        <p:commandButton actionListener="#{userAuthBean.login()}" value="Login" update=":growl"/>
+                        <p:commandButton action="#{userAuthBean.login()}" value="Login" update="growl"/>
                     </pm:field>
                 </pm:content>
+            </h:form>
 
-                <pm:footer>Footer here</pm:footer>
-            </pm:page> 
-        </h:form>
+
+            <pm:footer>Footer here</pm:footer>
+        </pm:page> 
+
     </h:body>
 </html>
 

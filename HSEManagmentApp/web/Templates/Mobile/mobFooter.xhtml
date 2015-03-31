@@ -10,7 +10,11 @@
         <ui:composition>
 
             <pm:footer>
-                Footer
+                <h:form>
+                    <p:commandLink action="#{userAuthBean.logout()}">
+                        <h:outputText value ="Log Out"/>
+                    </p:commandLink>
+                </h:form>
             </pm:footer>
 
         </ui:composition>

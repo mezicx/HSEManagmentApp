@@ -15,7 +15,7 @@
 
 
             <ui:define name="content">
-                <pm:header title="Mobile Dashboard for #{mobileDashBoardBean.userName}"></pm:header>
+                <pm:header title="Mobile Dashboard for #{userAuthBean.userName}"></pm:header>
                 <pm:content>
                     <p:panel header="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}">
                         <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
@@ -23,7 +23,7 @@
 
                         <p:button value="Aprove Submitted Assessments"/>
                     </p:panel>
-
+                    
 
 
 
@@ -31,14 +31,7 @@
                 </pm:content>
 
             </ui:define>
-            <ui:define name="footer">
-                <pm:footer>
-                    <p:commandLink actionListener="#{mobileDashBoardBean.logout()}">
-                    <h:outputText value ="Log Out"/>
-                </p:commandLink>
-                </pm:footer>
-
-            </ui:define>
+            
 
         </ui:composition>
     </h:body>

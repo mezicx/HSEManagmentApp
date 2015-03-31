@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:pm="http://primefaces.org/mobile">
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -12,6 +13,10 @@
             <ui:define name="content">
                 <pm:header title="Assign Assessments"></pm:header>
                 <pm:content>
+                    <h:form>
+                        <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+                        <p:commandButton value="SHOW" action="#{assignAssessmentBean.sayMessage()}" update="growl" />  
+                    </h:form>
                     
                     
                     
