@@ -20,11 +20,11 @@ public class RequiredAssessmentVO {
     }
     
     
-    public RequiredAssessmentVO(String ProcessName, String LastAssessment, int ProcessId, UserVO Assessor) {
+    public RequiredAssessmentVO(String ProcessName, String LastAssessment, int ProcessId) {
         this.ProcessName = ProcessName;
         this.LastAssessment = LastAssessment;
         this.ProcessId = ProcessId;
-        this.Assessor = Assessor;
+        
     }
 
     public String getProcessName() {
