@@ -55,12 +55,18 @@ public class ProcessAssessmentManager {
                 requiredAssessments.add(new RequiredAssessmentVO(currentProcess.getProcessName(),
                 "Not yet Assessed", currentProcess.getProcessId()));
             }else{
+                //create VO to add if required
+                RequiredAssessmentVO ReqVO = new RequiredAssessmentVO();
                 //loop through assesments if one assessment date is less than
                 // 2 years 9 months old dont add it to required assessment list
                 for(ProcessAssessment a:assessments){
                     Date AssessmentDate = a.getAssessmentDate();
                     System.out.println(CalYear.getTime() - AssessmentDate.getTime());
-                    if(CalYear.getTime() - AssessmentDate.getTime() > 1040688000000L){
+                    if(CalYear.getTime() - AssessmentDate.getTime() < 1040688000000L){
+                        ReqVO = null;
+                        break;
+                    }else{
+                        ReqVO.setProcessName(currentProcess.getProcessName());
                         
                     }
                 }
