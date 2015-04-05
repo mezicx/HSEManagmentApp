@@ -19,11 +19,14 @@
                 <h:graphicImage value="/images/Conti.jpg" alt="it should be here"/>
 
             </pm:header>
+
             <pm:header title="Please Log In"></pm:header>
-            <h:form>
-               
-                <pm:content>
-                     <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+
+
+
+            <pm:content>
+                <h:form>
+                    <p:growl id="growl"/>
                     <pm:field>
                         <p:outputLabel for="basic" value="User Name" />
                         <p:inputText id="basic" value="#{userAuthBean.userName}" />
@@ -33,12 +36,13 @@
                         <p:outputLabel for="password" value="Password:" />
                         <p:password id="password" value="#{userAuthBean.password}"/>
                     </pm:field>
-                    <pm:field>
-                        <p:commandButton action="#{userAuthBean.login()}" value="Login" update="growl"/>
-                    </pm:field>
-                </pm:content>
-            </h:form>
 
+
+                    <p:commandButton action="#{userAuthBean.login()}" value="Login" update="growl"/>
+
+
+                </h:form>
+            </pm:content>
 
             <pm:footer>Footer here</pm:footer>
         </pm:page> 

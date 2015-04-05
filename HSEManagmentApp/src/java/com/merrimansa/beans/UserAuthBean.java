@@ -9,20 +9,22 @@ import com.merrimansa.ejb.UserFacade;
 import com.merrimansa.entities.Role;
 import com.merrimansa.entities.User;
 import java.io.IOException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
+
 
 /**
  *
@@ -111,7 +113,8 @@ public class UserAuthBean implements Serializable {
 
         } catch (ServletException ex) {
             //Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
-            context.addMessage(null, new FacesMessage("Login Failure" ,"Yeah Baby"));
+            context.addMessage("growl", new FacesMessage("Login Failure" ,"Yeah Baby"));
+            
             System.out.println("Login Failed by Steve");
             //String error = externalContext.getRequestContextPath() + "/loginError.xhtml";
             //externalContext.redirect(error);
@@ -124,7 +127,7 @@ public class UserAuthBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         externalContext.invalidateSession();
-        externalContext.redirect("faces/index.xhtml");
+        externalContext.redirect("./faces/index.xhtml");
         
     }
 

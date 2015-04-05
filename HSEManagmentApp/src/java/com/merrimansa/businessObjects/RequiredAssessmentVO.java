@@ -5,6 +5,8 @@
  */
 package com.merrimansa.businessObjects;
 
+import java.util.Date;
+
 /**
  *
  * @author Steve
@@ -12,18 +14,20 @@ package com.merrimansa.businessObjects;
 public class RequiredAssessmentVO {
     
     private String ProcessName;
-    private String LastAssessment;
+    private Date LastAssessment;
     private int ProcessId;
     private UserVO Assessor;
+    private boolean toBeAssigned;
 
     public RequiredAssessmentVO() {
     }
     
     
-    public RequiredAssessmentVO(String ProcessName, String LastAssessment, int ProcessId) {
+    public RequiredAssessmentVO(String ProcessName, Date LastAssessment, int ProcessId) {
         this.ProcessName = ProcessName;
         this.LastAssessment = LastAssessment;
         this.ProcessId = ProcessId;
+        this.toBeAssigned = false;
         
     }
 
@@ -35,11 +39,11 @@ public class RequiredAssessmentVO {
         this.ProcessName = ProcessName;
     }
 
-    public String getLastAssessment() {
+    public Date getLastAssessment() {
         return LastAssessment;
     }
 
-    public void setLastAssessment(String LastAssessment) {
+    public void setLastAssessment(Date LastAssessment) {
         this.LastAssessment = LastAssessment;
     }
 
@@ -58,6 +62,15 @@ public class RequiredAssessmentVO {
     public void setAssessor(UserVO Assessor) {
         this.Assessor = Assessor;
     }
+
+    public boolean isToBeAssigned() {
+        return toBeAssigned;
+    }
+
+    public void setToBeAssigned(boolean toBeAssigned) {
+        this.toBeAssigned = toBeAssigned;
+    }
+    
     
     
     

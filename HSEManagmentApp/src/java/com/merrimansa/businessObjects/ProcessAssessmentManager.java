@@ -33,7 +33,10 @@ public class ProcessAssessmentManager {
     public ProcessAssessmentManager() {
 
     }
-
+    /**
+     * 
+     * @return 
+     */
     public List<RequiredAssessmentVO> getRequiredAssessments() {
         //Get date object for end of current year
         Calendar calendar = Calendar.getInstance();
@@ -53,7 +56,7 @@ public class ProcessAssessmentManager {
             //If no assessments exisit add process to required assessment List
             if (assessments == null || assessments.isEmpty()) {
                 requiredAssessments.add(new RequiredAssessmentVO(currentProcess.getProcessName(),
-                "Not yet Assessed", currentProcess.getProcessId()));
+                null, currentProcess.getProcessId()));
             }else{
                 //create VO to add if required
                 RequiredAssessmentVO ReqVO = new RequiredAssessmentVO();
@@ -62,13 +65,24 @@ public class ProcessAssessmentManager {
                 for(ProcessAssessment a:assessments){
                     Date AssessmentDate = a.getAssessmentDate();
                     System.out.println(CalYear.getTime() - AssessmentDate.getTime());
-                    if(CalYear.getTime() - AssessmentDate.getTime() < 1040688000000L){
+                    if(CalYear.getTime() - AssessmentDate.getTime() < 104068800000L){
                         ReqVO = null;
                         break;
                     }else{
+                        //Assign process name to VO
                         ReqVO.setProcessName(currentProcess.getProcessName());
+                        //compare current iteration date with assignred VO date and reaassign if date is later
+                        if(ReqVO.getLastAssessment() == null){
+                            ReqVO.setLastAssessment(AssessmentDate);
+                        }else if(a.getAssessmentDate().after(ReqVO.getLastAssessment())){
+                            ReqVO.setLastAssessment(a.getAssessmentDate());
+                        }
                         
                     }
+                }
+                //if the VO hasnt been set null add it to the return list
+                if(ReqVO != null){
+                    requiredAssessments.add(ReqVO);
                 }
             }
         }
