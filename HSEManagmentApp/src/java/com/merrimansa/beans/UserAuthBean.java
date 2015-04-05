@@ -113,7 +113,7 @@ public class UserAuthBean implements Serializable {
 
         } catch (ServletException ex) {
             //Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
-            context.addMessage("growl", new FacesMessage("Login Failure" ,"Yeah Baby"));
+            context.addMessage("growl", new FacesMessage("Login Failure" ,"Please check user name amd password"));
             
             System.out.println("Login Failed by Steve");
             //String error = externalContext.getRequestContextPath() + "/loginError.xhtml";
