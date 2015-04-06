@@ -5,6 +5,7 @@
  */
 package com.merrimansa.beans;
 
+import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.UserFacade;
 import com.merrimansa.entities.Role;
 import com.merrimansa.entities.User;
@@ -14,7 +15,9 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -23,7 +26,7 @@ import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
+
 
 
 /**
@@ -46,6 +49,9 @@ public class UserAuthBean implements Serializable {
 
     @Inject
     UserFacade userFacade;
+    
+    @Inject
+    CurrentUserBean currentUserBean;
 
     public String getRole() {
         return Role;
@@ -92,7 +98,7 @@ public class UserAuthBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         ExternalContext externalContext = context.getExternalContext();
         User AuthUser;
-        String ErrorMsg = "General Error";
+        String ErrorMsg = "Login Error";
         try {
 
             request.login(UserName, Password);
@@ -102,7 +108,7 @@ public class UserAuthBean implements Serializable {
             //Ensure user is active and has been found in the database 
 
             if (AuthUser.getActive()) {
-                this.setRole(getHighestRole(AuthUser.getRoleCollection()));
+                currentUserBean.setTheUser(new UserVO(AuthUser));
             } else {
                 externalContext.invalidateSession();
                 ErrorMsg = "User is Inactive";
@@ -113,7 +119,7 @@ public class UserAuthBean implements Serializable {
 
         } catch (ServletException ex) {
             //Logger.getLogger(UserAuthBean.class.getName()).log(Level.SEVERE, null, ex);
-            context.addMessage("growl", new FacesMessage("Login Failure" ,"Please check user name amd password"));
+            context.addMessage("growl", new FacesMessage(ErrorMsg ,"Please check user name amd password"));
             
             System.out.println("Login Failed by Steve");
             //String error = externalContext.getRequestContextPath() + "/loginError.xhtml";
@@ -131,35 +137,6 @@ public class UserAuthBean implements Serializable {
         
     }
 
-    private String getHighestRole(Collection<Role> roles) {
-        String HighRoll = "Undefined";
-        for (Role r : roles) {
-            System.out.println(r.getRole() + " In Loop, String length "+ r.getRole().length());
-            
-            if (r.getRole().equalsIgnoreCase("Administrator")) {
-                System.out.println(r.getRole() + " has evaluated to true");
-                HighRoll = r.getRole();
-            break;
-            }
-            if (r.getRole().equalsIgnoreCase("HSEManager")) {
-                System.out.println(r.getRole() + " has evaluated to true");
-                HighRoll = r.getRole();
-            break;
-            }
-            if (r.getRole().equalsIgnoreCase("Assessor")) {
-                System.out.println(r.getRole() + " has evaluated to true");
-                HighRoll = r.getRole();
-            break;
-            }
-            if (r.getRole().equalsIgnoreCase("User")) {
-                System.out.println(r.getRole() + " has evaluated to true");
-                HighRoll = r.getRole();
-            break;
-            }
-            
-        }
-
-        return HighRoll;
-    }
+    
 
 }

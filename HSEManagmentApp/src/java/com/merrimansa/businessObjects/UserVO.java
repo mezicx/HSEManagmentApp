@@ -5,27 +5,35 @@
  */
 package com.merrimansa.businessObjects;
 
+import com.merrimansa.entities.Role;
+import com.merrimansa.entities.User;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
-import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author Steve
  */
-@SessionScoped
 public class UserVO implements Serializable {
-    
+
     private String Email;
     private String FirstName;
     private String LastName;
     private int UserId;
-    private Set<String> Roles;
+    private HashSet<Role> Roles;
 
     public UserVO() {
     }
-    
-    
+
+    public UserVO(User user) {
+        this.Email = user.getEmail();
+        this.FirstName = user.getForename();
+        this.LastName = user.getSurname();
+        this.UserId = user.getUserId();
+        this.Roles = new HashSet<>(user.getRoleCollection());
+    }
+
     public String getEmail() {
         return Email;
     }
@@ -58,14 +66,67 @@ public class UserVO implements Serializable {
         this.UserId = UserId;
     }
 
-    public Set<String> getRoles() {
+    public Set<Role> getRoles() {
         return Roles;
     }
 
-    public void setRoles(Set<String> Roles) {
-        this.Roles = Roles;
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
     }
+
     
-    
-    
+
+    /**
+     * Checks if this user has a specified role
+     *
+     * @param role
+     * @return Return true if this user has the role specified in role param
+     */
+    public boolean hasRole(String role) {
+        
+        for(Role r:this.Roles){
+            if(r.getRole().equalsIgnoreCase(role))
+                return true;
+        }
+        return false;
+               
+    }
+
+    /**
+     * Identifies the highest role that this user possesses
+     *
+     * @return
+     */
+    public String getHighestRole() {
+        String HighRoll = "Undefined";
+        Set<Role> roles = this.Roles;
+        for (Role r : roles) {
+            System.out.println(r.getRole() + " In Loop, String length " + r.getRole().length());
+
+            if (r.getRole().equalsIgnoreCase("Administrator")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+                break;
+            }
+            if (r.getRole().equalsIgnoreCase("HSEManager")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+                break;
+            }
+            if (r.getRole().equalsIgnoreCase("Assessor")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+                break;
+            }
+            if (r.getRole().equalsIgnoreCase("User")) {
+                System.out.println(r.getRole() + " has evaluated to true");
+                HighRoll = r.getRole();
+                break;
+            }
+
+        }
+
+        return HighRoll;
+    }
+
 }

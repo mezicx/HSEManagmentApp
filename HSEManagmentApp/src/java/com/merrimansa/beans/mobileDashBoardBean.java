@@ -25,36 +25,29 @@ public class mobileDashBoardBean {
      */
     
     @Inject
-    UserAuthBean authBean;
+    CurrentUserBean currentUser;
     
     public mobileDashBoardBean() {
         
     }
     
     public String getUserName(){
-        return authBean.getUserName();
+        return currentUser.getTheUser().getEmail();
     }
     
-    public String getRole(){
-        return authBean.getRole();
-    }
+    
     
     /**
      * Check if a component should be rendered user
      * @param ReqRole
      * @return boolean true if it should be rendered
      */
-    public String renderChecker(String ReqRole){
-        String result = "false";
-        if(ReqRole.equalsIgnoreCase(authBean.getRole())){
-            result = "true";
-        }
-        return result;
+    public boolean renderChecker(String ReqRole){
+        
+        return currentUser.getTheUser().hasRole(ReqRole);
     }
     
-    public void logout() throws IOException{
-        authBean.logout();
-    }
+    
             
     
 }

@@ -20,7 +20,7 @@
                         <p:commandButton value="SHOW" actionListener="#{assignAssessmentBean.sayMessage()}" update="growl" /> 
 
                         <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item" tableStyleClass="ui-table-columntoggle"
-                                     binding="#{assignAssessmentBean.reqAssessments}" >
+                                     binding="#{assignAssessmentBean.reqAssessments}">
                             <p:column headerText="Process">
 
                                 <p:button value="#{item.processName}" disabled="true"/>

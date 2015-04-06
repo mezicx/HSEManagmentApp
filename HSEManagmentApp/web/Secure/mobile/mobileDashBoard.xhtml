@@ -15,7 +15,7 @@
 
 
             <ui:define name="content">
-                <pm:header title="Mobile Dashboard for #{userAuthBean.userName}"></pm:header>
+                <pm:header title="Mobile Dashboard for #{currentUserBean.theUser.email}"></pm:header>
                 <pm:content>
                     <p:panel header="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}">
                         <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
