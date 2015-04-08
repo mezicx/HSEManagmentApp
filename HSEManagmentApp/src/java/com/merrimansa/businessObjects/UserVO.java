@@ -85,8 +85,11 @@ public class UserVO implements Serializable {
     public boolean hasRole(String role) {
         
         for(Role r:this.Roles){
-            if(r.getRole().equalsIgnoreCase(role))
+            
+            if(r.getRole().equalsIgnoreCase(role)){
+               
                 return true;
+            }
         }
         return false;
                

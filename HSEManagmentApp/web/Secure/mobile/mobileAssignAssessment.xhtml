@@ -16,14 +16,16 @@
                 <pm:content>
                     <h:form>
                         <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+                        <p:selectOneMenu value="#{assignAssessmentBean.assignedUser}">
+                            <f:selectItems value="#{assignAssessmentBean.assessorList}"/>
+                        </p:selectOneMenu>
 
-                        <p:commandButton value="SHOW" actionListener="#{assignAssessmentBean.sayMessage()}" update="growl" /> 
 
                         <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item" tableStyleClass="ui-table-columntoggle"
-                                     binding="#{assignAssessmentBean.reqAssessments}">
+                                     binding="#{assignAssessmentBean.reqAssessments}" >
                             <p:column headerText="Process">
 
-                                <p:button value="#{item.processName}" disabled="true"/>
+                                <h:outputText value="#{item.processName}"/>
 
                             </p:column>
                             <p:column  headerText="Last Assessment" sortBy="#{item.lastAssessment}">
@@ -37,6 +39,8 @@
                                 <p:selectBooleanCheckbox value="#{item.toBeAssigned}" itemLabel="Assign Assessment"/>
                             </p:column>
                         </p:dataTable>
+
+                        <p:commandButton value="SHOW" actionListener="#{assignAssessmentBean.sayMessage()}" update="growl" /> 
 
 
 
