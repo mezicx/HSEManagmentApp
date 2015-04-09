@@ -22,10 +22,10 @@
 
 
                         <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item" tableStyleClass="ui-table-columntoggle"
-                                     binding="#{assignAssessmentBean.reqAssessments}" >
+                                     binding="#{assignAssessmentBean.reqAssessments}" rowKey="#{item.processName=#}">
                             <p:column headerText="Process">
 
-                                <h:outputText value="#{item.processName}"/>
+                                <h:outputText value="#{item.processName}" />
 
                             </p:column>
                             <p:column  headerText="Last Assessment" sortBy="#{item.lastAssessment}">

@@ -11,9 +11,12 @@
 
             <pm:footer>
                 <h:form>
-                    <p:commandLink action="#{userAuthBean.logout()}">
-                        <h:outputText value ="Log Out"/>
-                    </p:commandLink>
+                    <p:tabMenu>
+                        <p:menuitem value="Dashboard" icon="ui-icon-home" url="/faces/Secure/mobile/mobileDashBoard.xhtml" iconPos="top"/>
+                        
+                        <p:menuitem value="Log Out" icon="ui-icon-gear" action="#{userAuthBean.logout()}" iconPos="top"/>
+                    </p:tabMenu>
+
                 </h:form>
             </pm:footer>
 
