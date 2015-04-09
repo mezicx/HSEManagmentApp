@@ -34,6 +34,8 @@ public class ProcessAssessmentManager {
     public ProcessAssessmentManager() {
 
     }
+    
+   
     /**
      * Assigns a new assessment to the user identified in the parameter with the basic
      * information set in the parameter

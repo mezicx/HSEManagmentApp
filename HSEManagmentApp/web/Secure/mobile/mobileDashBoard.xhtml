@@ -17,13 +17,22 @@
             <ui:define name="content">
                 <pm:header title="Mobile Dashboard for #{currentUserBean.theUser.email}"></pm:header>
                 <pm:content>
-                    <p:panel header="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}">
-                        <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
-                        <p:button value="Aprove Submitted Assessments"/>
-
-                        <p:button value="Aprove Submitted Assessments"/>
-                    </p:panel>
                     
+                    <p:accordionPanel>
+                        <p:tab title="My Assessments" rendered="#{mobileDashBoardBean.renderChecker('Assessor')}">
+                        <h:outputText value="Really?"/>
+                        </p:tab>
+                        <p:tab title="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}" >
+                            <p:panel header="HSE Manager Links" >
+                                <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
+                                <p:button value="Aprove Submitted Assessments"/>
+
+                                <p:button value="Aprove Submitted Assessments"/>
+                            </p:panel>
+                        </p:tab>
+                    </p:accordionPanel>
+
+
 
 
 
@@ -31,7 +40,7 @@
                 </pm:content>
 
             </ui:define>
-            
+
 
         </ui:composition>
     </h:body>

@@ -37,6 +37,8 @@ public class mobileDashBoardBean {
     
     
     
+    
+    
     /**
      * Check if a component should be rendered user
      * @param ReqRole
