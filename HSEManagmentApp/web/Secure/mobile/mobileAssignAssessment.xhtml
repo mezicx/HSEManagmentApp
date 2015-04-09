@@ -21,8 +21,8 @@
                         </p:selectOneMenu>
 
 
-                        <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item" tableStyleClass="ui-table-columntoggle"
-                                     binding="#{assignAssessmentBean.reqAssessments}" rowKey="#{item.processName=#}">
+                        <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item"
+                                     rowKey="#{item.processId}">
                             <p:column headerText="Process">
 
                                 <h:outputText value="#{item.processName}" />
@@ -36,11 +36,11 @@
                             </p:column>
                             <p:column headerText="Assign">
 
-                                <p:selectBooleanCheckbox value="#{item.toBeAssigned}" itemLabel="Assign Assessment"/>
+                                <p:selectBooleanCheckbox value="#{item.toBeAssigned}" itemLabel="Assign Assessment" />
                             </p:column>
                         </p:dataTable>
 
-                        <p:commandButton value="SHOW" actionListener="#{assignAssessmentBean.sayMessage()}" update="growl" /> 
+                        <p:commandButton value="Assign Selected Assessments" actionListener="#{assignAssessmentBean.assignAssessments()}" update="growl" /> 
 
 
 

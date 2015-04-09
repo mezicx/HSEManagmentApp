@@ -31,4 +31,8 @@ public class UserManagerFacade {
     public List<UserVO> getActiveUsers(){
         return userManager.getActiveUsers();
     }
+    
+    public UserVO getUserVoById(int Id){
+        return userManager.getUserVoById(Id);
+    }
 }

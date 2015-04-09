@@ -9,20 +9,21 @@ import com.merrimansa.businessObjects.RequiredAssessmentVO;
 import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.ProcessAssessmentManagerFacade;
 import com.merrimansa.ejb.UserManagerFacade;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.SessionScoped;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.component.datatable.DataTable;
+
 
 /**
  *
@@ -45,7 +46,7 @@ public class AssignAssessmentBean implements Serializable {
     private Conversation conversation;
 
     private int assignedUser;
-    private DataTable reqAssessments;
+    private List<RequiredAssessmentVO> processes;
 
     public AssignAssessmentBean() {
     }
@@ -53,10 +54,11 @@ public class AssignAssessmentBean implements Serializable {
     @PostConstruct
     public void init() {
         conversation.begin();
+        processes = PAMF.getRequiredAssessments();
     }
 
     public List<RequiredAssessmentVO> getRequiredAssessments() {
-        return PAMF.getRequiredAssessments();
+        return processes;
     }
 
     public Map<String, Integer> getAssessorList() {
@@ -68,22 +70,32 @@ public class AssignAssessmentBean implements Serializable {
         return userMap;
     }
 
-    public void sayMessage() {
+       
+    public void assignAssessments(){
         FacesContext context = FacesContext.getCurrentInstance();
-        System.out.println("Growl go");
-        UserVO vo =(UserVO)reqAssessments.getRowData("0");
-        context.addMessage(null, new FacesMessage("Successful", "The Assessor is " + this.getAssignedUser()+ " "+vo.getFullName()));
-        conversation.end();
+        //Create temp list to hold assessments to be assigned
+        List<RequiredAssessmentVO> assignmentList = new ArrayList();
+        //Create user VO for assessor
+        UserVO assessor = UMF.getUserVoById(getAssignedUser());
+        //Search for assigned assessments
+        for(RequiredAssessmentVO ra:getRequiredAssessments()){
+            System.out.println("The process assignment is "+ra.isToBeAssigned()+" for "+ra.getProcessName());
+            if(ra.isToBeAssigned()){
+                ra.setAssessor(assessor);
+                assignmentList.add(ra);
+            }
+        }
+        //Assign Each Assessment
+        for(RequiredAssessmentVO r:assignmentList){
+            PAMF.assignAssessment(r);
+            context.addMessage(null, new FacesMessage("Successful", r.getProcessName() +" Assessment assigned to "+assessor.getFullName()));
+        }
+        
+         conversation.end();
+        
     }
 
-    public DataTable getReqAssessments() {
-        return reqAssessments;
-    }
-
-    public void setReqAssessments(DataTable reqAssessments) {
-        this.reqAssessments = reqAssessments;
-    }
-
+    
     public int getAssignedUser() {
         return assignedUser;
     }

@@ -68,6 +68,7 @@ public class RequiredAssessmentVO {
     }
 
     public void setToBeAssigned(boolean toBeAssigned) {
+        System.out.println("toBeAssigned Has been set to "+ toBeAssigned);
         this.toBeAssigned = toBeAssigned;
     }
     

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 import com.merrimansa.entities.Process;
 import com.merrimansa.entities.ProcessAssessment;
+import com.merrimansa.entities.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,8 +35,30 @@ public class ProcessAssessmentManager {
 
     }
     /**
+     * Assigns a new assessment to the user identified in the parameter with the basic
+     * information set in the parameter
      * 
-     * @return 
+     * @param reqAssess 
+     */
+    public void assignAssessment(RequiredAssessmentVO reqAssess){
+        ProcessAssessment pa = new ProcessAssessment();
+        
+        pa.setApproved(false);
+        pa.setAssessmentDate(new Date());
+        pa.setSubmitted(false);
+        System.out.println("Process ID is "+reqAssess.getProcessId());
+        pa.setProcessId(processFacade.find(reqAssess.getProcessId()));
+        pa.setTitle(reqAssess.getProcessName());
+        pa.setUserId(new User(reqAssess.getAssessor().getUserId()));
+        
+        pAFacade.create(pa);
+        
+    }
+    /**
+     * Returns a list of assessments that will be older than 
+     * 2years 7months during the current calendar year
+     * 
+     * @return A list of display objects
      */
     public List<RequiredAssessmentVO> getRequiredAssessments() {
         //Get date object for end of current year
@@ -69,8 +92,9 @@ public class ProcessAssessmentManager {
                         ReqVO = null;
                         break;
                     }else{
-                        //Assign process name to VO
+                        //Assign process name & Id to VO
                         ReqVO.setProcessName(currentProcess.getProcessName());
+                        ReqVO.setProcessId(currentProcess.getProcessId());
                         //compare current iteration date with assignred VO date and reaassign if date is later
                         if(ReqVO.getLastAssessment() == null){
                             ReqVO.setLastAssessment(AssessmentDate);

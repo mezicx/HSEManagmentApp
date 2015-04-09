@@ -59,5 +59,10 @@ public class UserManager {
         }
         return usersOut;
     }
+    
+    public UserVO getUserVoById(int Id){
+        UserVO u = new UserVO(userFacade.find(Id));
+        return u;
+    }
 
 }

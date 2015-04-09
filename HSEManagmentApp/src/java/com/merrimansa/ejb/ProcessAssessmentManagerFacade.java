@@ -29,4 +29,8 @@ public class ProcessAssessmentManagerFacade {
         return PSM.getRequiredAssessments();
     }
     
+    public void assignAssessment(RequiredAssessmentVO reqAssess){
+        PSM.assignAssessment(reqAssess);
+    }
+    
 }
