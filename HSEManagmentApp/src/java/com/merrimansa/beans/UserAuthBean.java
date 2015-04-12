@@ -7,17 +7,11 @@ package com.merrimansa.beans;
 
 import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.UserFacade;
-import com.merrimansa.entities.Role;
 import com.merrimansa.entities.User;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -133,6 +127,7 @@ public class UserAuthBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         externalContext.invalidateSession();
+        
         externalContext.redirect("./faces/index.xhtml");
         
     }

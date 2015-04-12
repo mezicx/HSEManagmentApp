@@ -7,14 +7,15 @@ package com.merrimansa.businessObjects;
 
 import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.ejb.ProcessFacade;
-import java.util.List;
-import javax.inject.Inject;
+import com.merrimansa.ejb.UserFacade;
 import com.merrimansa.entities.Process;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.inject.Inject;
 
 /**
  *
@@ -26,13 +27,25 @@ public class ProcessAssessmentManager {
     ProcessFacade processFacade;
 
     @Inject
-    private UserVO currentUser;
-
-    @Inject
     private ProcessAssessmentFacade pAFacade;
+    
+    @Inject
+    private UserFacade userFacade;
 
     public ProcessAssessmentManager() {
 
+    }
+    
+    /**
+     * 
+     * @param currentUser 
+     * @return  
+     */
+    public List<ProcessAssessment> getAssignedAssessments(UserVO currentUser){
+        
+        return pAFacade.getProcessAssessmentsByUser(
+        userFacade.find(currentUser.getUserId()));
+        
     }
     
    
@@ -115,5 +128,9 @@ public class ProcessAssessmentManager {
         return requiredAssessments;
 
     }
+
+    
+    
+    
 
 }

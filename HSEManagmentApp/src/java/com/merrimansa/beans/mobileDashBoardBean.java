@@ -5,10 +5,13 @@
  */
 package com.merrimansa.beans;
 
+import com.merrimansa.ejb.ProcessAssessmentManagerFacade;
+import com.merrimansa.entities.ProcessAssessment;
 import java.io.IOException;
-import javax.inject.Named;
+import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -27,6 +30,9 @@ public class mobileDashBoardBean {
     @Inject
     CurrentUserBean currentUser;
     
+    @Inject
+    ProcessAssessmentManagerFacade PAMF;
+    
     public mobileDashBoardBean() {
         
     }
@@ -35,6 +41,9 @@ public class mobileDashBoardBean {
         return currentUser.getTheUser().getEmail();
     }
     
+    public List<ProcessAssessment> getUsersAssessments(){
+        return PAMF.getAssignedAssessments(currentUser.getTheUser());
+    }   
     
     
     

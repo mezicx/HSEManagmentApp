@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:pm="http://primefaces.org/mobile"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Dashboard</title>
     </h:head>
@@ -17,18 +18,50 @@
             <ui:define name="content">
                 <pm:header title="Mobile Dashboard for #{currentUserBean.theUser.email}"></pm:header>
                 <pm:content>
-                    
-                    <p:accordionPanel>
+
+                    <p:accordionPanel >
                         <p:tab title="My Assessments" rendered="#{mobileDashBoardBean.renderChecker('Assessor')}">
-                        <h:outputText value="Really?"/>
+                            <f:view>
+                                <h:form>
+
+                                    <p:dataTable  value="#{mobileDashBoardBean.usersAssessments}" var="item">
+
+                                        <p:column headerText="Title">
+                                           
+                                            <h:outputText value="#{item.title}"/>
+                                        </p:column>
+                                        <p:column headerText="Reference Number">
+                                            
+                                            <h:outputText value="#{item.referenceNumber}"/>
+                                        </p:column>
+                                        <p:column headerText="Assessment Date">
+                                            
+                                            <h:outputText value="#{item.assessmentDate}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Department">
+                                            
+                                            <h:outputText value="#{item.processId.departmentId.departmentName}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:link value="Conduct/Update"  outcome="Assessor/mobileManageAssessment">
+                                                <f:param name="AssessmentId" value="#{item.assessmentId}"/>
+                                            </p:link>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:form>
+                            </f:view>
+
                         </p:tab>
                         <p:tab title="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}" >
-                            <p:panel header="HSE Manager Links" >
-                                <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
-                                <p:button value="Aprove Submitted Assessments"/>
 
-                                <p:button value="Aprove Submitted Assessments"/>
-                            </p:panel>
+                            <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
+                            <p:button value="Aprove Submitted Assessments"/>
+
+                            <p:button value="Aprove Submitted Assessments"/>
+
                         </p:tab>
                     </p:accordionPanel>
 

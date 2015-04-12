@@ -8,6 +8,7 @@ package com.merrimansa.ejb;
 import com.merrimansa.businessObjects.ProcessAssessmentManager;
 import com.merrimansa.businessObjects.RequiredAssessmentVO;
 import com.merrimansa.businessObjects.UserVO;
+import com.merrimansa.entities.ProcessAssessment;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,6 +32,10 @@ public class ProcessAssessmentManagerFacade {
     
     public void assignAssessment(RequiredAssessmentVO reqAssess){
         PSM.assignAssessment(reqAssess);
+    }
+    
+    public List<ProcessAssessment> getAssignedAssessments(UserVO currentUser){
+        return PSM.getAssignedAssessments(currentUser);
     }
     
 }

@@ -46,6 +46,26 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    <security-constraint>
+        <display-name>AssessmentConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>AssessorsAbove</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Secure/mobile/Assessor/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>HSEManager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>Assessor</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>jdbcRealm</realm-name>
@@ -70,4 +90,10 @@
         <description>A user responsible for conducting assessments</description>
         <role-name>Assessor</role-name>
     </security-role>
+    <resource-ref>
+        <res-ref-name>emailSender</res-ref-name>
+        <res-type>javax.mail.Session</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

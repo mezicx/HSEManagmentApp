@@ -7,9 +7,12 @@
 package com.merrimansa.ejb;
 
 import com.merrimansa.entities.ProcessAssessment;
+import com.merrimansa.entities.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,14 @@ public class ProcessAssessmentFacade extends AbstractFacade<ProcessAssessment> {
 
     public ProcessAssessmentFacade() {
         super(ProcessAssessment.class);
+    }
+    
+    public List<ProcessAssessment> getProcessAssessmentsByUser(User user){
+        Query q = em.createQuery("SELECT p FROM ProcessAssessment p WHERE p.userId = :userId");
+       //Set query parameters taken from named query in User entity 
+       q.setParameter("userId", user);
+       
+       return q.getResultList();
     }
     
 }
