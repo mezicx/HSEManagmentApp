@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Assessment Management</title>
     </h:head>
@@ -15,24 +16,87 @@
 
 
                     <h:form>
-                        <h1><h:outputText value="Create/Edit"/></h1>
+                        <h1><h:outputText value="Conduct/Modify Assessment"/></h1>
                         <h:panelGrid columns="2">
-                            <h:outputLabel value="AssessmentId:" for="assessmentId" />
-                            <h:inputText id="assessmentId" value="#{manageAssessmentBean.assessment.assessmentId}" title="AssessmentId" required="true" requiredMessage="The AssessmentId field is required."/>
+                            
                             <h:outputLabel value="Title:" for="title" />
                             <h:inputText id="title" value="#{manageAssessmentBean.assessment.title}" title="Title" />
                             <h:outputLabel value="ReferenceNumber:" for="referenceNumber" />
                             <h:inputText id="referenceNumber" value="#{manageAssessmentBean.assessment.referenceNumber}" title="ReferenceNumber" />
                             <h:outputLabel value="AssessmentDate:" for="assessmentDate" />
                             <h:inputText id="assessmentDate" value="#{manageAssessmentBean.assessment.assessmentDate}" title="AssessmentDate" >
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:inputText>
                             <h:outputLabel value="Preamble:" for="preamble" />
-                            <h:inputText id="preamble" value="#{manageAssessmentBean.assessment.preamble}" title="Preamble" />
+                            <h:inputTextarea id="preamble" value="#{manageAssessmentBean.assessment.preamble}" title="Preamble" />
                            
                             
                             
                         </h:panelGrid>
+                        <p:accordionPanel>
+                            <p:tab title="Identified Hazards">
+
+
+                                
+                                    
+                                    <p:dataTable value="#{manageAssessmentBean.hazards}" var="item">
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Process Step"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.processStepId.processStepName}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Category"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.category}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="SubCategory"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.subCategory}"/>
+                                        </p:column>
+                                         <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Persons at risk"/>
+                                            </f:facet>
+                                             <p:dataList value="#{item.injuredPartyList}" var="inj">
+                                                 <h:outputText value="#{inj}"/>
+                                             </p:dataList>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="How"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.how}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="InjuryType"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.injuryType}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Routine"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.routine}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Asset"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.assetId.assetName}"/>
+                                        </p:column>
+                                        
+                                        
+                                    </p:dataTable>
+                              
+
+                            </p:tab>
+                        </p:accordionPanel>
                     </h:form>
                 </f:view>
 

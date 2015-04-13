@@ -7,8 +7,11 @@
 package com.merrimansa.beans;
 
 import com.merrimansa.ejb.ProcessAssessmentFacade;
+import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.ProcessAssessment;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -24,21 +27,34 @@ import javax.inject.Named;
 public class ManageAssessmentBean {
 
     @Inject
-    ProcessAssessmentFacade PAF;
+    private ProcessAssessmentFacade PAF;
+    
+    private int AssessmentId;
     /**
      * Creates a new instance of ManageAssessmentBean
      */
     public ManageAssessmentBean() {
     }
     
-    public ProcessAssessment getAssessment(){
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    @PostConstruct
+    public void init(){
+         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String,String> params = externalContext.getRequestParameterMap();
         
-	int AssessmentId = Integer.parseInt(params.get("AssessmentId"));
+         AssessmentId = Integer.parseInt(params.get("AssessmentId"));
+    }
+    
+    public ProcessAssessment getAssessment(){
+       
         
         return PAF.find(AssessmentId);
  
+    }
+    
+    public List<Hazard> getHazards(){
+        
+        
+        return (List)PAF.find(AssessmentId).getHazardCollection();
     }
     
 }

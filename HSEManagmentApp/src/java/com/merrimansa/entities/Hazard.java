@@ -8,6 +8,7 @@ package com.merrimansa.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -162,6 +163,10 @@ public class Hazard implements Serializable {
     @XmlTransient
     public Collection<InjuredParty> getInjuredPartyCollection() {
         return injuredPartyCollection;
+    }
+    
+    public List<InjuredParty> getInjuredPartyList(){
+        return (List)this.getInjuredPartyCollection();
     }
 
     public void setInjuredPartyCollection(Collection<InjuredParty> injuredPartyCollection) {
