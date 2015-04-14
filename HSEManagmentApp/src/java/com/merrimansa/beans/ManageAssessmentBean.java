@@ -8,6 +8,7 @@ package com.merrimansa.beans;
 
 import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.entities.Hazard;
+import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessAssessment;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,10 @@ public class ManageAssessmentBean {
         
         
         return (List)PAF.find(AssessmentId).getHazardCollection();
+    }
+    
+    public List<InjuredParty> getInjuredParties(Hazard hazard){
+        return hazard.getInjuredPartyList();
     }
     
 }
