@@ -26,7 +26,7 @@
                     <file>${libs.javaee-api-7.0.classpath}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.primefaces-5.1.jar}</file>
+                    <file>${file.reference.primefaces-5.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

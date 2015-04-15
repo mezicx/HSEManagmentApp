@@ -10,6 +10,8 @@ import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessAssessment;
+import com.merrimansa.structures.InjuryType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -45,21 +47,36 @@ public class ManageAssessmentBean {
          AssessmentId = Integer.parseInt(params.get("AssessmentId"));
     }
     
+    /**
+     * 
+     * @return 
+     */
     public ProcessAssessment getAssessment(){
        
         
         return PAF.find(AssessmentId);
  
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public List<Hazard> getHazards(){
         
         
         return (List)PAF.find(AssessmentId).getHazardCollection();
     }
-    
+    /**
+     * 
+     * @param hazard
+     * @return 
+     */
     public List<InjuredParty> getInjuredParties(Hazard hazard){
         return hazard.getInjuredPartyList();
+    }
+    
+    public InjuryType[] getInjuryTypes(){
+        return InjuryType.values();
     }
     
 }

@@ -16,7 +16,7 @@
                 <pm:content>
                     <h:form>
                         <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
-                        <p:selectOneMenu value="#{assignAssessmentBean.assignedUser}">
+                        <p:selectOneMenu value="#{assignAssessmentBean.assignedUser}" filter="true">
                             <f:selectItems value="#{assignAssessmentBean.assessorList}"/>
                         </p:selectOneMenu>
 

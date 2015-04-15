@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
     <h:head>
         <title>Assessment Management</title>
     </h:head>
@@ -17,22 +18,40 @@
 
                     <h:form>
                         <h1><h:outputText value="Conduct/Modify Assessment"/></h1>
-                        <h:panelGrid columns="2">
-                            
+                       
+                        <pm:field>
                             <h:outputLabel value="Title:" for="title" />
                             <h:inputText id="title" value="#{manageAssessmentBean.assessment.title}" title="Title" />
+                            </pm:field>
+                        <pm:field>
                             <h:outputLabel value="ReferenceNumber:" for="referenceNumber" />
                             <h:inputText id="referenceNumber" value="#{manageAssessmentBean.assessment.referenceNumber}" title="ReferenceNumber" />
-                            <h:outputLabel value="AssessmentDate:" for="assessmentDate" />
-                            <h:inputText id="assessmentDate" value="#{manageAssessmentBean.assessment.assessmentDate}" title="AssessmentDate" >
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:inputText>
-                            <h:outputLabel value="Preamble:" for="preamble" />
+                        </pm:field>
+                        <pm:field>
+                             <h:outputLabel value="AssessmentDate:" for="assessmentDate" />
+                           
+                             <p:calendar value="#{manageAssessmentBean.assessment.assessmentDate}" pattern="dd/MM/yyyy"/>
+                        </pm:field>
+                        <pm:field>
+                             <h:outputLabel value="Preamble:" for="preamble" />
                             <h:inputTextarea id="preamble" value="#{manageAssessmentBean.assessment.preamble}" title="Preamble" />
                            
                             
+                        </pm:field>
+                        <pm:field>
+                            <p:commandButton value="Update Assessment Details" />
                             
-                        </h:panelGrid>
+                        </pm:field>
+                        
+                        <pm:field>
+                            <p:button value="Add Hazard" outcome="mobileAddHazard"/>
+                        </pm:field>
+                            
+                           
+                           
+                             
+                            
+                       
                         <p:accordionPanel>
                             <p:tab title="Identified Hazards">
 
@@ -46,11 +65,16 @@
                                         </p:column>
                                         <p:column headerText="Category">
                                             
-                                            <h:outputText value="#{item.category}"/>
+                                            <b><h:outputText value="#{item.category}"/></b><br/>
+                                             <h:outputText value="#{item.subCategory}"/>
                                         </p:column>
                                         <p:column headerText="SubCategory">
+                                            <p:selectOneMenu value="#{item.injuryType}">
+                                               
+                                                <f:selectItems value="#{manageAssessmentBean.injuryTypes}" var="type"
+                                                               itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
+                                            </p:selectOneMenu>
                                            
-                                            <h:outputText value="#{item.subCategory}"/>
                                         </p:column>
                                         <p:column headerText="Persons at risk">
                                            
@@ -79,6 +103,8 @@
                                         
                                         
                                     </p:dataTable>
+                                
+                                
                               
 
                             </p:tab>
