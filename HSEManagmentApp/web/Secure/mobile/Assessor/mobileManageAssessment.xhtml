@@ -12,109 +12,115 @@
     <h:body>
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
             <ui:define name="content">
-                
+
                 <f:view>
 
 
                     <h:form>
+                        <p:growl id="growl"  showDetail="true" autoUpdate="true"/>
                         <h1><h:outputText value="Conduct/Modify Assessment"/></h1>
-                       
+
                         <pm:field>
                             <h:outputLabel value="Title:" for="title" />
-                            <h:inputText id="title" value="#{manageAssessmentBean.assessment.title}" title="Title" />
-                            </pm:field>
+                            <h:inputText id="title" value="#{manageAssessmentBean.theAssessment.title}" title="Title" />
+                        </pm:field>
                         <pm:field>
                             <h:outputLabel value="ReferenceNumber:" for="referenceNumber" />
-                            <h:inputText id="referenceNumber" value="#{manageAssessmentBean.assessment.referenceNumber}" title="ReferenceNumber" />
+                            <h:inputText id="referenceNumber" value="#{manageAssessmentBean.theAssessment.referenceNumber}" title="ReferenceNumber" />
                         </pm:field>
                         <pm:field>
-                             <h:outputLabel value="AssessmentDate:" for="assessmentDate" />
-                           
-                             <p:calendar value="#{manageAssessmentBean.assessment.assessmentDate}" pattern="dd/MM/yyyy"/>
+                            <h:outputLabel value="AssessmentDate:" for="assessmentDate" />
+
+                            <p:calendar id="assessmentDate" value="#{manageAssessmentBean.theAssessment.assessmentDate}" pattern="dd/MM/yyyy"/>
                         </pm:field>
                         <pm:field>
-                             <h:outputLabel value="Preamble:" for="preamble" />
-                            <h:inputTextarea id="preamble" value="#{manageAssessmentBean.assessment.preamble}" title="Preamble" />
-                           
-                            
+                            <h:outputLabel value="Preamble:" for="preamble" />
+                            <h:inputTextarea id="preamble" value="#{manageAssessmentBean.theAssessment.preamble}" title="Preamble" />
+
+
                         </pm:field>
                         <pm:field>
-                            <p:commandButton value="Update Assessment Details" />
-                            
+                            <p:commandButton value="Update Assessment Details"  actionListener="#{manageAssessmentBean.updateAssessmentDetails()}" update="growl">
+                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                            </p:commandButton>
+
                         </pm:field>
-                        
+
                         <pm:field>
-                            <p:button value="Add Hazard" outcome="mobileAddHazard"/>
+                            <p:button value="Add Hazard" outcome="mobileManageHazard">
+                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                            </p:button>
                         </pm:field>
-                            
-                           
-                           
-                             
-                            
-                       
+
+
+
+
+
+
                         <p:accordionPanel>
                             <p:tab title="Identified Hazards">
 
 
-                                
-                                    
-                                    <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" >
-                                        <p:column headerText="Process Step">
-                                            
-                                            <h:outputText value="#{item.processStepId.processStepName}"/>
-                                        </p:column>
-                                        <p:column headerText="Category">
-                                            
-                                            <b><h:outputText value="#{item.category}"/></b><br/>
-                                             <h:outputText value="#{item.subCategory}"/>
-                                        </p:column>
-                                        <p:column headerText="SubCategory">
-                                            <p:selectOneMenu value="#{item.injuryType}">
-                                               
-                                                <f:selectItems value="#{manageAssessmentBean.injuryTypes}" var="type"
-                                                               itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
-                                            </p:selectOneMenu>
-                                           
-                                        </p:column>
-                                        <p:column headerText="Persons at risk">
-                                           
-                                             <p:dataList value="#{manageAssessmentBean.getInjuredParties(item)}" var="inj">
-                                                 <h:outputText value="#{inj.partyType}"/>
-                                             </p:dataList>
-                                        </p:column>
-                                        <p:column headerText="How">
-                                           
-                                            <h:outputText value="#{item.how}"/>
-                                        </p:column>
-                                        <p:column headerText="Injury Type">
-                                           
-                                            <h:outputText value="#{item.injuryType}"/>
-                                        </p:column>
-                                        <p:column headerText="Routine">
-                                            <p:selectBooleanButton offLabel="" onLabel="" value="#{item.routine}" />
-                                            
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Asset"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.assetId.assetName}"/>
-                                        </p:column>
-                                        
-                                        
-                                    </p:dataTable>
-                                
-                                
-                              
+
+
+                                <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" selectionMode="single" rowKey="#{item.hazardId}">
+                                    <p:column headerText="Process Step">
+
+                                        <h:outputText value="#{item.processStepId.processStepName}"/>
+                                    </p:column>
+                                    <p:column headerText="Category">
+
+                                        <b><h:outputText value="#{item.category}"/></b><br/>
+                                        <h:outputText value="#{item.subCategory}"/>
+                                    </p:column>
+                                    <p:column headerText="Injury Type">
+                                        <p:selectOneMenu value="#{item.injuryType}">
+
+                                            <f:selectItems value="#{manageAssessmentBean.injuryTypes}" var="type"
+                                                           itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
+                                        </p:selectOneMenu>
+
+                                    </p:column>
+                                    <p:column headerText="Persons at risk">
+
+                                        <p:dataList value="#{manageAssessmentBean.getInjuredParties(item)}" var="inj">
+                                            <h:outputText value="#{inj.partyType}"/>
+                                        </p:dataList>
+                                    </p:column>
+                                    <p:column headerText="How">
+
+                                        <h:outputText value="#{item.how}"/>
+                                    </p:column>
+                                   
+                                    <p:column headerText="Routine">
+                                        <p:selectBooleanButton offLabel="" onLabel="" value="#{item.routine}" />
+
+                                    </p:column>
+                                    <p:column headerText="Asset">
+                                      
+                                        <h:outputText value="#{item.assetId.assetName}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:link outcome="mobileManageHazard" value="Update">
+                                            <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                                            <f:param name="HazardId" value="#{item.hazardId}"/>
+                                        </p:link>
+                                    </p:column>
+
+
+                                </p:dataTable>
+
+
+
 
                             </p:tab>
                         </p:accordionPanel>
                     </h:form>
                 </f:view>
 
-                
+
             </ui:define>
-                              
+
         </ui:composition>
     </h:body>
 </html>
