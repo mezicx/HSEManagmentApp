@@ -35,8 +35,25 @@ public class ProcessAssessmentManager {
     public ProcessAssessmentManager() {
 
     }
+    /**
+     * 
+     * @param AssessmentId
+     * @return 
+     */
+    public ProcessAssessment findAssessment(int AssessmentId){
+        return pAFacade.find(AssessmentId);
+    }
+    
+    public void updateAssessment(ProcessAssessment assessment){
+        pAFacade.edit(assessment);
+    }
     
     /**
+     * Returns a list of process assessments for a given user
+     * 
+     * pre: currentUser is a valid system user
+     * 
+     * post: A list of process assessments that are linked to currentUser is returned 
      * 
      * @param currentUser 
      * @return  
@@ -127,6 +144,19 @@ public class ProcessAssessmentManager {
         }
         return requiredAssessments;
 
+    }
+    
+    public void addTeamMember(int UserID, int AssessmentId){
+        
+        ProcessAssessment assessment = pAFacade.find(AssessmentId);
+        
+        User user = userFacade.find(UserID);
+        
+        assessment.getUserCollection().add(user);
+        
+        pAFacade.edit(assessment);
+        
+        
     }
 
     

@@ -5,7 +5,10 @@
  */
 package com.merrimansa.beans;
 
+import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.ProcessAssessmentFacade;
+import com.merrimansa.ejb.ProcessAssessmentManagerFacade;
+import com.merrimansa.ejb.UserManagerFacade;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessAssessment;
@@ -13,6 +16,7 @@ import com.merrimansa.structures.InjuryType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -34,13 +38,17 @@ import javax.inject.Named;
 public class ManageAssessmentBean implements Serializable {
 
     @Inject
-    private ProcessAssessmentFacade PAF;
+    private ProcessAssessmentManagerFacade PAMF;
+
+    @Inject
+    private UserManagerFacade UMF;
 
     private int AssessmentId;
     @Inject
     private Conversation conversation;
 
-    ProcessAssessment theAssessment;
+    private ProcessAssessment theAssessment;
+    private int UserId;
 
     /**
      * Creates a new instance of ManageAssessmentBean
@@ -55,7 +63,7 @@ public class ManageAssessmentBean implements Serializable {
         Map<String, String> params = externalContext.getRequestParameterMap();
 
         AssessmentId = Integer.parseInt(params.get("AssessmentId"));
-        theAssessment = PAF.find(AssessmentId);
+        theAssessment = PAMF.findAssessment(AssessmentId);
 
     }
 
@@ -64,7 +72,7 @@ public class ManageAssessmentBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         try {
-            PAF.edit(theAssessment);
+            PAMF.updateAssessment(theAssessment);
             context.addMessage(null, new FacesMessage("Successful", "Assessment " + theAssessment.getAssessmentId() + " Sucessfully Updated"));
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage("Error", "Problem updating Assessment " + theAssessment.getAssessmentId()));
@@ -73,8 +81,22 @@ public class ManageAssessmentBean implements Serializable {
         conversation.end();
 
     }
+    
+     public Map<String, Integer> getAssessorList() {
+        Map<String, Integer> userMap = new HashMap();
+        for (UserVO u : UMF.getActiveUsers()) {
+            userMap.put(u.getFullName(), u.getUserId());
+        }
+
+        return userMap;
+    }
+    
+    public void addTeamMember(){
+        //To Do
+    }
 
     /**
+     * Returns the Hazard collection as a list
      *
      * @return
      */
@@ -85,6 +107,7 @@ public class ManageAssessmentBean implements Serializable {
     }
 
     /**
+     * Returns the injured party as a list
      *
      * @param hazard
      * @return
@@ -92,6 +115,10 @@ public class ManageAssessmentBean implements Serializable {
     public List<InjuredParty> getInjuredParties(Hazard hazard) {
         return hazard.getInjuredPartyList();
     }
+
+    
+
+   
 
     public InjuryType[] getInjuryTypes() {
         return InjuryType.values();
@@ -104,9 +131,15 @@ public class ManageAssessmentBean implements Serializable {
     public void setTheAssessment(ProcessAssessment theAssessment) {
         this.theAssessment = theAssessment;
     }
-    
-    public void redirectToHazard(){
-        
+
+    public int getUserId() {
+        return UserId;
     }
+
+    public void setUserId(int UserId) {
+        this.UserId = UserId;
+    }
+
+    
 
 }

@@ -38,4 +38,15 @@ public class ProcessAssessmentManagerFacade {
         return PSM.getAssignedAssessments(currentUser);
     }
     
+    public ProcessAssessment findAssessment(int AssessmentId){
+        return PSM.findAssessment(AssessmentId);
+    }
+    public void updateAssessment(ProcessAssessment assessment){
+        PSM.updateAssessment(assessment);
+    }
+    
+    public void addTeamMember(int UserID, int AssessmentId){
+        PSM.addTeamMember(UserID, AssessmentId);
+    }
+    
 }

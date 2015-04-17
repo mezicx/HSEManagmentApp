@@ -46,11 +46,7 @@
 
                         </pm:field>
 
-                        <pm:field>
-                            <p:button value="Add Hazard" outcome="mobileManageHazard">
-                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
-                            </p:button>
-                        </pm:field>
+
 
 
 
@@ -58,10 +54,19 @@
 
 
                         <p:accordionPanel>
+                            <p:tab title="Assessment Team">
+                                <p:selectOneMenu value="#{manageAssessmentBean}" filter="true">
+                                    <f:selectItems value="#{manageAssessmentBean.assessorList}"/>
+                                </p:selectOneMenu>
+                                <p:dataTable value="#{manageAssessmentBean.theAssessment.userCollectionList}" var="teamMember" >
+                                    <p:column headerText="Team Members">
+                                        <h:outputText value="#{teamMember.forename} #{teamMember.surname}"/>
+                                    </p:column>
+                                </p:dataTable>
+
+
+                            </p:tab>
                             <p:tab title="Identified Hazards">
-
-
-
 
                                 <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" selectionMode="single" rowKey="#{item.hazardId}">
                                     <p:column headerText="Process Step">
@@ -91,13 +96,13 @@
 
                                         <h:outputText value="#{item.how}"/>
                                     </p:column>
-                                   
+
                                     <p:column headerText="Routine">
                                         <p:selectBooleanButton offLabel="" onLabel="" value="#{item.routine}" />
 
                                     </p:column>
                                     <p:column headerText="Asset">
-                                      
+
                                         <h:outputText value="#{item.assetId.assetName}"/>
                                     </p:column>
                                     <p:column>
@@ -110,7 +115,11 @@
 
                                 </p:dataTable>
 
-
+                                <pm:field>
+                                    <p:button value="Add Hazard" outcome="mobileManageHazard">
+                                        <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                                    </p:button>
+                                </pm:field>
 
 
                             </p:tab>

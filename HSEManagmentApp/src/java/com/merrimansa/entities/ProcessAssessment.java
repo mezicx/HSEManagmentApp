@@ -162,6 +162,7 @@ public class ProcessAssessment implements Serializable {
         return userCollection;
     }
     
+    @XmlTransient
     public List<User> getUserCollectionList(){
         return (List)getUserCollection();
     }
