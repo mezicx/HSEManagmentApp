@@ -92,7 +92,19 @@ public class ManageAssessmentBean implements Serializable {
     }
     
     public void addTeamMember(){
-        //To Do
+         FacesContext context = FacesContext.getCurrentInstance();
+         
+          try {
+            PAMF.addTeamMember(UserId, theAssessment.getAssessmentId());
+            context.addMessage(null, new FacesMessage("Success","New member added to assessment team"));
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage("Error", "Problem adding new team member"));
+        }
+
+        conversation.end();
+         
+         
+         
     }
 
     /**
@@ -103,6 +115,8 @@ public class ManageAssessmentBean implements Serializable {
     public List<Hazard> getHazards() {
 
         return (List) theAssessment.getHazardCollection();
+        
+        
 
     }
 
@@ -139,6 +153,7 @@ public class ManageAssessmentBean implements Serializable {
     public void setUserId(int UserId) {
         this.UserId = UserId;
     }
+    
 
     
 

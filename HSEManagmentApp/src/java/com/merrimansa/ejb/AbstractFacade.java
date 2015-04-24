@@ -21,7 +21,12 @@ import javax.validation.ValidatorFactory;
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
-
+    
+    /**
+     * Method to validate entity before processing
+     * @param entity
+     * @return 
+     */
     private boolean constraintValidationsDetected(T entity) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();

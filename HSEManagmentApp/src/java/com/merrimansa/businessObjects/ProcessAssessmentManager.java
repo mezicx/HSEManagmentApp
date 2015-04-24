@@ -90,6 +90,10 @@ public class ProcessAssessmentManager {
      * Returns a list of assessments that will be older than 
      * 2years 7months during the current calendar year
      * 
+     * pre:none
+     * 
+     * post:List of required assessment objects is returned 
+     * 
      * @return A list of display objects
      */
     public List<RequiredAssessmentVO> getRequiredAssessments() {

@@ -55,14 +55,18 @@
 
                         <p:accordionPanel>
                             <p:tab title="Assessment Team">
-                                <p:selectOneMenu value="#{manageAssessmentBean}" filter="true">
-                                    <f:selectItems value="#{manageAssessmentBean.assessorList}"/>
+                                <p:selectOneMenu value="#{manageAssessmentBean.userId}" filter="true">
+                                    <f:selectItems value="#{manageAssessmentBean.assessorList}" var="users"
+                                                   itemValue="#{users}"/>
                                 </p:selectOneMenu>
                                 <p:dataTable value="#{manageAssessmentBean.theAssessment.userCollectionList}" var="teamMember" >
                                     <p:column headerText="Team Members">
                                         <h:outputText value="#{teamMember.forename} #{teamMember.surname}"/>
                                     </p:column>
                                 </p:dataTable>
+                                <p:commandButton value="Add Selected Member"  actionListener="#{manageAssessmentBean.addTeamMember()}" >
+                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                            </p:commandButton>
 
 
                             </p:tab>
