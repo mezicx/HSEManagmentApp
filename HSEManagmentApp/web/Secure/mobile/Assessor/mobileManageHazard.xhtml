@@ -2,14 +2,90 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
     <h:head>
         <title>Add Hazard</title>
     </h:head>
     <h:body>
 
+
+
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
+
             <ui:define name="content">
+
+
+
+                <h:form>
+                    <p:tabView>
+                        <p:tab title="Select Category">
+                            <pm:field>
+                                <p:outputLabel value="Category:" for="category" />
+                                <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
+                                    <f:selectItems value="#{manageHazardBean.categories}" var="cat"
+                                                   itemLabel="#{cat.displayName}" itemValue="#{cat.displayName}"/>
+                                    
+                                </p:selectOneMenu>
+                           
+                                
+                                <p:outputLabel value="SubCategory:" for="subCategory" />
+                                <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
+                                    <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
+                                                   itemLabel="#{cat}" itemValue="#{cat}"/>
+                                </p:selectOneMenu>
+                            </pm:field>
+                        </p:tab>
+                        <p:tab title="How">
+                            <pm:field>
+                                <p:outputLabel value="How:" for="how" />
+                                <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" required="true" requiredMessage="The How field is required."/>
+                            </pm:field>
+                        </p:tab>
+                        <p:tab title="Injury Type">
+                            <pm:field>
+                                <p:outputLabel value="InjuryType:" for="injuryType" />
+                                <p:selectOneMenu id="injuryType" value="#{manageHazardBean.theHazard.injuryType}">
+                                    <f:selectItems value="#{manageHazardBean.categories}" var="type"
+                                                   itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
+
+                                </p:selectOneMenu>
+
+                            </pm:field>
+                            <pm:field>
+                                <p:outputLabel value="Routine:" for="routine" />
+                                <p:selectBooleanButton id="routine" offLabel="" onLabel="" value="#{manageHazardBean.theHazard.routine}"/>
+                            </pm:field>
+                            <pm:field>
+                                <p:outputLabel value="InjuredPartyList:" for="injuredPartyList" />
+                                <p:inputText id="injuredPartyList" value="#{manageHazardBean.theHazard.injuredPartyList}" title="InjuredPartyList" />
+                            </pm:field>
+                        </p:tab>
+                        <p:tab title="Asset">
+                            <pm:field>
+
+
+                                <p:outputLabel value="AssetId:" for="assetId" />
+                                <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" >
+
+                                    <f:selectItems value="#" />
+                                </p:selectOneMenu>
+
+                            </pm:field>  
+                        </p:tab>
+                        <p:tab title="Image">
+                            <pm:field>
+                                <p:fileUpload value="" mode="simple"  />
+                            </pm:field>
+                        </p:tab>
+
+                    </p:tabView>
+
+                </h:form>
+
+
 
             </ui:define>
         </ui:composition>
