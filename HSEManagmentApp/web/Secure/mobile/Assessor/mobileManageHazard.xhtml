@@ -10,33 +10,36 @@
         <title>Add Hazard</title>
     </h:head>
     <h:body>
-
+        <p:log/>
 
 
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
 
             <ui:define name="content">
 
-
+                
 
                 <h:form>
                     <p:tabView>
                         <p:tab title="Select Category">
-                            <pm:field>
+                           
                                 <p:outputLabel value="Category:" for="category" />
                                 <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
-                                    <f:selectItems value="#{manageHazardBean.categories}" var="cat"
-                                                   itemLabel="#{cat.displayName}" itemValue="#{cat.displayName}"/>
+                                    <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                    <p:ajax listener="#{manageHazardBean.updateSubCategories}" update="@form"  />
+                                    <f:selectItems value="#{manageHazardBean.categories}" />
+                                                   
                                     
                                 </p:selectOneMenu>
                            
                                 
                                 <p:outputLabel value="SubCategory:" for="subCategory" />
                                 <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
+                                    <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
                                                    itemLabel="#{cat}" itemValue="#{cat}"/>
                                 </p:selectOneMenu>
-                            </pm:field>
+                            
                         </p:tab>
                         <p:tab title="How">
                             <pm:field>
@@ -48,8 +51,8 @@
                             <pm:field>
                                 <p:outputLabel value="InjuryType:" for="injuryType" />
                                 <p:selectOneMenu id="injuryType" value="#{manageHazardBean.theHazard.injuryType}">
-                                    <f:selectItems value="#{manageHazardBean.categories}" var="type"
-                                                   itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
+                                    <f:selectItems value="#{manageHazardBean.injuryTypes}" var="type"
+                                                   itemLabel="#{type}" itemValue="#{type}"/>
 
                                 </p:selectOneMenu>
 
@@ -60,7 +63,11 @@
                             </pm:field>
                             <pm:field>
                                 <p:outputLabel value="InjuredPartyList:" for="injuredPartyList" />
-                                <p:inputText id="injuredPartyList" value="#{manageHazardBean.theHazard.injuredPartyList}" title="InjuredPartyList" />
+                                <p:selectCheckboxMenu id="injuredPartyList" value="#{manageHazardBean.theHazard.injuredPartyList}" label="Injured Parties" >
+                                    <f:selectItem itemLabel="Select Parties" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.injuredParties}" var="party"
+                                                   itemLabel="#{party.partyType}" itemValue="#{party}"/>
+                                </p:selectCheckboxMenu>
                             </pm:field>
                         </p:tab>
                         <p:tab title="Asset">
@@ -69,8 +76,9 @@
 
                                 <p:outputLabel value="AssetId:" for="assetId" />
                                 <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" >
-
-                                    <f:selectItems value="#" />
+                                    <f:selectItem itemLabel="Select Asset" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.assets}" var="asset"
+                                                   itemLabel="#{asset.assetName}" itemValue="#{asset}"/>
                                 </p:selectOneMenu>
 
                             </pm:field>  
@@ -81,7 +89,7 @@
                             </pm:field>
                         </p:tab>
 
-                    </p:tabView>
+                        </p:tabView>
 
                 </h:form>
 
