@@ -55,4 +55,10 @@ public class HazardManagerFacade {
      public Collection<InjuredParty> getInjuredPartyCollection(){
          return HM.getInjuredPartyCollection();
      }
+     
+     public void saveHazard(Hazard theHazard){
+        System.out.println("Save called in manager facade");
+         
+         HM.saveHazard(theHazard);
+     }
 }

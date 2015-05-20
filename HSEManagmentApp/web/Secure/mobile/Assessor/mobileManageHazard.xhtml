@@ -17,34 +17,34 @@
 
             <ui:define name="content">
 
-                
+
 
                 <h:form>
-                    <p:tabView>
+                    <p:tabView id="hazardtab">
                         <p:tab title="Select Category">
-                           
-                                <p:outputLabel value="Category:" for="category" />
-                                <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
-                                    <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
-                                    <p:ajax listener="#{manageHazardBean.updateSubCategories}" update="@form"  />
-                                    <f:selectItems value="#{manageHazardBean.categories}" />
-                                                   
-                                    
-                                </p:selectOneMenu>
-                           
-                                
-                                <p:outputLabel value="SubCategory:" for="subCategory" />
-                                <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
-                                    <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
-                                                   itemLabel="#{cat}" itemValue="#{cat}"/>
-                                </p:selectOneMenu>
-                            
+
+                            <p:outputLabel value="Category:" for="category" />
+                            <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
+                                <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                <p:ajax listener="#{manageHazardBean.updateSubCategories}" update="@form"  />
+                                <f:selectItems value="#{manageHazardBean.categories}"  />
+
+
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="SubCategory:" for="subCategory" />
+                            <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
+                                <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
+                                               itemLabel="#{cat}" itemValue="#{cat}"/>
+                            </p:selectOneMenu>
+
                         </p:tab>
                         <p:tab title="How">
                             <pm:field>
                                 <p:outputLabel value="How:" for="how" />
-                                <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" required="true" requiredMessage="The How field is required."/>
+                                <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" />
                             </pm:field>
                         </p:tab>
                         <p:tab title="Injury Type">
@@ -52,7 +52,7 @@
                                 <p:outputLabel value="InjuryType:" for="injuryType" />
                                 <p:selectOneMenu id="injuryType" value="#{manageHazardBean.theHazard.injuryType}">
                                     <f:selectItems value="#{manageHazardBean.injuryTypes}" var="type"
-                                                   itemLabel="#{type}" itemValue="#{type}"/>
+                                                   itemLabel="#{type}" itemValue="#{type.displayName}"/>
 
                                 </p:selectOneMenu>
 
@@ -61,25 +61,14 @@
                                 <p:outputLabel value="Routine:" for="routine" />
                                 <p:selectBooleanButton id="routine" offLabel="" onLabel="" value="#{manageHazardBean.theHazard.routine}"/>
                             </pm:field>
-                            <pm:field>
-                                <p:outputLabel value="InjuredPartyList:" for="injuredPartyList" />
-                                <p:selectCheckboxMenu id="injuredPartyList" value="#{manageHazardBean.theHazard.injuredPartyList}" label="Injured Parties" >
-                                    <f:selectItem itemLabel="Select Parties" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{manageHazardBean.injuredParties}" var="party"
-                                                   itemLabel="#{party.partyType}" itemValue="#{party}"/>
-                                </p:selectCheckboxMenu>
-                            </pm:field>
+                           
+
                         </p:tab>
                         <p:tab title="Asset">
                             <pm:field>
 
 
-                                <p:outputLabel value="AssetId:" for="assetId" />
-                                <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" >
-                                    <f:selectItem itemLabel="Select Asset" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{manageHazardBean.assets}" var="asset"
-                                                   itemLabel="#{asset.assetName}" itemValue="#{asset}"/>
-                                </p:selectOneMenu>
+                               
 
                             </pm:field>  
                         </p:tab>
@@ -89,8 +78,10 @@
                             </pm:field>
                         </p:tab>
 
-                        </p:tabView>
-
+                    </p:tabView>
+                    <p:commandButton  value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" >
+                        <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
+                    </p:commandButton>
                 </h:form>
 
 

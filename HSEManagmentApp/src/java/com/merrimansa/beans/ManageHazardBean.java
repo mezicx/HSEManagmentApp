@@ -20,6 +20,9 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 import com.merrimansa.entities.InjuredParty;
+import com.merrimansa.entities.ProcessAssessment;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.faces.context.ExternalContext;
@@ -37,16 +40,18 @@ public class ManageHazardBean implements Serializable {
     private int AssessmentId;
 
     private Hazard theHazard;
-    
+
+    private int selectedAsset;
+
     private String[] subcats;
-    
+
     private Categories cats;
 
-    @Inject
-    Conversation conversation;
+    private Map<String, Integer> injuredParty;
 
-    
-    
+    @Inject
+    private Conversation conversation;
+
     @Inject
     HazardManagerFacade HMF;
 
@@ -58,30 +63,36 @@ public class ManageHazardBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
         System.out.println("Init called");
-        
+
         cats = new Categories();
 
-        if (conversation.isTransient()) {
-            conversation.begin();
-        }
+       // if (conversation.isTransient()) {
+        //   System.out.println("Conversation is transient");
+        conversation.begin();
+        System.out.println("Conversation Id " + this.getConversationId());
+        //}
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, String> params = externalContext.getRequestParameterMap();
 
         if (params.get("AssessmentId") != null) {
-            
+
             AssessmentId = Integer.parseInt(params.get("AssessmentId"));
         }
 
         if (params.containsKey("HazardId") && params.get("HazardId") != null) {
 
             theHazard = HMF.getHazardByAssessment(Integer.parseInt(params.get("HazardId")));
+            if(theHazard.getAssetId() != null){
+            selectedAsset = theHazard.getAssetId().getAssetId();
+            }
             subcats = cats.getCat().get(theHazard.getCategory());
-          
+
         } else {
-            theHazard = new Hazard();
+            theHazard = new Hazard(1);
+            theHazard.setAssessmentId(new ProcessAssessment(AssessmentId));
         }
 
     }
@@ -94,6 +105,36 @@ public class ManageHazardBean implements Serializable {
         this.AssessmentId = AssessmentId;
     }
 
+    public Map<String, Integer> getInjuredParty() {
+        return injuredParty;
+    }
+
+    public void setInjuredParty(Map<String, Integer> injuredParty) {
+
+        Collection<InjuredParty> c = new ArrayList();
+
+        if (!injuredParty.isEmpty()) {
+
+            for (String s : injuredParty.keySet()) {
+                c.add(new InjuredParty(injuredParty.get(s)));
+                
+            }
+            
+            theHazard.setInjuredPartyCollection(c);
+        }else{
+            theHazard.setInjuredPartyCollection(c);
+        }
+
+    }
+
+    public int getSelectedAsset() {
+        return selectedAsset;
+    }
+
+    public void setSelectedAsset(int selectedAsset) {
+        this.selectedAsset = selectedAsset;
+    }
+
     public Hazard getTheHazard() {
         return theHazard;
     }
@@ -104,22 +145,21 @@ public class ManageHazardBean implements Serializable {
 
     public void updateSubCategories() {
         //Check category is not null
-        if(theHazard.getCategory() != null && !theHazard.getCategory().equals("")){
-            
+        if (theHazard.getCategory() != null && !theHazard.getCategory().equals("")) {
+
             //if not null update subcategories
             subcats = HMF.getSubCategory(theHazard.getCategory());
-            
+
             theHazard.setSubCategory(null);
-           
-        }else
-        {
+
+        } else {
             subcats = new String[0];
         }
-           
+
     }
 
     public String[] getCategories() {
-        
+
         return HMF.getCategories().getCat().keySet().toArray(new String[0]);
     }
 
@@ -128,30 +168,49 @@ public class ManageHazardBean implements Serializable {
     }
 
     public String[] getSubCategory() {
-         
+
         return subcats;
     }
 
-    public Asset[] getAssets() {
-        
-        System.out.println("Assets called");
-        
-        
-        return  HMF.getPotentialAssests(AssessmentId).toArray(new Asset[0]);
+    public List<Asset> getAssets() {
+
+        return (List) HMF.getPotentialAssests(AssessmentId);
     }
-    
-    public InjuredParty[] getInjuredParties(){
-        
+
+    public InjuredParty[] getInjuredParties() {
+
         return HMF.getInjuredPartyCollection().toArray(new InjuredParty[0]);
     }
-    
-    public void setInjuredParties(InjuredParty[] ip){
-        Collection c = Arrays.asList(ip);
-        theHazard.setInjuredPartyCollection(c);
+
+    public void setInjuredParties(InjuredParty[] ip) {
+
     }
-    
-    public String getConversationId(){
-        return conversation.getId(); 
+
+    public String getConversationId() {
+        return conversation.getId();
+    }
+
+    public void saveHazard() throws IOException {
+
+        System.out.println("Routine?"+theHazard.getRoutine());
+        
+        if(selectedAsset > 0){
+            System.out.println("Selected Asset = " +selectedAsset);
+        theHazard.setAssetId(new Asset(selectedAsset));
+        }else{
+            theHazard.setAssetId(null);
+        }
+        
+        HMF.saveHazard(theHazard);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+
+        externalContext.redirect("./mobileManageAssessment.xhtml?AssessmentId=" + getAssessmentId());
+
+        conversation.end();
+
+        System.out.println("Conversation end is called");
     }
 
 }

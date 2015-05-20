@@ -82,6 +82,20 @@ public class HazardManager {
         return IPF.findAll();
     }
     
+    public void saveHazard(Hazard theHazard){
+        
+        
+        if(theHazard.getHazardId() == null){
+            HF.create(theHazard);
+        }else
+        {
+            System.out.println("Save called in manager");
+            // System.out.println(theHazard.getHazardId());
+            HF.edit(theHazard);
+        }
+    }
+    
+    
     
     
     
