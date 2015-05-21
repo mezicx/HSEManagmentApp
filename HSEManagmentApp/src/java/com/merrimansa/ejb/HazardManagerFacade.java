@@ -9,6 +9,7 @@ import com.merrimansa.businessObjects.HazardManager;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
+import com.merrimansa.entities.ProcessStep;
 import com.merrimansa.structures.Categories;
 import com.merrimansa.structures.InjuryType;
 import java.util.Collection;
@@ -54,6 +55,10 @@ public class HazardManagerFacade {
     
      public Collection<InjuredParty> getInjuredPartyCollection(){
          return HM.getInjuredPartyCollection();
+     }
+     
+     public Collection<ProcessStep> getProcessStepCollection(int AssessmentId){
+         return HM.getProcessSteps(AssessmentId);
      }
      
      public void saveHazard(Hazard theHazard){

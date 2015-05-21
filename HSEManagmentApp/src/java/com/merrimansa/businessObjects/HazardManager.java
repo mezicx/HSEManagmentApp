@@ -17,6 +17,7 @@ import com.merrimansa.structures.Categories;
 import com.merrimansa.structures.InjuryType;
 import javax.inject.Inject;
 import com.merrimansa.entities.Process;
+import com.merrimansa.entities.ProcessStep;
 import java.util.Collection;
 
 /**
@@ -66,12 +67,16 @@ public class HazardManager {
         return cats.getCat().get(Cat);
     }
     
+    public Collection<ProcessStep> getProcessSteps(int AssessmentId){
+        ProcessAssessment PA = PAF.find(AssessmentId);
+        return PA.getProcessId().getProcessStepCollection();
+    }
+    
     public Collection<Asset> getPotentialAssests(int AssessmentId){
         ProcessAssessment PA = PAF.find(AssessmentId);
         int ProcessId = PA.getProcessId().getProcessId();
         Process P = PF.find(ProcessId);
-        
-        
+            
         
         
         return P.getDepartmentId().getAssetCollection();

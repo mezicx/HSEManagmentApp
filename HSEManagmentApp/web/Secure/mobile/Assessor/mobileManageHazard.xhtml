@@ -21,6 +21,14 @@
 
                 <h:form>
                     <p:tabView id="hazardtab">
+                        <p:tab title="Select Process Step">
+                            <p:selectOneMenu id="ProcessStep" value="#{manageHazardBean.theHazard.processStepId}">
+                                <f:selectItem itemLabel="Select Process Step"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean}" var="PStep"
+                                               itemLabel="#{P}" itemValue="#{cat}"/>
+                            </p:selectOneMenu>
+                        </p:tab>
+                        
                         <p:tab title="Select Category">
 
                             <p:outputLabel value="Category:" for="category" />
@@ -59,7 +67,7 @@
                             </pm:field>
                             <pm:field>
                                 <p:outputLabel value="Routine:" for="routine" />
-                                <p:selectBooleanButton id="routine" offLabel="" onLabel="" value="#{manageHazardBean.theHazard.routine}"/>
+                                <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>
                             </pm:field>
                            
 
@@ -68,7 +76,12 @@
                             <pm:field>
 
 
-                               
+                                <p:outputLabel value="AssetId:" for="assetId" />
+                                <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" converter="#{assetConverter}" >
+                                    <f:selectItem itemLabel="Select Asset"  noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.assets}" var="asset"
+                                                 itemValue="#{asset}"  itemLabel="#{asset.assetName}"  />
+                                </p:selectOneMenu>
 
                             </pm:field>  
                         </p:tab>

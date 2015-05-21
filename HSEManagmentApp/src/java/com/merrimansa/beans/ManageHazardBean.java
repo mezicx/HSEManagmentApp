@@ -41,7 +41,7 @@ public class ManageHazardBean implements Serializable {
 
     private Hazard theHazard;
 
-    private int selectedAsset;
+    
 
     private String[] subcats;
 
@@ -85,9 +85,7 @@ public class ManageHazardBean implements Serializable {
         if (params.containsKey("HazardId") && params.get("HazardId") != null) {
 
             theHazard = HMF.getHazardByAssessment(Integer.parseInt(params.get("HazardId")));
-            if(theHazard.getAssetId() != null){
-            selectedAsset = theHazard.getAssetId().getAssetId();
-            }
+            
             subcats = cats.getCat().get(theHazard.getCategory());
 
         } else {
@@ -127,13 +125,7 @@ public class ManageHazardBean implements Serializable {
 
     }
 
-    public int getSelectedAsset() {
-        return selectedAsset;
-    }
-
-    public void setSelectedAsset(int selectedAsset) {
-        this.selectedAsset = selectedAsset;
-    }
+    
 
     public Hazard getTheHazard() {
         return theHazard;
@@ -194,12 +186,7 @@ public class ManageHazardBean implements Serializable {
 
         System.out.println("Routine?"+theHazard.getRoutine());
         
-        if(selectedAsset > 0){
-            System.out.println("Selected Asset = " +selectedAsset);
-        theHazard.setAssetId(new Asset(selectedAsset));
-        }else{
-            theHazard.setAssetId(null);
-        }
+        
         
         HMF.saveHazard(theHazard);
 
