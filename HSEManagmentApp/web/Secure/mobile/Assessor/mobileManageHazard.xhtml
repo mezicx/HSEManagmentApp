@@ -10,7 +10,7 @@
         <title>Add Hazard</title>
     </h:head>
     <h:body>
-        <p:log/>
+
 
 
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
@@ -20,15 +20,18 @@
 
 
                 <h:form>
-                    <p:tabView id="hazardtab">
+                    <!--<p:tabView id="hazardtab" >-->
+                    <p:accordionPanel>
                         <p:tab title="Select Process Step">
-                            <p:selectOneMenu id="ProcessStep" value="#{manageHazardBean.theHazard.processStepId}">
-                                <f:selectItem itemLabel="Select Process Step"  noSelectionOption="true" />
-                                <f:selectItems value="#{manageHazardBean}" var="PStep"
-                                               itemLabel="#{P}" itemValue="#{cat}"/>
-                            </p:selectOneMenu>
+                            <pm:field>
+                                <p:selectOneMenu id="ProcessStep" value="#{manageHazardBean.theHazard.processStepId}" converter="#{processStepConverter}">
+                                    <f:selectItem itemLabel="Select Process Step"  noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.processSteps}" var="PStep"
+                                                   itemLabel="#{PStep.processStepName}" itemValue="#{PStep}"/>
+                                </p:selectOneMenu>
+                            </pm:field>
                         </p:tab>
-                        
+
                         <p:tab title="Select Category">
 
                             <p:outputLabel value="Category:" for="category" />
@@ -69,7 +72,7 @@
                                 <p:outputLabel value="Routine:" for="routine" />
                                 <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>
                             </pm:field>
-                           
+
 
                         </p:tab>
                         <p:tab title="Asset">
@@ -80,7 +83,7 @@
                                 <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" converter="#{assetConverter}" >
                                     <f:selectItem itemLabel="Select Asset"  noSelectionOption="true" />
                                     <f:selectItems value="#{manageHazardBean.assets}" var="asset"
-                                                 itemValue="#{asset}"  itemLabel="#{asset.assetName}"  />
+                                                   itemValue="#{asset}"  itemLabel="#{asset.assetName}"  />
                                 </p:selectOneMenu>
 
                             </pm:field>  
@@ -90,8 +93,23 @@
                                 <p:fileUpload value="" mode="simple"  />
                             </pm:field>
                         </p:tab>
+                        <p:tab title="Precontrol Assessment">
+                            <p:outputLabel value="Likelihood:" for="like" />
+                            <p:selectOneMenu id="like" value="#{manageHazardBean.assesmentCalc.like}"  >
+                                <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
+                            </p:selectOneMenu>
 
-                    </p:tabView>
+                            <p:outputLabel value="Severity:" for="sev" />
+                            <p:selectOneMenu id="sev" value="#{manageHazardBean.assesmentCalc.sev}"  >
+                                <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
+                            </p:selectOneMenu>
+
+
+                        </p:tab>
+                    </p:accordionPanel>
+                    <!--</p:tabView>-->
                     <p:commandButton  value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" >
                         <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
                     </p:commandButton>

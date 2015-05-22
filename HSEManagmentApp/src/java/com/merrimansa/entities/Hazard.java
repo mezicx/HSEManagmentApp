@@ -23,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -90,8 +91,9 @@ public class Hazard implements Serializable {
     @JoinColumn(name = "ProcessStepId", referencedColumnName = "ProcessStepId")
     @ManyToOne(optional = false)
     private ProcessStep processStepId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
-    private Collection<PrecontrolAssessment> precontrolAssessmentCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "hazardId")
+    private PrecontrolAssessment precontrolAssessment;
+    //private Collection<PrecontrolAssessment> precontrolAssessmentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
     private Collection<Image> imageCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
@@ -200,6 +202,14 @@ public class Hazard implements Serializable {
         this.processStepId = processStepId;
     }
 
+    public PrecontrolAssessment getPrecontrolAssessment() {
+        return precontrolAssessment;
+    }
+
+    public void setPrecontrolAssessment(PrecontrolAssessment precontrolAssessment) {
+        this.precontrolAssessment = precontrolAssessment;
+    }
+    /**
     @XmlTransient
     public Collection<PrecontrolAssessment> getPrecontrolAssessmentCollection() {
         return precontrolAssessmentCollection;
@@ -208,6 +218,9 @@ public class Hazard implements Serializable {
     public void setPrecontrolAssessmentCollection(Collection<PrecontrolAssessment> precontrolAssessmentCollection) {
         this.precontrolAssessmentCollection = precontrolAssessmentCollection;
     }
+    */
+    
+    
 
     @XmlTransient
     public Collection<Image> getImageCollection() {

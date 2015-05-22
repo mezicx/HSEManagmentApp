@@ -82,33 +82,7 @@
                                         <b><h:outputText value="#{item.category}"/></b><br/>
                                         <h:outputText value="#{item.subCategory}"/>
                                     </p:column>
-                                    <p:column headerText="Injury Type">
-                                        <p:selectOneMenu value="#{item.injuryType}">
-
-                                            <f:selectItems value="#{manageAssessmentBean.injuryTypes}" var="type"
-                                                           itemLabel="#{type.displayName}" itemValue="#{type.displayName}"/>
-                                        </p:selectOneMenu>
-
-                                    </p:column>
-                                    <p:column headerText="Persons at risk">
-
-                                        <p:dataList value="#{manageAssessmentBean.getInjuredParties(item)}" var="inj">
-                                            <h:outputText value="#{inj.partyType}"/>
-                                        </p:dataList>
-                                    </p:column>
-                                    <p:column headerText="How">
-
-                                        <h:outputText value="#{item.how}"/>
-                                    </p:column>
-
-                                    <p:column headerText="Routine">
-                                        <p:selectBooleanButton offLabel="" onLabel="" value="#{item.routine}" />
-
-                                    </p:column>
-                                    <p:column headerText="Asset">
-
-                                        <h:outputText value="#{item.assetId.assetName}"/>
-                                    </p:column>
+                                    
                                     <p:column>
                                         <p:link outcome="mobileManageHazard" value="Update">
                                             <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>

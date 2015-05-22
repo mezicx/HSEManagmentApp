@@ -21,6 +21,8 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessAssessment;
+import com.merrimansa.entities.ProcessStep;
+import com.merrimansa.structures.AssessmentCalculator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public class ManageHazardBean implements Serializable {
 
     private Hazard theHazard;
 
-    
+    private AssessmentCalculator AssessmentCalc;
 
     private String[] subcats;
 
@@ -67,6 +69,7 @@ public class ManageHazardBean implements Serializable {
         System.out.println("Init called");
 
         cats = new Categories();
+        AssessmentCalc = new AssessmentCalculator();
 
        // if (conversation.isTransient()) {
         //   System.out.println("Conversation is transient");
@@ -95,34 +98,22 @@ public class ManageHazardBean implements Serializable {
 
     }
 
+    public AssessmentCalculator getAssesmentCalc() {
+        return AssessmentCalc;
+    }
+
+    public void setAssesmentCalc(AssessmentCalculator AssesmentCalc) {
+        this.AssessmentCalc = AssesmentCalc;
+    }
+    
+    
+
     public int getAssessmentId() {
         return AssessmentId;
     }
 
     public void setAssessmentId(int AssessmentId) {
         this.AssessmentId = AssessmentId;
-    }
-
-    public Map<String, Integer> getInjuredParty() {
-        return injuredParty;
-    }
-
-    public void setInjuredParty(Map<String, Integer> injuredParty) {
-
-        Collection<InjuredParty> c = new ArrayList();
-
-        if (!injuredParty.isEmpty()) {
-
-            for (String s : injuredParty.keySet()) {
-                c.add(new InjuredParty(injuredParty.get(s)));
-                
-            }
-            
-            theHazard.setInjuredPartyCollection(c);
-        }else{
-            theHazard.setInjuredPartyCollection(c);
-        }
-
     }
 
     
@@ -169,13 +160,8 @@ public class ManageHazardBean implements Serializable {
         return (List) HMF.getPotentialAssests(AssessmentId);
     }
 
-    public InjuredParty[] getInjuredParties() {
-
-        return HMF.getInjuredPartyCollection().toArray(new InjuredParty[0]);
-    }
-
-    public void setInjuredParties(InjuredParty[] ip) {
-
+    public List<ProcessStep>getProcessSteps(){
+        return (List)HMF.getProcessStepCollection(AssessmentId);
     }
 
     public String getConversationId() {
@@ -185,6 +171,7 @@ public class ManageHazardBean implements Serializable {
     public void saveHazard() throws IOException {
 
         System.out.println("Routine?"+theHazard.getRoutine());
+        
         
         
         

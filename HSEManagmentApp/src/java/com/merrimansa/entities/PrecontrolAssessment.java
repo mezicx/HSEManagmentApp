@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -47,7 +48,7 @@ public class PrecontrolAssessment implements Serializable {
     @Column(name = "Likelihood")
     private int likelihood;
     @JoinColumn(name = "HazardId", referencedColumnName = "HazardId")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Hazard hazardId;
 
     public PrecontrolAssessment() {
