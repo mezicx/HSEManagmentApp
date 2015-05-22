@@ -7,6 +7,7 @@ package com.merrimansa.beans;
 
 import com.merrimansa.ejb.HazardFacade;
 import com.merrimansa.ejb.HazardManagerFacade;
+import com.merrimansa.ejb.PrecontrolAssessmentFacade;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.structures.Categories;
@@ -20,6 +21,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 import com.merrimansa.entities.InjuredParty;
+import com.merrimansa.entities.PrecontrolAssessment;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.ProcessStep;
 import com.merrimansa.structures.AssessmentCalculator;
@@ -44,18 +46,22 @@ public class ManageHazardBean implements Serializable {
     private Hazard theHazard;
 
     private AssessmentCalculator AssessmentCalc;
-
+    
+    
     private String[] subcats;
 
     private Categories cats;
 
-    private Map<String, Integer> injuredParty;
+    
 
     @Inject
     private Conversation conversation;
 
     @Inject
     HazardManagerFacade HMF;
+    
+    @Inject
+    PrecontrolAssessmentFacade PCAF;
 
     /**
      * Creates a new instance of ManageHazardBean
@@ -94,6 +100,12 @@ public class ManageHazardBean implements Serializable {
         } else {
             theHazard = new Hazard(1);
             theHazard.setAssessmentId(new ProcessAssessment(AssessmentId));
+            
+        }
+        
+        if(theHazard.getPrecontrolAssessment() == null){
+            theHazard.setPrecontrolAssessment(new PrecontrolAssessment(1));
+            theHazard.getPrecontrolAssessment().setHazardId(theHazard);
         }
 
     }
@@ -173,7 +185,7 @@ public class ManageHazardBean implements Serializable {
         System.out.println("Routine?"+theHazard.getRoutine());
         
         
-        
+        //PCAF.create(theHazard.getPrecontrolAssessment());
         
         HMF.saveHazard(theHazard);
 

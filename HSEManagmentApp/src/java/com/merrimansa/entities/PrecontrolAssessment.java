@@ -10,6 +10,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,6 +38,7 @@ public class PrecontrolAssessment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @NotNull
     @Column(name = "AssessmentId")
     private Integer assessmentId;
@@ -47,7 +50,7 @@ public class PrecontrolAssessment implements Serializable {
     @NotNull
     @Column(name = "Likelihood")
     private int likelihood;
-    @JoinColumn(name = "HazardId", referencedColumnName = "HazardId")
+    @JoinColumn(name = "HazardId", referencedColumnName = "HazardId" )
     @OneToOne(optional = false)
     private Hazard hazardId;
 

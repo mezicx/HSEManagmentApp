@@ -21,11 +21,12 @@ import javax.validation.ValidatorFactory;
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
-    
+
     /**
      * Method to validate entity before processing
+     *
      * @param entity
-     * @return 
+     * @return
      */
     private boolean constraintValidationsDetected(T entity) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -57,7 +58,9 @@ public abstract class AbstractFacade<T> {
     }
 
     public void edit(T entity) {
-        getEntityManager().merge(entity);
+        if (!constraintValidationsDetected(entity)) {
+            getEntityManager().merge(entity);
+        }
     }
 
     public void remove(T entity) {
