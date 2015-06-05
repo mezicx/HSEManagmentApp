@@ -5,13 +5,13 @@
  */
 package com.merrimansa.beans;
 
-import com.merrimansa.ejb.HazardFacade;
+
 import com.merrimansa.ejb.HazardManagerFacade;
 import com.merrimansa.ejb.PrecontrolAssessmentFacade;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.structures.Categories;
-import com.merrimansa.structures.Category;
+
 import com.merrimansa.structures.InjuryType;
 import java.io.Serializable;
 import java.util.List;
@@ -20,15 +20,13 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
-import com.merrimansa.entities.InjuredParty;
+
 import com.merrimansa.entities.PrecontrolAssessment;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.ProcessStep;
 import com.merrimansa.structures.AssessmentCalculator;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -86,11 +84,12 @@ public class ManageHazardBean implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, String> params = externalContext.getRequestParameterMap();
 
+        //Get Assessment Id from Param Map if present
         if (params.get("AssessmentId") != null) {
 
             AssessmentId = Integer.parseInt(params.get("AssessmentId"));
         }
-
+        //Get Hazard to be updated or create new one if none exists
         if (params.containsKey("HazardId") && params.get("HazardId") != null) {
 
             theHazard = HMF.getHazardByAssessment(Integer.parseInt(params.get("HazardId")));
@@ -102,7 +101,7 @@ public class ManageHazardBean implements Serializable {
             theHazard.setAssessmentId(new ProcessAssessment(AssessmentId));
             
         }
-        
+        //add a new precontrol assessment if one does not exisit
         if(theHazard.getPrecontrolAssessment() == null){
             theHazard.setPrecontrolAssessment(new PrecontrolAssessment(1));
             theHazard.getPrecontrolAssessment().setHazardId(theHazard);
@@ -140,17 +139,20 @@ public class ManageHazardBean implements Serializable {
 
     public void updateSubCategories() {
         //Check category is not null
+        System.out.println("Ajax has been called");
+        
         if (theHazard.getCategory() != null && !theHazard.getCategory().equals("")) {
 
             //if not null update subcategories
-            subcats = HMF.getSubCategory(theHazard.getCategory());
-
+            //subcats = HMF.getSubCategory(theHazard.getCategory());
+            System.out.println(theHazard.getCategory());
+            subcats= cats.getCat().get(theHazard.getCategory());
             theHazard.setSubCategory(null);
 
         } else {
             subcats = new String[0];
         }
-
+        System.out.println("Ajax call completed");
     }
 
     public String[] getCategories() {
@@ -182,7 +184,7 @@ public class ManageHazardBean implements Serializable {
 
     public void saveHazard() throws IOException {
 
-        System.out.println("Routine?"+theHazard.getRoutine());
+        System.out.println("Save Called");
         
         
         //PCAF.create(theHazard.getPrecontrolAssessment());

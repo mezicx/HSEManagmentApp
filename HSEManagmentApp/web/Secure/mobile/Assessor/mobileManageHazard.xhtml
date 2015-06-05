@@ -37,8 +37,9 @@
 
                             <p:outputLabel value="Category:" for="category" />
                             <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
+                                <p:ajax process="@this" listener="#{manageHazardBean.updateSubCategories}"  update="wrapper"  />
                                 <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
-                                <p:ajax listener="#{manageHazardBean.updateSubCategories}" update="@form"  />
+                                
                                 <f:selectItems value="#{manageHazardBean.categories}"  />
 
 
@@ -46,11 +47,13 @@
 
 
                             <p:outputLabel value="SubCategory:" for="subCategory" />
+                            <p:outputPanel id="wrapper">
                             <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
                                 <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
                                 <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
                                                itemLabel="#{cat}" itemValue="#{cat}"/>
                             </p:selectOneMenu>
+                                </p:outputPanel>
 
                         </p:tab>
                         <p:tab title="How">
@@ -70,8 +73,8 @@
 
                             </pm:field>
                             <pm:field>
-                                <p:outputLabel value="Routine:" for="routine" />
-                                <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>
+                                <!--<p:outputLabel value="Routine:" for="routine" />
+                                <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>-->
                             </pm:field>
 
 
