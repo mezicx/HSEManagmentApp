@@ -43,6 +43,9 @@
                             <p:commandButton value="Update Assessment Details"  actionListener="#{manageAssessmentBean.updateAssessmentDetails()}" update="growl">
                                 <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
                             </p:commandButton>
+                            <p:commandButton value="Submit Assessment"  actionListener="#{manageAssessmentBean.submitAssessment()}" update="@form">
+                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                            </p:commandButton>
 
                         </pm:field>
 
@@ -54,23 +57,7 @@
 
 
                         <p:accordionPanel>
-                            <p:tab title="Assessment Team">
-                                <p:selectOneMenu value="#{manageAssessmentBean.userId}" filter="true">
-                                    <f:selectItems value="#{manageAssessmentBean.assessorList}" var="users"
-                                                   itemValue="#{users}"/>
-                                </p:selectOneMenu>
-                                <p:dataTable value="#{manageAssessmentBean.theAssessment.userCollectionList}" var="teamMember" >
-                                    <p:column headerText="Team Members">
-                                        <h:outputText value="#{teamMember.forename} #{teamMember.surname}"/>
-                                    </p:column>
-                                </p:dataTable>
-                                <p:commandButton value="Add Selected Member"  actionListener="#{manageAssessmentBean.addTeamMember()}" >
-                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
-                            </p:commandButton>
-
-
-                            </p:tab>
-                            <p:tab title="Identified Hazards">
+                                  <p:tab title="Identified Hazards">
 
                                 <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" selectionMode="single" rowKey="#{item.hazardId}">
                                     <p:column headerText="Process Step">
@@ -101,6 +88,23 @@
 
 
                             </p:tab>
+                            <p:tab title="Assessment Team">
+                                <p:selectOneMenu value="#{manageAssessmentBean.userId}" filter="true">
+                                    <f:selectItems value="#{manageAssessmentBean.assessorList}" var="users"
+                                                   itemValue="#{users}"/>
+                                </p:selectOneMenu>
+                                <p:dataTable value="#{manageAssessmentBean.theAssessment.userCollectionList}" var="teamMember" >
+                                    <p:column headerText="Team Members">
+                                        <h:outputText value="#{teamMember.forename} #{teamMember.surname}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:commandButton value="Add Selected Member"  actionListener="#{manageAssessmentBean.addTeamMember()}" >
+                                <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
+                            </p:commandButton>
+
+
+                            </p:tab>
+                      
                         </p:accordionPanel>
                     </h:form>
                 </f:view>

@@ -11,6 +11,7 @@ import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.ControlMeasure;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
+import com.merrimansa.entities.PostcontrolAssessment;
 import com.merrimansa.structures.Categories;
 
 import com.merrimansa.structures.InjuryType;
@@ -54,6 +55,8 @@ public class ManageHazardBean implements Serializable {
     private String[] subcats;
 
     private Categories cats;
+    
+    private final String emptyString ="";
 
     @Inject
     private Conversation conversation;
@@ -105,10 +108,14 @@ public class ManageHazardBean implements Serializable {
             theHazard.setAssessmentId(new ProcessAssessment(AssessmentId));
 
         }
-        //add a new precontrol assessment if one does not exisit
+        //add a new precontrol & postcontrol assessment if one does not exisit
         if (theHazard.getPrecontrolAssessment() == null) {
             theHazard.setPrecontrolAssessment(new PrecontrolAssessment(1));
             theHazard.getPrecontrolAssessment().setHazardId(theHazard);
+        }
+        if(theHazard.getPostcontrolAssessment() == null){
+            theHazard.setPostcontrolAssessment(new PostcontrolAssessment(1));
+            theHazard.getPostcontrolAssessment().setHazardId(theHazard);
         }
 
     }
@@ -147,6 +154,17 @@ public class ManageHazardBean implements Serializable {
 
     public void setTheHazard(Hazard theHazard) {
         this.theHazard = theHazard;
+    }
+    
+    public boolean postControlRenderCheck(){
+        Boolean render = false;
+        if(theHazard.getControlMeasureCollection() != null
+                && !theHazard.getControlMeasureCollection().isEmpty()){
+            
+            render = true;
+        }
+        
+        return render;
     }
 
     /**
@@ -200,6 +218,12 @@ public class ManageHazardBean implements Serializable {
     public String getConversationId() {
         return conversation.getId();
     }
+
+    public String getEmptyString() {
+        return emptyString;
+    }
+    
+    
 
     public void addControlMeasure() {
         //Check if Hazard is new

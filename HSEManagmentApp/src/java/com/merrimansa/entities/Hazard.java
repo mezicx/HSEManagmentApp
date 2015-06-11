@@ -93,12 +93,14 @@ public class Hazard implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "hazardId")
     private PrecontrolAssessment precontrolAssessment;
     //private Collection<PrecontrolAssessment> precontrolAssessmentCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "hazardId")
+    private PostcontrolAssessment postcontrolAssessment;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
     private Collection<Image> imageCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
     private Collection<ControlMeasure> controlMeasureCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
-    private Collection<PostcontrolAssessment> postcontrolAssessmentCollection;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "hazardId")
+    //private Collection<PostcontrolAssessment> postcontrolAssessmentCollection;
 
     public Hazard() {
     }
@@ -208,6 +210,14 @@ public class Hazard implements Serializable {
     public void setPrecontrolAssessment(PrecontrolAssessment precontrolAssessment) {
         this.precontrolAssessment = precontrolAssessment;
     }
+
+    public PostcontrolAssessment getPostcontrolAssessment() {
+        return postcontrolAssessment;
+    }
+
+    public void setPostcontrolAssessment(PostcontrolAssessment postcontrolAssessment) {
+        this.postcontrolAssessment = postcontrolAssessment;
+    }
     /**
     @XmlTransient
     public Collection<PrecontrolAssessment> getPrecontrolAssessmentCollection() {
@@ -238,6 +248,9 @@ public class Hazard implements Serializable {
     public void setControlMeasureCollection(Collection<ControlMeasure> controlMeasureCollection) {
         this.controlMeasureCollection = controlMeasureCollection;
     }
+    
+    
+    /**
 
     @XmlTransient
     public Collection<PostcontrolAssessment> getPostcontrolAssessmentCollection() {
@@ -247,6 +260,7 @@ public class Hazard implements Serializable {
     public void setPostcontrolAssessmentCollection(Collection<PostcontrolAssessment> postcontrolAssessmentCollection) {
         this.postcontrolAssessmentCollection = postcontrolAssessmentCollection;
     }
+    **/
 
     @Override
     public int hashCode() {

@@ -53,15 +53,26 @@ public class ProcessAssessmentManager {
      * 
      * pre: currentUser is a valid system user
      * 
-     * post: A list of process assessments that are linked to currentUser is returned 
+     * post: A list of process assessments that are linked to currentUser and that are not
+     * submitted or approved
      * 
      * @param currentUser 
      * @return  
      */
     public List<ProcessAssessment> getAssignedAssessments(UserVO currentUser){
         
-        return pAFacade.getProcessAssessmentsByUser(
+        List<ProcessAssessment> theAssessments = pAFacade.getProcessAssessmentsByUser(
         userFacade.find(currentUser.getUserId()));
+        
+        List<ProcessAssessment> tbcAssessments = new ArrayList();
+        
+        for(ProcessAssessment pa: theAssessments){
+            if(!pa.getSubmitted() && !pa.getApproved()){
+                tbcAssessments.add(pa);
+            }
+        }
+        
+        return  tbcAssessments;
         
     }
     

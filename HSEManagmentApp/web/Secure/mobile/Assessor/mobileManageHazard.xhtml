@@ -123,10 +123,13 @@
 
 
                         </p:tab>
+                        
+                        <!--Post Control Measure Code-->
                         <p:tab title="Control Measures">
 
-                            <p:selectOneMenu id="controlMeasure" value="#{manageHazardBean.theControlMeasure.controlCategory}" required="false">
-                                <f:selectItem itemLabel="Select Control Measure"  noSelectionOption="true" />
+                            <p:selectOneMenu id="controlMeasure" value="#{manageHazardBean.theControlMeasure.controlCategory}"
+                                             required="false" requiredMessage="Control Measure Is Required"  validatorMessage="Control Measure must have value">
+                                <f:selectItem itemLabel="Select Control Measure" value="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{manageHazardBean.controlMeasureValues}" var="cmVal"
                                                itemLabel="#{cmVal.displayName}" itemValue="#{cmVal.displayName}"/>
                             </p:selectOneMenu>
@@ -141,6 +144,24 @@
                                 <p:outputLabel value="#{cm.controlCategory}"/>
                             </p:dataList>
                         </p:tab>
+                        
+                        <!--Post Control Assessment Code-->
+                        <p:tab title="Post Control Assessment" rendered="#{manageHazardBean.postControlRenderCheck()}">
+                           
+                            <p:outputLabel value="Likelihood:" for="likePost" />
+                            <p:selectOneMenu id="likePost" value="#{manageHazardBean.theHazard.postcontrolAssessment.likelihood}"  >
+                                <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Severity:" for="sevPost" />
+                            <p:selectOneMenu id="sevPost" value="#{manageHazardBean.theHazard.postcontrolAssessment.consequence}"  >
+                                <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
+                            </p:selectOneMenu>
+                            
+                        </p:tab>
+                            
                     </p:accordionPanel>
                     <!--</p:tabView>-->
                     <p:commandButton id="saveHazard" value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" ajax="false">

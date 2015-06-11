@@ -13,6 +13,7 @@ import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.structures.InjuryType;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,9 @@ public class ManageAssessmentBean implements Serializable {
 
     @Inject
     private UserManagerFacade UMF;
+    
+    @Inject
+    CurrentUserBean theUser;
 
     private int AssessmentId;
     @Inject
@@ -80,6 +84,27 @@ public class ManageAssessmentBean implements Serializable {
 
         conversation.end();
 
+    }
+    
+    public void submitAssessment() throws IOException{
+       FacesContext context = FacesContext.getCurrentInstance();
+       ExternalContext externalContext = context.getExternalContext();
+
+        
+        
+        if(theUser.getTheUser().hasRole("HSEManager") || theUser.getTheUser().hasRole("Administrator") ){
+            
+            theAssessment.setApproved(true);
+        }
+        theAssessment.setSubmitted(true);
+        
+        try{
+            PAMF.updateAssessment(theAssessment);
+            context.addMessage(null, new FacesMessage("Successful", "Assessment " + theAssessment.getAssessmentId() + " Sucessfully Submitted"));
+            externalContext.redirect("../mobileDashBoard.xhtml");
+        }catch(Exception e){
+            context.addMessage(null, new FacesMessage("Error", "Problem Submitting Assessment " + theAssessment.getAssessmentId()));
+        }
     }
     
      public Map<String, Integer> getAssessorList() {
