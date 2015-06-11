@@ -18,6 +18,7 @@ import com.merrimansa.structures.InjuryType;
 import javax.inject.Inject;
 import com.merrimansa.entities.Process;
 import com.merrimansa.entities.ProcessStep;
+import com.merrimansa.structures.ControlMeasureValues;
 import java.util.Collection;
 
 /**
@@ -41,6 +42,7 @@ public class HazardManager {
     
     
     private Categories cats;
+    private ControlMeasureValues controlMeasure;
     
     public HazardManager(){
         
@@ -98,6 +100,14 @@ public class HazardManager {
             // System.out.println(theHazard.getHazardId());
             HF.edit(theHazard);
         }
+    }
+    
+    public ControlMeasureValues[] getControlMeasures(){
+        return ControlMeasureValues.values();
+    }
+    
+    public void deleteHazard(Hazard theHazard){
+        
     }
     
     

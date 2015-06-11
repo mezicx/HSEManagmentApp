@@ -11,6 +11,7 @@ import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessStep;
 import com.merrimansa.structures.Categories;
+import com.merrimansa.structures.ControlMeasureValues;
 import com.merrimansa.structures.InjuryType;
 import java.util.Collection;
 import java.util.Set;
@@ -60,6 +61,10 @@ public class HazardManagerFacade {
      public Collection<ProcessStep> getProcessStepCollection(int AssessmentId){
          return HM.getProcessSteps(AssessmentId);
      }
+     
+     public ControlMeasureValues[] getControlMeasures(){
+        return HM.getControlMeasures();
+    }
      
      public void saveHazard(Hazard theHazard){
         System.out.println("Save called in manager facade");

@@ -17,7 +17,7 @@
 
             <ui:define name="content">
 
-                
+
 
                 <h:form>
                     <h:messages/>
@@ -39,7 +39,7 @@
                             <p:selectOneMenu id="category" value="#{manageHazardBean.theHazard.category}">
                                 <p:ajax process="@this" listener="#{manageHazardBean.updateSubCategories}"  update="wrapper"  />
                                 <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
-                                
+
                                 <f:selectItems value="#{manageHazardBean.categories}"  />
 
 
@@ -48,12 +48,12 @@
 
                             <p:outputLabel value="SubCategory:" for="subCategory" />
                             <p:outputPanel id="wrapper">
-                            <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
-                                <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
-                                <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
-                                               itemLabel="#{cat}" itemValue="#{cat}"/>
-                            </p:selectOneMenu>
-                                </p:outputPanel>
+                                <p:selectOneMenu id="subCategory" value="#{manageHazardBean.theHazard.subCategory}">
+                                    <f:selectItem itemLabel="Select Sub Category" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.subCategory}" var="cat"
+                                                   itemLabel="#{cat}" itemValue="#{cat}"/>
+                                </p:selectOneMenu>
+                            </p:outputPanel>
 
                         </p:tab>
                         <p:tab title="How">
@@ -70,11 +70,22 @@
                                                    itemLabel="#{type}" itemValue="#{type.displayName}"/>
 
                                 </p:selectOneMenu>
+                                <p:message for="injuryType" />
 
                             </pm:field>
                             <pm:field>
-                                <!--<p:outputLabel value="Routine:" for="routine" />
-                                <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>-->
+                                <p:outputLabel value="Routine:" for="routine" />
+                                <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>
+                                <p:message for="routine" />
+                            </pm:field>
+                            <pm:field>
+                                <p:outputLabel value="Injured Parties" for="InjuredP" />
+                                <p:selectCheckboxMenu id="InjuredP" label="Injured Parties" value="#{manageHazardBean.theHazard.injuredPartyCollection}"
+                                                      converter="#{injuredPartyConverter}">
+                                    <f:selectItems value="#{manageHazardBean.injuredParties}" var="injParty"
+                                                   itemLabel="#{injParty.partyType}" itemValue="#{injParty}"/>
+
+                                </p:selectCheckboxMenu>
                             </pm:field>
 
 
@@ -112,11 +123,30 @@
 
 
                         </p:tab>
+                        <p:tab title="Control Measures">
+
+                            <p:selectOneMenu id="controlMeasure" value="#{manageHazardBean.theControlMeasure.controlCategory}" required="false">
+                                <f:selectItem itemLabel="Select Control Measure"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.controlMeasureValues}" var="cmVal"
+                                               itemLabel="#{cmVal.displayName}" itemValue="#{cmVal.displayName}"/>
+                            </p:selectOneMenu>
+                            <p:message for="controlMeasure"/>
+                            <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place" required="false"/>
+                            <p:message for="ControlText"/>
+                            <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
+                                             update="@form">
+                                <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                            </p:commandButton>
+                            <p:dataList value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm">
+                                <p:outputLabel value="#{cm.controlCategory}"/>
+                            </p:dataList>
+                        </p:tab>
                     </p:accordionPanel>
                     <!--</p:tabView>-->
-                    <p:commandButton  value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}">
+                    <p:commandButton id="saveHazard" value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" ajax="false">
                         <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
                     </p:commandButton>
+                    
                 </h:form>
 
 

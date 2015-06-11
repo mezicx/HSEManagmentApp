@@ -41,6 +41,7 @@ public abstract class AbstractFacade<T> {
             }
             return true;
         } else {
+            System.out.println("No COnstraint Violations for "+entity.toString());
             return false;
         }
     }
@@ -64,11 +65,15 @@ public abstract class AbstractFacade<T> {
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        if (!constraintValidationsDetected(entity)) {
+            getEntityManager().remove(getEntityManager().merge(entity));
+        }
     }
 
     public T find(Object id) {
+        
         return getEntityManager().find(entityClass, id);
+        
     }
 
     public List<T> findAll() {

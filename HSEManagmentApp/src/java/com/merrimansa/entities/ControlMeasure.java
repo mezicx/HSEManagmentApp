@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,7 +42,8 @@ public class ControlMeasure implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@NotNull
     @Column(name = "ControlId")
     private Integer controlId;
     @Basic(optional = false)
@@ -69,6 +72,15 @@ public class ControlMeasure implements Serializable {
         this.controlCategory = controlCategory;
     }
 
+    public ControlMeasure(String controlCategory, String controlDescription, Hazard hazardId) {
+        this.controlCategory = controlCategory;
+        this.controlDescription = controlDescription;
+        this.hazardId = hazardId;
+    }
+    
+    
+    
+    
     public Integer getControlId() {
         return controlId;
     }

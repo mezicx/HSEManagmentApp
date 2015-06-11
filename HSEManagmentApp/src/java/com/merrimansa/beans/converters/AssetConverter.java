@@ -45,8 +45,8 @@ public class AssetConverter implements Converter {
             return "";
         }
         
-        System.out.println("Here it is"+value.getClass().toString());
-        String foo = "";
+        //System.out.println("Here it is"+value.getClass().toString());
+        //String foo = "";
         
         if(value instanceof Asset){
             return String.valueOf(((Asset)value).getAssetId());

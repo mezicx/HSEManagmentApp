@@ -5,11 +5,12 @@
  */
 package com.merrimansa.beans;
 
-
 import com.merrimansa.ejb.HazardManagerFacade;
 import com.merrimansa.ejb.PrecontrolAssessmentFacade;
 import com.merrimansa.entities.Asset;
+import com.merrimansa.entities.ControlMeasure;
 import com.merrimansa.entities.Hazard;
+import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.structures.Categories;
 
 import com.merrimansa.structures.InjuryType;
@@ -25,7 +26,10 @@ import com.merrimansa.entities.PrecontrolAssessment;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.ProcessStep;
 import com.merrimansa.structures.AssessmentCalculator;
+import com.merrimansa.structures.ControlMeasureValues;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -43,23 +47,19 @@ public class ManageHazardBean implements Serializable {
 
     private Hazard theHazard;
 
+    private ControlMeasure theControlMeasure;
+
     private AssessmentCalculator AssessmentCalc;
-    
-    
+
     private String[] subcats;
 
     private Categories cats;
-
-    
 
     @Inject
     private Conversation conversation;
 
     @Inject
     HazardManagerFacade HMF;
-    
-    @Inject
-    PrecontrolAssessmentFacade PCAF;
 
     /**
      * Creates a new instance of ManageHazardBean
@@ -75,7 +75,7 @@ public class ManageHazardBean implements Serializable {
         cats = new Categories();
         AssessmentCalc = new AssessmentCalculator();
 
-       // if (conversation.isTransient()) {
+        // if (conversation.isTransient()) {
         //   System.out.println("Conversation is transient");
         conversation.begin();
         System.out.println("Conversation Id " + this.getConversationId());
@@ -89,20 +89,24 @@ public class ManageHazardBean implements Serializable {
 
             AssessmentId = Integer.parseInt(params.get("AssessmentId"));
         }
+        //Set theControlMeasure to an empty control measure entity
+        theControlMeasure = new ControlMeasure();
         //Get Hazard to be updated or create new one if none exists
         if (params.containsKey("HazardId") && params.get("HazardId") != null) {
 
             theHazard = HMF.getHazardByAssessment(Integer.parseInt(params.get("HazardId")));
-            
+
             subcats = cats.getCat().get(theHazard.getCategory());
 
+            theControlMeasure.setHazardId(theHazard);
+
         } else {
-            theHazard = new Hazard(1);
+            theHazard = new Hazard();
             theHazard.setAssessmentId(new ProcessAssessment(AssessmentId));
-            
+
         }
         //add a new precontrol assessment if one does not exisit
-        if(theHazard.getPrecontrolAssessment() == null){
+        if (theHazard.getPrecontrolAssessment() == null) {
             theHazard.setPrecontrolAssessment(new PrecontrolAssessment(1));
             theHazard.getPrecontrolAssessment().setHazardId(theHazard);
         }
@@ -116,8 +120,10 @@ public class ManageHazardBean implements Serializable {
     public void setAssesmentCalc(AssessmentCalculator AssesmentCalc) {
         this.AssessmentCalc = AssesmentCalc;
     }
-    
-    
+
+    public List<InjuredParty> getInjuredParties() {
+        return (List) HMF.getInjuredPartyCollection();
+    }
 
     public int getAssessmentId() {
         return AssessmentId;
@@ -127,7 +133,13 @@ public class ManageHazardBean implements Serializable {
         this.AssessmentId = AssessmentId;
     }
 
-    
+    public ControlMeasure getTheControlMeasure() {
+        return theControlMeasure;
+    }
+
+    public void setTheControlMeasure(ControlMeasure theControlMeasure) {
+        this.theControlMeasure = theControlMeasure;
+    }
 
     public Hazard getTheHazard() {
         return theHazard;
@@ -137,22 +149,25 @@ public class ManageHazardBean implements Serializable {
         this.theHazard = theHazard;
     }
 
+    /**
+     * Used to update sub categories selection box
+     */
     public void updateSubCategories() {
         //Check category is not null
-        System.out.println("Ajax has been called");
-        
+        //System.out.println("Ajax has been called");
+
         if (theHazard.getCategory() != null && !theHazard.getCategory().equals("")) {
 
             //if not null update subcategories
             //subcats = HMF.getSubCategory(theHazard.getCategory());
             System.out.println(theHazard.getCategory());
-            subcats= cats.getCat().get(theHazard.getCategory());
+            subcats = cats.getCat().get(theHazard.getCategory());
             theHazard.setSubCategory(null);
 
         } else {
             subcats = new String[0];
         }
-        System.out.println("Ajax call completed");
+        //System.out.println("Ajax call completed");
     }
 
     public String[] getCategories() {
@@ -174,21 +189,51 @@ public class ManageHazardBean implements Serializable {
         return (List) HMF.getPotentialAssests(AssessmentId);
     }
 
-    public List<ProcessStep>getProcessSteps(){
-        return (List)HMF.getProcessStepCollection(AssessmentId);
+    public List<ProcessStep> getProcessSteps() {
+        return (List) HMF.getProcessStepCollection(AssessmentId);
+    }
+
+    public ControlMeasureValues[] getControlMeasureValues() {
+        return HMF.getControlMeasures();
     }
 
     public String getConversationId() {
         return conversation.getId();
     }
 
+    public void addControlMeasure() {
+        //Check if Hazard is new
+        System.out.println("Conversation Id" + this.getConversationId());
+        if (theHazard.getControlMeasureCollection() != null) {
+            theHazard.getControlMeasureCollection().add(theControlMeasure);
+            System.out.println("Control Measure Collection Already exisited");
+        } else {
+            theControlMeasure.setHazardId(theHazard);
+            Collection<ControlMeasure> c;
+            c = new ArrayList<>();
+            c.add(theControlMeasure);
+            try {
+                theHazard.setControlMeasureCollection(c);
+               
+            } catch (Exception e) {
+                System.out.println("Problem adding collection");
+            }
+            System.out.println(theHazard.getControlMeasureCollection().toString());
+        }
+
+        theControlMeasure = new ControlMeasure();
+        theControlMeasure.setHazardId(theHazard);
+
+    }
+
     public void saveHazard() throws IOException {
 
         System.out.println("Save Called");
-        
-        
+
+        //for(ControlMeasure c : theHazard.getControlMeasureCollection()){
+        //  System.out.println("Category "+ c.getControlCategory()+" Hazard Id " +c.getHazardId().getHazardId());
+        //}
         //PCAF.create(theHazard.getPrecontrolAssessment());
-        
         HMF.saveHazard(theHazard);
 
         FacesContext context = FacesContext.getCurrentInstance();

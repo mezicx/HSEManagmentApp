@@ -50,7 +50,6 @@ public class Hazard implements Serializable {
     @Id
     @Basic(optional = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "HazardId")
     private Integer hazardId;
     @Basic(optional = false)
