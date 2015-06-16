@@ -35,7 +35,7 @@ public class UserManager {
         for (User u : userFacade.findAll()) {
             if (u.getActive()) {
                 users.add(new UserVO(u));
-                System.out.println("User "+u.getSurname());
+                //System.out.println("User "+u.getSurname());
             }
         }
 

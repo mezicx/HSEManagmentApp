@@ -9,6 +9,8 @@ import com.merrimansa.ejb.HazardFacade;
 import com.merrimansa.ejb.InjuredPartyFacade;
 import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.ejb.ProcessFacade;
+import com.merrimansa.ejb.UserFacade;
+import com.merrimansa.ejb.UserManagerFacade;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.InjuredParty;
@@ -18,8 +20,10 @@ import com.merrimansa.structures.InjuryType;
 import javax.inject.Inject;
 import com.merrimansa.entities.Process;
 import com.merrimansa.entities.ProcessStep;
+import com.merrimansa.entities.User;
 import com.merrimansa.structures.ControlMeasureValues;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -38,6 +42,10 @@ public class HazardManager {
     
     @Inject 
     private ProcessAssessmentFacade PAF;
+    
+    @Inject UserManagerFacade UMF;
+    
+    @Inject UserFacade UF;
     
     
     
@@ -106,8 +114,16 @@ public class HazardManager {
         return ControlMeasureValues.values();
     }
     
+    public List<UserVO> getUsers(){
+        return UMF.getActiveUsers();
+    }
+    
     public void deleteHazard(Hazard theHazard){
         
+    }
+    
+    public User getUser(int Id){
+        return UF.find(Id);
     }
     
     

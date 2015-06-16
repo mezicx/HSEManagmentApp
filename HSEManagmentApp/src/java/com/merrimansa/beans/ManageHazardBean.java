@@ -5,8 +5,10 @@
  */
 package com.merrimansa.beans;
 
+import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.HazardManagerFacade;
 import com.merrimansa.ejb.PrecontrolAssessmentFacade;
+import com.merrimansa.entities.Action;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.ControlMeasure;
 import com.merrimansa.entities.Hazard;
@@ -26,15 +28,18 @@ import javax.inject.Named;
 import com.merrimansa.entities.PrecontrolAssessment;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.ProcessStep;
+import com.merrimansa.entities.User;
 import com.merrimansa.structures.AssessmentCalculator;
 import com.merrimansa.structures.ControlMeasureValues;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.faces.application.FacesMessage;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -50,19 +55,27 @@ public class ManageHazardBean implements Serializable {
 
     private ControlMeasure theControlMeasure;
 
+    private ControlMeasure selectedControlMeasure;
+
+    private Action theAction;
+    
+   
+
     private AssessmentCalculator AssessmentCalc;
 
     private String[] subcats;
 
     private Categories cats;
-    
-    private final String emptyString ="";
+
+    private final String emptyString = "";
 
     @Inject
     private Conversation conversation;
 
     @Inject
     HazardManagerFacade HMF;
+            
+    private int theUserId;
 
     /**
      * Creates a new instance of ManageHazardBean
@@ -94,6 +107,12 @@ public class ManageHazardBean implements Serializable {
         }
         //Set theControlMeasure to an empty control measure entity
         theControlMeasure = new ControlMeasure();
+        
+       
+
+        //Set theAction to empty Action entity
+        theAction = new Action();
+        //theAction.setUserId(new User());
         //Get Hazard to be updated or create new one if none exists
         if (params.containsKey("HazardId") && params.get("HazardId") != null) {
 
@@ -113,7 +132,7 @@ public class ManageHazardBean implements Serializable {
             theHazard.setPrecontrolAssessment(new PrecontrolAssessment(1));
             theHazard.getPrecontrolAssessment().setHazardId(theHazard);
         }
-        if(theHazard.getPostcontrolAssessment() == null){
+        if (theHazard.getPostcontrolAssessment() == null) {
             theHazard.setPostcontrolAssessment(new PostcontrolAssessment(1));
             theHazard.getPostcontrolAssessment().setHazardId(theHazard);
         }
@@ -126,6 +145,14 @@ public class ManageHazardBean implements Serializable {
 
     public void setAssesmentCalc(AssessmentCalculator AssesmentCalc) {
         this.AssessmentCalc = AssesmentCalc;
+    }
+
+    public Action getTheAction() {
+        return theAction;
+    }
+
+    public void setTheAction(Action theAction) {
+        this.theAction = theAction;
     }
 
     public List<InjuredParty> getInjuredParties() {
@@ -155,15 +182,26 @@ public class ManageHazardBean implements Serializable {
     public void setTheHazard(Hazard theHazard) {
         this.theHazard = theHazard;
     }
+
+    public int getTheUserId() {
+        return theUserId;
+    }
+
+    public void setTheUserId(int theUserId) {
+        this.theUserId = theUserId;
+    }
+
+   
     
-    public boolean postControlRenderCheck(){
+
+    public boolean postControlRenderCheck() {
         Boolean render = false;
-        if(theHazard.getControlMeasureCollection() != null
-                && !theHazard.getControlMeasureCollection().isEmpty()){
-            
+        if (theHazard.getControlMeasureCollection() != null
+                && !theHazard.getControlMeasureCollection().isEmpty()) {
+
             render = true;
         }
-        
+
         return render;
     }
 
@@ -202,6 +240,15 @@ public class ManageHazardBean implements Serializable {
         return subcats;
     }
 
+    public ControlMeasure getSelectedControlMeasure() {
+        return selectedControlMeasure;
+    }
+
+    public void setSelectedControlMeasure(ControlMeasure selectedControlMeasure) {
+        System.out.println("selectedControl Measure set");
+        this.selectedControlMeasure = selectedControlMeasure;
+    }
+
     public List<Asset> getAssets() {
 
         return (List) HMF.getPotentialAssests(AssessmentId);
@@ -214,6 +261,10 @@ public class ManageHazardBean implements Serializable {
     public ControlMeasureValues[] getControlMeasureValues() {
         return HMF.getControlMeasures();
     }
+    
+    public List<UserVO> getUsers(){
+        return HMF.getUsers();
+    }
 
     public String getConversationId() {
         return conversation.getId();
@@ -222,9 +273,32 @@ public class ManageHazardBean implements Serializable {
     public String getEmptyString() {
         return emptyString;
     }
-    
-    
 
+    public void addAction() {
+        System.out.println("Add Action Called");
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (selectedControlMeasure.getActionCollection() == null) {
+            Collection<Action> c = new ArrayList();
+            selectedControlMeasure.setActionCollection(c);
+        }
+      
+            
+            theAction.setUserId(HMF.getUser(theUserId));
+            theAction.setControlId(selectedControlMeasure);
+            selectedControlMeasure.getActionCollection().add(theAction);
+            System.out.println("Action "+theAction.getControlId().getControlId() +" ");
+            theAction = new Action();
+            theAction.setUserId(HMF.getUser(theUserId));
+            theAction.setControlId(selectedControlMeasure);
+            System.out.println("Action Added Sucessfully");
+            context.addMessage(null, new FacesMessage("Success","Action added"));
+       
+       
+    }
+
+    /**
+     * Used to add a control measure to the hazard
+     */
     public void addControlMeasure() {
         //Check if Hazard is new
         System.out.println("Conversation Id" + this.getConversationId());
@@ -238,11 +312,11 @@ public class ManageHazardBean implements Serializable {
             c.add(theControlMeasure);
             try {
                 theHazard.setControlMeasureCollection(c);
-               
+
             } catch (Exception e) {
                 System.out.println("Problem adding collection");
             }
-            System.out.println(theHazard.getControlMeasureCollection().toString());
+            //System.out.println(theHazard.getControlMeasureCollection().toString());
         }
 
         theControlMeasure = new ControlMeasure();

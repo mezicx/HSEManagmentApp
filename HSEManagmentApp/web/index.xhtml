@@ -9,6 +9,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+         
         <p:panel id="header"  style="margin-bottom:10px;" >
             <h:graphicImage value="images/Conti.jpg" alt="it should be here"/>
         </p:panel>  
@@ -17,133 +18,12 @@
             <h:form>
 
                 <pm:field>
-                    <p:button value="Goto Login" outcome="/Secure/mobile/mobileDashBoard"/>
+                    <p:button value="Login" outcome="/Secure/mobile/mobileDashBoard"/>
                 </pm:field>
-                <f:view>
-
-
-                    <h:form>
-                        <p:commandLink actionListener="#{someRandomBean.logout}">
-                            <h:outputText value ="This is a command link"/>
-                        </p:commandLink>
-                        <h1><h:outputText value="System users"/></h1>
-                        <p:dataTable value="#{userBean.users}" var="item">
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="UserId"/>
-                                </f:facet>
-                                <h:outputText value="#{item.userId}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Forename"/>
-                                </f:facet>
-                                <h:outputText value="#{item.forename}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Surname"/>
-                                </f:facet>
-                                <h:outputText value="#{item.surname}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Email"/>
-                                </f:facet>
-                                <h:outputText value="#{item.email}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Password"/>
-                                </f:facet>
-                                <h:outputText value="#{item.password}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Active"/>
-                                </f:facet>
-                                <h:outputText value="#{item.active}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-                </f:view>
-                
-                <p:panel menuTitle="Assessments">
-                    <f:view>
-
-
-                        <h:form>
-                            <h1><h:outputText value="List"/></h1>
-                            <p:dataTable value="#{processAssessmentBean.assessments}" var="item">
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="AssessmentId"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.assessmentId}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Title"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.title}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="ReferenceNumber"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.referenceNumber}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="AssessmentDate"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.assessmentDate}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                                    </h:outputText>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Preamble"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.preamble}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Approved"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.approved}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Submitted"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.submitted}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Process"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.processId.processName}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="User"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.userId.forename} #{item.userId.surname}"/>
-                                </p:column>
-                                
-                            </p:dataTable>
-                        </h:form>
-                    </f:view>
-
-                </p:panel>
-
-                
-            </h:form>
-            <p:panel>
-                
-            </p:panel>
+            </h:form>              
+            
         </p:panel>
+        
     </h:body>
 </html>
 

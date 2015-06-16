@@ -6,14 +6,17 @@
 package com.merrimansa.ejb;
 
 import com.merrimansa.businessObjects.HazardManager;
+import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.ProcessStep;
+import com.merrimansa.entities.User;
 import com.merrimansa.structures.Categories;
 import com.merrimansa.structures.ControlMeasureValues;
 import com.merrimansa.structures.InjuryType;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -70,5 +73,13 @@ public class HazardManagerFacade {
         System.out.println("Save called in manager facade");
          
          HM.saveHazard(theHazard);
+     }
+     
+     public List<UserVO> getUsers(){
+         return HM.getUsers();
+     }
+     
+     public User getUser(int Id){
+         return HM.getUser(Id);
      }
 }

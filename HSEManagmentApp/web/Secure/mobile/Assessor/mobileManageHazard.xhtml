@@ -18,11 +18,30 @@
             <ui:define name="content">
 
 
-
+                
                 <h:form>
+                    <p:growl id="growl" autoUpdate="true" sticky="true"/>
                     <h:messages/>
+
+                    <p:dialog id='action' widgetVar="actionDialog">
+                        <h:outputText value="Add Action"/>
+                        <p:selectOneMenu id="users" value="#{manageHazardBean.theUserId}" required="false">
+                            <f:selectItem itemLabel="Select User"  noSelectionOption="true" />
+                            <f:selectItems value="#{manageHazardBean.users}" var="userList"
+                                           itemLabel="#{userList.fullName}" itemValue="#{userList.userId}"/>
+
+                        </p:selectOneMenu>
+                        <p:inputTextarea id="actionText" value="#{manageHazardBean.theAction.actionDescription}" title="Action Text" required="false" />
+                        <p:commandButton id="addAction" update="growl"  value="Add Action" process="action"
+                                         oncomplete="PF('actionDialog').hide();" actionListener="#{manageHazardBean.addAction()}" ajax="true">
+                            <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
+                        </p:commandButton>
+
+                    </p:dialog>
+
+
                     <!--<p:tabView id="hazardtab" >-->
-                    <p:accordionPanel>
+                    <p:accordionPanel id="acPanel">
                         <p:tab title="Select Process Step">
                             <pm:field>
                                 <p:selectOneMenu id="ProcessStep" value="#{manageHazardBean.theHazard.processStepId}" converter="#{processStepConverter}">
@@ -109,65 +128,88 @@
                             </pm:field>
                         </p:tab>
                         <p:tab title="Precontrol Assessment">
-                            <p:outputLabel value="Likelihood:" for="like" />
-                            <p:selectOneMenu id="like" value="#{manageHazardBean.theHazard.precontrolAssessment.likelihood}"  >
-                                <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
-                                <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
-                            </p:selectOneMenu>
-
+                            <pm:field>
+                                <p:outputLabel value="Likelihood:" for="like" />
+                                <p:selectOneMenu id="like" value="#{manageHazardBean.theHazard.precontrolAssessment.likelihood}"  >
+                                    <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
+                                    <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
+                                </p:selectOneMenu>
+                            </pm:field>
+                            <pm:field>
                             <p:outputLabel value="Severity:" for="sev" />
                             <p:selectOneMenu id="sev" value="#{manageHazardBean.theHazard.precontrolAssessment.consequence}"  >
                                 <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
                                 <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
                             </p:selectOneMenu>
-
+                            </pm:field>
 
                         </p:tab>
-                        
+
                         <!--Post Control Measure Code-->
-                        <p:tab title="Control Measures">
+                        <p:tab title="Control Measures" id="cmTab">
+                            <pm:field>
+                                <p:selectOneMenu id="controlMeasure" value="#{manageHazardBean.theControlMeasure.controlCategory}"
+                                                 required="false" requiredMessage="Control Measure Is Required"  validatorMessage="Control Measure must have value">
+                                    <f:selectItem itemLabel="Select Control Measure" value="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{manageHazardBean.controlMeasureValues}" var="cmVal"
+                                                   itemLabel="#{cmVal.displayName}" itemValue="#{cmVal.displayName}"/>
+                                </p:selectOneMenu>
+                                <p:message for="controlMeasure"/>
+                            </pm:field>
+                            <pm:field>
 
-                            <p:selectOneMenu id="controlMeasure" value="#{manageHazardBean.theControlMeasure.controlCategory}"
-                                             required="false" requiredMessage="Control Measure Is Required"  validatorMessage="Control Measure must have value">
-                                <f:selectItem itemLabel="Select Control Measure" value="#{null}" noSelectionOption="true"/>
-                                <f:selectItems value="#{manageHazardBean.controlMeasureValues}" var="cmVal"
-                                               itemLabel="#{cmVal.displayName}" itemValue="#{cmVal.displayName}"/>
-                            </p:selectOneMenu>
-                            <p:message for="controlMeasure"/>
-                            <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place" required="false"/>
-                            <p:message for="ControlText"/>
-                            <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
-                                             update="@form">
-                                <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
-                            </p:commandButton>
-                            <p:dataList value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm">
-                                <p:outputLabel value="#{cm.controlCategory}"/>
-                            </p:dataList>
+
+                                <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place" required="false"/>
+                                <p:message for="ControlText"/>
+                            </pm:field>
+                            <pm:field>
+                                <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
+                                                  update="@form" process="cmTab">
+                                    <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                </p:commandButton>
+                            </pm:field>
+                            <pm:field>
+
+
+                                <p:dataTable id="cmTable" value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm">
+                                    <p:column>
+                                        <p:outputLabel value="#{cm.controlCategory}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton  oncomplete="PF('actionDialog').show();" value="Add Action" process="@this" >
+                                            <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                            <f:setPropertyActionListener value="#{cm}" target="#{manageHazardBean.selectedControlMeasure}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </pm:field>
                         </p:tab>
-                        
+
                         <!--Post Control Assessment Code-->
-                        <p:tab title="Post Control Assessment" rendered="#{manageHazardBean.postControlRenderCheck()}">
-                           
+                        <p:tab id="pcTab" title="Post Control Assessment" rendered="#{manageHazardBean.postControlRenderCheck()}">
+                            <pm:field>
                             <p:outputLabel value="Likelihood:" for="likePost" />
-                            <p:selectOneMenu id="likePost" value="#{manageHazardBean.theHazard.postcontrolAssessment.likelihood}"  >
+                            <p:selectOneMenu id="likePost" value="#{manageHazardBean.theHazard.postcontrolAssessment.likelihood}" required="false"  >
                                 <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
                                 <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
                             </p:selectOneMenu>
-
+                            </pm:field>
+                            <pm:field>
                             <p:outputLabel value="Severity:" for="sevPost" />
-                            <p:selectOneMenu id="sevPost" value="#{manageHazardBean.theHazard.postcontrolAssessment.consequence}"  >
+                            <p:selectOneMenu id="sevPost" value="#{manageHazardBean.theHazard.postcontrolAssessment.consequence}" required="false" >
                                 <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
                                 <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
                             </p:selectOneMenu>
-                            
+                            </pm:field>
+
                         </p:tab>
-                            
+
                     </p:accordionPanel>
                     <!--</p:tabView>-->
-                    <p:commandButton id="saveHazard" value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" ajax="false">
+                    <p:commandButton id="saveHazard" value="Save Hazard" actionListener="#{manageHazardBean.saveHazard()}" ajax="false" process="acPanel">
                         <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
                     </p:commandButton>
-                    
+
                 </h:form>
 
 
