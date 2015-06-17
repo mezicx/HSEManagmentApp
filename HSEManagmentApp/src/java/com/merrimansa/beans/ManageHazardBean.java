@@ -40,6 +40,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -76,6 +77,8 @@ public class ManageHazardBean implements Serializable {
     HazardManagerFacade HMF;
             
     private int theUserId;
+    
+    private UploadedFile theFile;
 
     /**
      * Creates a new instance of ManageHazardBean
@@ -138,6 +141,17 @@ public class ManageHazardBean implements Serializable {
         }
 
     }
+
+    public UploadedFile getTheFile() {
+        return theFile;
+    }
+
+    public void setTheFile(UploadedFile theFile) {
+        this.theFile = theFile;
+        System.out.println("The file name is: " + theFile.getFileName());
+    }
+    
+    
 
     public AssessmentCalculator getAssesmentCalc() {
         return AssessmentCalc;

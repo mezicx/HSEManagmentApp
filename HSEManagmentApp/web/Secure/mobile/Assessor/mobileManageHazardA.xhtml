@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <!--Message display -->
+                    <p:growl id="growl" autoUpdate="true" sticky="true"/>
+                    <p:accordionPanel>
+
+
+
+                        <!--Process Step Selection -->
+                        <p:tab id="processStep" title="Process Step">
+
+                            <p:selectOneMenu id="pStepMenu" value="#{manageHazardBean.theHazard.processStepId}"
+                                             converter="#{processStepConverter}">
+                                <f:selectItem itemLabel="Select Process Step" noSelectionOption="true"/>
+                                <f:selectItems value="#{manageHazardBean.processSteps}" var="pStep"
+                                               itemValue="#{pStep}" itemLabel="#{pStep.processStepName}"/>
+                            </p:selectOneMenu>
+
+                        </p:tab>
+                        <!--Category Selection -->
+                        <p:tab id="category" title="Category Selection">
+                            <p:selectOneMenu id="catMenu" value="#{manageHazardBean.theHazard.category}">
+                                <p:ajax process="@this" listener="#{manageHazardBean.updateSubCategories}"  update="wrapper"  />
+                                <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+
+                                <f:selectItems value="#{manageHazardBean.categories}"/>
+                            </p:selectOneMenu>
+
+                            <p:panel id="wrapper">
+                                <p:selectOneMenu id="subCatMenu" value="#{manageHazardBean.theHazard.subCategory}">
+                                    <f:selectItem itemLabel="Select Sub Category" noSelectionOption="true"/>
+                                    <f:selectItems value="#{manageHazardBean.subCategory}" var="subCat" 
+                                                   itemValue="#{subCat}" itemLabel="#{subCat}"/>
+                                </p:selectOneMenu>
+                            </p:panel>
+
+                        </p:tab>
+
+                        <!--How Input -->
+                        <p:tab id="howTab" title="How">
+                            <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" />
+                            <p:fileUpload value="#{manageHazardBean.theFile}" mode="simple"  />
+                        </p:tab>
+                        <!--Injury Types -->
+                        <p:tab id="injTypeTab" title="Injury Selection">
+                            <p:selectOneMenu id="injuryType" value="#{manageHazardBean.theHazard.injuryType}">
+                                <f:selectItem itemLabel="Select Injury Type" noSelectionOption="true"/>    
+                                <f:selectItems value="#{manageHazardBean.injuryTypes}" var="type"
+                                               itemLabel="#{type}" itemValue="#{type.displayName}"/>
+
+                            </p:selectOneMenu>
+
+                            <p:selectBooleanCheckbox id="routine" itemLabel="Routine?" value="#{manageHazardBean.theHazard.routine}"/>
+
+                            <p:selectCheckboxMenu id="InjuredP" label="Injured Parties" value="#{manageHazardBean.theHazard.injuredPartyCollection}"
+                                                  converter="#{injuredPartyConverter}">
+                                <f:selectItems value="#{manageHazardBean.injuredParties}" var="injParty"
+                                               itemLabel="#{injParty.partyType}" itemValue="#{injParty}"/>
+
+                            </p:selectCheckboxMenu>
+                        </p:tab>
+                        <!--Asset Selection -->
+                        <p:tab id="assetTab" title="Asset Selection">
+                            <p:selectOneMenu id="assetId" value="#{manageHazardBean.theHazard.assetId}" converter="#{assetConverter}" >
+                                <f:selectItem itemLabel="Select Asset"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assets}" var="asset"
+                                               itemValue="#{asset}"  itemLabel="#{asset.assetName}"  />
+                            </p:selectOneMenu>
+                        </p:tab>
+                        <!--Pre Control -->
+                        <p:tab id="preContTab" title="Pre Control Assessment">
+                            <p:selectOneMenu id="like" value="#{manageHazardBean.theHazard.precontrolAssessment.likelihood}"  >
+                                <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="sev" value="#{manageHazardBean.theHazard.precontrolAssessment.consequence}"  >
+                                <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
+                            </p:selectOneMenu>
+                        </p:tab>
+                        <!--Control Measures -->
+                        <p:tab id="contMeaTab" title="Control Measures">
+                            <p:panel id="cmWrapper">
+
+
+                                <p:selectOneMenu id="contMeaMenu" value="#{manageHazardBean.theControlMeasure.controlCategory}">
+                                    <f:selectItem itemLabel="Select Control Measure" noSelectionOption="true"/>
+                                    <f:selectItems value="#{manageHazardBean.controlMeasureValues}" var="cmVal"
+                                                   itemLabel="#{cmVal.displayName}" itemValue="#{cmVal.displayName}"/>
+                                </p:selectOneMenu>
+
+                                <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place"/>
+
+                                <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
+                                                  update="cmWrapper" process="cmWrapper">
+                                    <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                </p:commandButton>
+
+                                <p:dataTable id="cmTable" value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm">
+                                    <p:column>
+                                        <p:outputLabel value="#{cm.controlCategory}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton  oncomplete="PF('actionDialog').show();" value="Add Action" process="@this" >
+                                            <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
+                                            <f:setPropertyActionListener value="#{cm}" target="#{manageHazardBean.selectedControlMeasure}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="postContTab" title="Post Control Assessment">
+                            <p:selectOneMenu id="likePost" value="#{manageHazardBean.theHazard.postcontrolAssessment.likelihood}" required="false"  >
+                                <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu id="sevPost" value="#{manageHazardBean.theHazard.postcontrolAssessment.consequence}" required="false" >
+                                <f:selectItem itemLabel="Select Severity"  noSelectionOption="true" />
+                                <f:selectItems value="#{manageHazardBean.assesmentCalc.severity}"   />
+                            </p:selectOneMenu>
+                        </p:tab>
+
+
+                    </p:accordionPanel>
+                    
+                    <p:commandButton id="saveHazard" value="Save Hazard"  actionListener="#{manageHazardBean.saveHazard()}" ajax="false" process="@form">
+                        <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
+                    </p:commandButton>
+                    
+                     <p:dialog id='action' widgetVar="actionDialog">
+                        <h:outputText value="Add Action"/>
+                        <p:selectOneMenu id="users" value="#{manageHazardBean.theUserId}" required="false">
+                            <f:selectItem itemLabel="Select User"  noSelectionOption="true" />
+                            <f:selectItems value="#{manageHazardBean.users}" var="userList"
+                                           itemLabel="#{userList.fullName}" itemValue="#{userList.userId}"/>
+
+                        </p:selectOneMenu>
+                        <p:inputTextarea id="actionText" value="#{manageHazardBean.theAction.actionDescription}" title="Action Text" required="false" />
+                        <p:commandButton id="addAction" update="growl"  value="Add Action" process="action"
+                                         oncomplete="PF('actionDialog').hide();" actionListener="#{manageHazardBean.addAction()}" ajax="true">
+                            <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
+                        </p:commandButton>
+
+                    </p:dialog>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

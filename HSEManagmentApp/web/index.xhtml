@@ -9,11 +9,11 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-         
+
         <p:panel id="header"  style="margin-bottom:10px;" >
             <h:graphicImage value="images/Conti.jpg" alt="it should be here"/>
         </p:panel>  
-        
+
         <p:panel id="panel" header="Dunlop Oil and Marine Process Safety Assessment App" style="margin-bottom:10px;" >  
             <h:form>
 
@@ -21,9 +21,45 @@
                     <p:button value="Login" outcome="/Secure/mobile/mobileDashBoard"/>
                 </pm:field>
             </h:form>              
-            
+
         </p:panel>
         
+        <p:panel header="Release Notes for V0.1.1">
+
+            
+            <h2>New Features</h2>
+            <ul type="disc">
+                <li>None</li>
+            </ul>
+            <h2>Bug Fixes</h2>
+            <ul type="disc">
+                <li>Fixed issue where all fields required filling in when adding or updating hazards</li>
+            </ul>
+            <h2>Known Issues</h2>
+            <ul type="disc">
+                <li>Sometimes logging in will not work even when correct credentials are entered</li>
+                <li>Certain combinations of events cause the injured party combobox not to be populated</li>
+            </ul>
+
+        </p:panel>
+        <p:panel header="Release Notes for V0.1">
+
+            
+            <h2>New Features</h2>
+            <ul>
+                <li>Initial release V0.1</li>
+            </ul>
+            <h2>Known Issues</h2>
+            <ul type="disc">
+                <li>Sometimes logging in will not work even when correct credentials are entered</li>
+                <li>When adding or updating Hazards all fields must be filled in even if they are not committed i.e Control measure must be selected</li>
+                <li>Certain combinations of events cause the injured party combobox not to be populated</li>
+            </ul>
+
+        </p:panel>
+        
+        
+
     </h:body>
 </html>
 

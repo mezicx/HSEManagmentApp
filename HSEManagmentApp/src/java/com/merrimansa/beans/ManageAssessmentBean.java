@@ -6,7 +6,6 @@
 package com.merrimansa.beans;
 
 import com.merrimansa.businessObjects.UserVO;
-import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.ejb.ProcessAssessmentManagerFacade;
 import com.merrimansa.ejb.UserManagerFacade;
 import com.merrimansa.entities.Hazard;
@@ -15,15 +14,12 @@ import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.structures.InjuryType;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;

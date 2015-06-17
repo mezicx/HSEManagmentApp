@@ -41,8 +41,8 @@ public class Action implements Serializable {
     @Column(name = "ActionId")
     private Integer actionId;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 500)
+    //@NotNull
+    @Size(min = 0, max = 500)
     @Column(name = "ActionDescription")
     private String actionDescription;
     @JoinColumn(name = "ControlId", referencedColumnName = "ControlId")

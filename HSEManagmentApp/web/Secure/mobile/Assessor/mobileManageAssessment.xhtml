@@ -16,7 +16,7 @@
                 <f:view>
 
 
-                    <h:form>
+                    <h:form enctype="multipart/form-data">
                         <p:growl id="growl"  showDetail="true" autoUpdate="true"/>
                         <h1><h:outputText value="Conduct/Modify Assessment"/></h1>
 
@@ -71,7 +71,7 @@
                                     </p:column>
                                     
                                     <p:column>
-                                        <p:link outcome="mobileManageHazard" value="Update">
+                                        <p:link outcome="mobileManageHazardA" value="Update">
                                             <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
                                             <f:param name="HazardId" value="#{item.hazardId}"/>
                                         </p:link>
@@ -81,7 +81,7 @@
                                 </p:dataTable>
 
                                 <pm:field>
-                                    <p:button value="Add Hazard" outcome="mobileManageHazard">
+                                    <p:button value="Add Hazard" outcome="mobileManageHazardA">
                                         <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
                                     </p:button>
                                 </pm:field>

@@ -47,7 +47,7 @@ public class ControlMeasure implements Serializable {
     @Column(name = "ControlId")
     private Integer controlId;
     @Basic(optional = false)
-    @NotNull
+    
     @Size(min = 1, max = 50)
     @Column(name = "ControlCategory")
     private String controlCategory;

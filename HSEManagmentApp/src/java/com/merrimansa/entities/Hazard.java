@@ -53,12 +53,12 @@ public class Hazard implements Serializable {
     @Column(name = "HazardId")
     private Integer hazardId;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Size(min = 1, max = 25)
     @Column(name = "Category")
     private String category;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Size(min = 1, max = 25)
     @Column(name = "SubCategory")
     private String subCategory;
