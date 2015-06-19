@@ -49,4 +49,13 @@ public class ProcessAssessmentManagerFacade {
         PSM.addTeamMember(UserID, AssessmentId);
     }
     
+    public List<ProcessAssessment> getSubmittedAssessments(){
+        return PSM.getSubmittedAssessments();
+    }
+    
+    
+    
+    public void setApproved(int assessmentId){
+        PSM.setApproved(assessmentId);
+    }
 }

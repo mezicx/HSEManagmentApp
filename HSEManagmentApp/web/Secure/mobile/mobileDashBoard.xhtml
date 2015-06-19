@@ -24,7 +24,7 @@
                             <f:view>
                                 <h:form>
 
-                                    <p:dataTable  value="#{mobileDashBoardBean.usersAssessments}" var="item">
+                                    <p:dataTable  value="#{mobileDashBoardBean.usersAssessments}" var="item" >
 
                                         <p:column headerText="Title">
                                            
@@ -37,7 +37,7 @@
                                         <p:column headerText="Assessment Date">
                                             
                                             <h:outputText value="#{item.assessmentDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Department">
@@ -45,9 +45,9 @@
                                             <h:outputText value="#{item.processId.departmentId.departmentName}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:link value="Conduct/Update"  outcome="Assessor/mobileManageAssessment">
+                                            <p:button   outcome="Assessor/mobileManageAssessment" icon="ui-icon-edit">
                                                 <f:param name="AssessmentId" value="#{item.assessmentId}"/>
-                                            </p:link>
+                                            </p:button>
                                         </p:column>
 
                                     </p:dataTable>
@@ -58,9 +58,10 @@
                         <p:tab title="HSE Manager Links" rendered="#{mobileDashBoardBean.renderChecker('HSEManager')}" >
 
                             <p:button value="List and Assign Required Assessments" outcome="mobileAssignAssessment"/>
-                            <p:button value="Aprove Submitted Assessments"/>
+                            <p:button value="Aprove Submitted Assessments" disabled="true"/>
+                            <p:button value="View Outstanding Actions" disabled="true"/>
 
-                            <p:button value="Aprove Submitted Assessments"/>
+                            <p:button value="Manage Processes" outcome="/Secure/Desktop/Assessor/HSEManager/ProcessManager"/>
 
                         </p:tab>
                     </p:accordionPanel>

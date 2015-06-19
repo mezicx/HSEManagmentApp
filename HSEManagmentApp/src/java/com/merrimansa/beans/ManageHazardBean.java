@@ -5,6 +5,7 @@
  */
 package com.merrimansa.beans;
 
+import com.merrimansa.beans.converters.ImageProcessor;
 import com.merrimansa.businessObjects.UserVO;
 import com.merrimansa.ejb.HazardManagerFacade;
 import com.merrimansa.ejb.PrecontrolAssessmentFacade;
@@ -12,6 +13,7 @@ import com.merrimansa.entities.Action;
 import com.merrimansa.entities.Asset;
 import com.merrimansa.entities.ControlMeasure;
 import com.merrimansa.entities.Hazard;
+import com.merrimansa.entities.Image;
 import com.merrimansa.entities.InjuredParty;
 import com.merrimansa.entities.PostcontrolAssessment;
 import com.merrimansa.structures.Categories;
@@ -34,6 +36,7 @@ import com.merrimansa.structures.ControlMeasureValues;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 import javax.faces.application.FacesMessage;
 
 import javax.faces.context.ExternalContext;
@@ -59,8 +62,6 @@ public class ManageHazardBean implements Serializable {
     private ControlMeasure selectedControlMeasure;
 
     private Action theAction;
-    
-   
 
     private AssessmentCalculator AssessmentCalc;
 
@@ -75,9 +76,9 @@ public class ManageHazardBean implements Serializable {
 
     @Inject
     HazardManagerFacade HMF;
-            
+
     private int theUserId;
-    
+
     private UploadedFile theFile;
 
     /**
@@ -110,8 +111,6 @@ public class ManageHazardBean implements Serializable {
         }
         //Set theControlMeasure to an empty control measure entity
         theControlMeasure = new ControlMeasure();
-        
-       
 
         //Set theAction to empty Action entity
         theAction = new Action();
@@ -150,8 +149,6 @@ public class ManageHazardBean implements Serializable {
         this.theFile = theFile;
         System.out.println("The file name is: " + theFile.getFileName());
     }
-    
-    
 
     public AssessmentCalculator getAssesmentCalc() {
         return AssessmentCalc;
@@ -204,9 +201,6 @@ public class ManageHazardBean implements Serializable {
     public void setTheUserId(int theUserId) {
         this.theUserId = theUserId;
     }
-
-   
-    
 
     public boolean postControlRenderCheck() {
         Boolean render = false;
@@ -275,9 +269,24 @@ public class ManageHazardBean implements Serializable {
     public ControlMeasureValues[] getControlMeasureValues() {
         return HMF.getControlMeasures();
     }
-    
-    public List<UserVO> getUsers(){
+
+    public List<UserVO> getUsers() {
         return HMF.getUsers();
+    }
+
+    public Image getImage() {
+
+        Image im = new Image();
+        im.setImageData(emptyString);
+        if (theHazard.getImageCollection() != null) {
+            if (!theHazard.getImageCollection().isEmpty()) {
+                for (Image img : theHazard.getImageCollection()) {
+                    im = img;
+                }
+            }
+        }
+
+        return im;
     }
 
     public String getConversationId() {
@@ -295,19 +304,17 @@ public class ManageHazardBean implements Serializable {
             Collection<Action> c = new ArrayList();
             selectedControlMeasure.setActionCollection(c);
         }
-      
-            
-            theAction.setUserId(HMF.getUser(theUserId));
-            theAction.setControlId(selectedControlMeasure);
-            selectedControlMeasure.getActionCollection().add(theAction);
-            System.out.println("Action "+theAction.getControlId().getControlId() +" ");
-            theAction = new Action();
-            theAction.setUserId(HMF.getUser(theUserId));
-            theAction.setControlId(selectedControlMeasure);
-            System.out.println("Action Added Sucessfully");
-            context.addMessage(null, new FacesMessage("Success","Action added"));
-       
-       
+
+        theAction.setUserId(HMF.getUser(theUserId));
+        theAction.setControlId(selectedControlMeasure);
+        selectedControlMeasure.getActionCollection().add(theAction);
+        System.out.println("Action " + theAction.getControlId().getControlId() + " ");
+        theAction = new Action();
+        theAction.setUserId(HMF.getUser(theUserId));
+        theAction.setControlId(selectedControlMeasure);
+        System.out.println("Action Added Sucessfully");
+        context.addMessage(null, new FacesMessage("Success", "Action added"));
+
     }
 
     /**
@@ -341,6 +348,31 @@ public class ManageHazardBean implements Serializable {
     public void saveHazard() throws IOException {
 
         System.out.println("Save Called");
+
+        if (this.theFile != null && !theFile.getFileName().equalsIgnoreCase("")) {
+            try {
+                ImageProcessor ip = new ImageProcessor();
+
+                Image i = new Image();
+                i.setImageData(ip.processImage(theFile));
+                i.setHazardId(theHazard);
+                i.setImageName(theFile.getFileName());
+                Random r = new Random();
+                i.setImageId(r.nextInt(200)+20000);
+                
+                if (theHazard.getImageCollection()!=null) {
+
+                    theHazard.getImageCollection().add(i);
+                } else {
+                    Collection<Image> c = new ArrayList();
+                    c.add(i);
+                    theHazard.setImageCollection(c);
+                }
+                System.out.println("Image added sucessfully");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         //for(ControlMeasure c : theHazard.getControlMeasureCollection()){
         //  System.out.println("Category "+ c.getControlCategory()+" Hazard Id " +c.getHazardId().getHazardId());

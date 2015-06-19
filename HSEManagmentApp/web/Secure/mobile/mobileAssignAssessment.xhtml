@@ -10,18 +10,20 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
+        <ui:composition template="/Templates/desktop/dtTemplate.xhtml">
             <ui:define name="content">
                 <pm:header title="Assign Assessments"></pm:header>
                 <pm:content>
+                    <p:panel>
                     <h:form>
                         <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+                        <p:panelGrid columns="1">
                         <p:selectOneMenu value="#{assignAssessmentBean.assignedUser}" filter="true">
                             <f:selectItems value="#{assignAssessmentBean.assessorList}"/>
                         </p:selectOneMenu>
 
 
-                        <p:dataTable value="#{assignAssessmentBean.requiredAssessments}" var="item"
+                        <p:dataTable id="dt" value="#{assignAssessmentBean.requiredAssessments}" var="item"
                                      rowKey="#{item.processId}">
                             <p:column headerText="Process">
 
@@ -40,14 +42,14 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:commandButton update="@all" value="Assign Selected Assessments" actionListener="#{assignAssessmentBean.assignAssessments()}"/> 
+                        <p:commandButton update="@form" value="Assign Selected Assessments" actionListener="#{assignAssessmentBean.assignAssessments()}"/> 
 
-
+</p:panelGrid>
 
 
                     </h:form>
 
-
+</p:panel>
 
                 </pm:content>
 

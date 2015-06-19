@@ -43,11 +43,11 @@ public class PostcontrolAssessment implements Serializable {
     @Column(name = "AssessmentId")
     private Integer assessmentId;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "Consequence")
     private int consequence;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "Likelihood")
     private int likelihood;
     @JoinColumn(name = "HazardId", referencedColumnName = "HazardId")

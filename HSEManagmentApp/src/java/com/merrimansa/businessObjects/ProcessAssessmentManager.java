@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
 /**
@@ -173,6 +174,25 @@ public class ProcessAssessmentManager {
         
         
     }
+    
+    public List<ProcessAssessment> getSubmittedAssessments(){
+       List<ProcessAssessment> AssessmentsForApproval = new ArrayList();
+       
+       for(ProcessAssessment p:pAFacade.findAll()){
+           if(p.getSubmitted() && !p.getApproved()){
+               AssessmentsForApproval.add(p);
+           }
+       }
+       
+       return AssessmentsForApproval;
+    }
+    
+    @RolesAllowed("HSEManager")
+    public void setApproved(int assessmentId){
+        pAFacade.find(assessmentId).setApproved(true);
+    }
+    
+    
 
     
     

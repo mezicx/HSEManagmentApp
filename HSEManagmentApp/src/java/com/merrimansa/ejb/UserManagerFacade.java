@@ -22,12 +22,12 @@ public class UserManagerFacade {
     @Inject
     UserManager userManager;
     
-    @RolesAllowed({"HSEManager","Administrator"})
+    @RolesAllowed({"HSEManager","Administrator","Assessor"})
     public List<UserVO> getActiveUsers(String Role){
         return userManager.getActiveUsers(Role);
     }
     
-    @RolesAllowed({"HSEManager","Administrator"})
+    @RolesAllowed({"HSEManager","Administrator","Assessor"})
     public List<UserVO> getActiveUsers(){
         return userManager.getActiveUsers();
     }

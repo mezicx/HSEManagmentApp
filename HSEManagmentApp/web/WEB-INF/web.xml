@@ -10,7 +10,7 @@
     </context-param>
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
-        <param-value>commons</param-value>
+        <param-value>auto</param-value>
     </context-param>
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
@@ -79,6 +79,37 @@
             <description/>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>dtAssessorsAbove</display-name>
+        <web-resource-collection>
+            <web-resource-name>dtAssessorsAbove</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Secure/Desktop/Assessor/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>HSEManager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>Assessor</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>dtHSEManagerAbove</display-name>
+        <web-resource-collection>
+            <web-resource-name>dtHSEManagerAbove</web-resource-name>
+            <description/>
+            <url-pattern>/faces/Secure/mobile/Assessor/HSEManager/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>HSEManager</role-name>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>

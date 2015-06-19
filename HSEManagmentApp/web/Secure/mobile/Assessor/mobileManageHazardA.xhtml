@@ -12,7 +12,7 @@
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
 
             <ui:define name="content">
-                <h:form>
+                <h:form enctype="multipart/form-data">
                     <!--Message display -->
                     <p:growl id="growl" autoUpdate="true" sticky="true"/>
                     <p:accordionPanel>
@@ -52,7 +52,8 @@
                         <!--How Input -->
                         <p:tab id="howTab" title="How">
                             <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" />
-                            <p:fileUpload value="#{manageHazardBean.theFile}" mode="simple"  />
+                            <p:fileUpload value="#{manageHazardBean.theFile}" mode="simple" />
+                            <p:graphicImage value="data:image/jpg;base64,#{manageHazardBean.image.imageData}"/>
                         </p:tab>
                         <!--Injury Types -->
                         <p:tab id="injTypeTab" title="Injury Selection">
@@ -105,7 +106,7 @@
                                 <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place"/>
 
                                 <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
-                                                  update="cmWrapper" process="cmWrapper">
+                                                  update="cmWrapper,postContTab" process="cmWrapper">
                                     <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
                                 </p:commandButton>
 
@@ -123,7 +124,7 @@
                             </p:panel>
                         </p:tab>
 
-                        <p:tab id="postContTab" title="Post Control Assessment">
+                        <p:tab id="postContTab" title="Post Control Assessment" rendered="true">
                             <p:selectOneMenu id="likePost" value="#{manageHazardBean.theHazard.postcontrolAssessment.likelihood}" required="false"  >
                                 <f:selectItem itemLabel="Select Likelihood"  noSelectionOption="true" />
                                 <f:selectItems value="#{manageHazardBean.assesmentCalc.likelihood}"   />
@@ -138,7 +139,7 @@
 
                     </p:accordionPanel>
                     
-                    <p:commandButton id="saveHazard" value="Save Hazard"  actionListener="#{manageHazardBean.saveHazard()}" ajax="false" process="@form">
+                    <p:commandButton id="saveHazard" value="Save Hazard"  actionListener="#{manageHazardBean.saveHazard()}" ajax="false" process="@all">
                         <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
                     </p:commandButton>
                     
