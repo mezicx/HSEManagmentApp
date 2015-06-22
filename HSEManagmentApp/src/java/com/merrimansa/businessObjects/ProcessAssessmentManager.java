@@ -181,6 +181,7 @@ public class ProcessAssessmentManager {
        for(ProcessAssessment p:pAFacade.findAll()){
            if(p.getSubmitted() && !p.getApproved()){
                AssessmentsForApproval.add(p);
+               System.out.println("One hasn't been approved");
            }
        }
        

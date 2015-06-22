@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/Templates/desktop/dtTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+            <f:view>
+                <h:form>
+                    <p:dataTable value="#{approveAssessmentBean.submittedAssessments}" var="item">
+                        <p:column headerText="Process Name">
+                            <h:outputLabel value="#{item.referenceNumber}" />                           
+                        </p:column>
+                        <p:column headerText="Assessor">
+                            <h:outputLabel value="#{item.userId.forename} #{item.userId.surname}"/>
+                            
+                        </p:column>
+                        <p:column headerText="Date">
+                            <h:outputLabel value="#{item.assessmentDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column headerText="Approve">
+                            <p:button value="Aprove">
+                                <f:param name="AssessmentId" value="#{item.assessmentId}"/>
+                            </p:button>                      
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                  </f:view>
+                </p:panel>
+          
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -7,6 +7,7 @@ package com.merrimansa.beans;
 
 import com.merrimansa.ejb.ProcessAssessmentManagerFacade;
 import com.merrimansa.entities.ProcessAssessment;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.Init;
@@ -52,6 +53,10 @@ public class ApproveAssessmentBean {
     
     public ProcessAssessment getProcessAssessment(int id){
        return PAMF.findAssessment(id);
+    }
+    
+    public List<ProcessAssessment> getSubmittedAssessments(){
+        return PAMF.getSubmittedAssessments();
     }
     
 }
