@@ -29,6 +29,15 @@ public class ImageProcessor {
 
         BufferedImage image = ImageIO.read(is);
         
+        return convertToBase64(image);
+    }
+    
+    public String resizeAndProcessImage(UploadedFile file) throws IOException{
+        
+        InputStream is = new BufferedInputStream(file.getInputstream());
+
+        BufferedImage image = ImageIO.read(is);
+        
         Image resizedImage =  image.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
 
         BufferedImage bimage = new BufferedImage(resizedImage.getWidth(null), resizedImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -38,7 +47,7 @@ public class ImageProcessor {
         Graphics2D bGr = bimage.createGraphics();
         bGr.drawImage(resizedImage, 0, 0, null);
         bGr.dispose();
-
+        
         return convertToBase64(bimage);
     }
 

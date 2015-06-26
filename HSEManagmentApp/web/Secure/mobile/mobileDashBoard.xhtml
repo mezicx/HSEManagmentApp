@@ -24,7 +24,7 @@
                             <f:view>
                                 <h:form>
 
-                                    <p:dataTable  value="#{mobileDashBoardBean.usersAssessments}" var="item" >
+                                    <p:dataTable  value="#{mobileDashBoardBean.usersAssessments}" var="item" reflow="true" >
 
                                         <p:column headerText="Title">
                                            
@@ -44,7 +44,7 @@
                                             
                                             <h:outputText value="#{item.processId.departmentId.departmentName}"/>
                                         </p:column>
-                                        <p:column>
+                                        <p:column headerText="">
                                             <p:button   outcome="Assessor/mobileManageAssessment" icon="ui-icon-edit">
                                                 <f:param name="AssessmentId" value="#{item.assessmentId}"/>
                                             </p:button>

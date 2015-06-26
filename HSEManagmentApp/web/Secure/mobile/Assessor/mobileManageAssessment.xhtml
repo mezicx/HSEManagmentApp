@@ -59,18 +59,18 @@
                         <p:accordionPanel>
                                   <p:tab title="Identified Hazards">
 
-                                <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" selectionMode="single" rowKey="#{item.hazardId}">
-                                    <p:column headerText="Process Step">
+                                      <p:dataTable value="#{manageAssessmentBean.hazards}" var="item" selectionMode="single" rowKey="#{item.hazardId}" reflow="true" >
+                                    <p:column headerText="Process Step:">
 
                                         <h:outputText value="#{item.processStepId.processStepName}"/>
                                     </p:column>
-                                    <p:column headerText="Category">
+                                    <p:column headerText="Category:">
 
-                                        <b><h:outputText value="#{item.category}"/></b><br/>
+                                        <h:outputText value="#{item.category}"/><br/>
                                         <h:outputText value="#{item.subCategory}"/>
                                     </p:column>
                                     
-                                    <p:column>
+                                          <p:column headerText="">
                                         <p:button outcome="mobileManageHazardA" icon="ui-icon-edit">
                                             <f:param name="AssessmentId" value="#{manageAssessmentBean.theAssessment.assessmentId}"/>
                                             <f:param name="HazardId" value="#{item.hazardId}"/>

@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Hazard Management</title>
     </h:head>
     <h:body>
         <ui:composition template="/Templates/Mobile/mobTemplate.xhtml">
@@ -53,7 +53,7 @@
                         <p:tab id="howTab" title="How">
                             <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" />
                             <p:fileUpload value="#{manageHazardBean.theFile}" mode="simple" />
-                            <p:graphicImage value="data:image/jpg;base64,#{manageHazardBean.image.imageData}"/>
+                            <p:graphicImage value="data:image/jpg;base64,#{manageHazardBean.image.imageData}" width="500"  />
                         </p:tab>
                         <!--Injury Types -->
                         <p:tab id="injTypeTab" title="Injury Selection">
@@ -110,11 +110,11 @@
                                     <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
                                 </p:commandButton>
 
-                                <p:dataTable id="cmTable" value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm">
-                                    <p:column>
+                                <p:dataTable id="cmTable" value="#{manageHazardBean.theHazard.controlMeasureCollection}" var="cm" reflow="true">
+                                    <p:column headerText="">
                                         <p:outputLabel value="#{cm.controlCategory}"/>
                                     </p:column>
-                                    <p:column>
+                                    <p:column headerText="">
                                         <p:commandButton  oncomplete="PF('actionDialog').show();" value="Add Action" process="@this" >
                                             <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
                                             <f:setPropertyActionListener value="#{cm}" target="#{manageHazardBean.selectedControlMeasure}"/>

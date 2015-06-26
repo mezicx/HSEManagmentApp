@@ -357,8 +357,7 @@ public class ManageHazardBean implements Serializable {
                 i.setImageData(ip.processImage(theFile));
                 i.setHazardId(theHazard);
                 i.setImageName(theFile.getFileName());
-                Random r = new Random();
-                i.setImageId(r.nextInt(200)+20000);
+                
                 
                 if (theHazard.getImageCollection()!=null) {
 
