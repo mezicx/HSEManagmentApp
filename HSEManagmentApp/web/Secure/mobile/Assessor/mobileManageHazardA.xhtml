@@ -33,6 +33,7 @@
                         <!--Category Selection -->
                         <p:tab id="category" title="Category Selection">
                             <p:selectOneMenu id="catMenu" value="#{manageHazardBean.theHazard.category}">
+                                <f:selectItem itemLabel="Select Category" noSelectionOption="true"/>
                                 <p:ajax process="@this" listener="#{manageHazardBean.updateSubCategories}"  update="wrapper"  />
                                 <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
 
@@ -106,7 +107,7 @@
                                 <p:inputTextarea id="ControlText" value="#{manageHazardBean.theControlMeasure.controlDescription}" title="Measure in place"/>
 
                                 <p:commandButton  value="Add Control Measure" actionListener="#{manageHazardBean.addControlMeasure()}" ajax="true"
-                                                  update="cmWrapper,postContTab" process="cmWrapper">
+                                                  update="cmWrapper" process="cmWrapper">
                                     <f:param name="cid" value="#{manageHazardBean.conversationId}"></f:param>
                                 </p:commandButton>
 
@@ -138,12 +139,12 @@
 
 
                     </p:accordionPanel>
-                    
+
                     <p:commandButton id="saveHazard" value="Save Hazard"  actionListener="#{manageHazardBean.saveHazard()}" ajax="false" process="@all">
                         <f:param name="cid" value="#{manageHazardBean.conversationId}"/>
                     </p:commandButton>
-                    
-                     <p:dialog id='action' widgetVar="actionDialog">
+
+                    <p:dialog id='action' widgetVar="actionDialog">
                         <h:outputText value="Add Action"/>
                         <p:selectOneMenu id="users" value="#{manageHazardBean.theUserId}" required="false">
                             <f:selectItem itemLabel="Select User"  noSelectionOption="true" />

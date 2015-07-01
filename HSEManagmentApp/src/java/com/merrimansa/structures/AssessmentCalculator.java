@@ -6,6 +6,7 @@
 package com.merrimansa.structures;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -21,8 +22,8 @@ public class AssessmentCalculator {
     
     public AssessmentCalculator(){
         
-        likelihood = new HashMap();
-        Severity = new HashMap();
+        likelihood = new LinkedHashMap();
+        Severity = new LinkedHashMap();
         
         Severity.put("Trivial Accident", 1);
         Severity.put("Minor Accident", 2);

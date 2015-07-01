@@ -33,6 +33,9 @@ public class ProcessAssessmentManager {
     @Inject
     private UserFacade userFacade;
 
+    /**
+     *
+     */
     public ProcessAssessmentManager() {
 
     }
@@ -45,6 +48,10 @@ public class ProcessAssessmentManager {
         return pAFacade.find(AssessmentId);
     }
     
+    /**
+     *
+     * @param assessment
+     */
     public void updateAssessment(ProcessAssessment assessment){
         pAFacade.edit(assessment);
     }
@@ -81,6 +88,11 @@ public class ProcessAssessmentManager {
     /**
      * Assigns a new assessment to the user identified in the parameter with the basic
      * information set in the parameter
+     * 
+     * Pre: A user has been identified in the required AssessmentVO
+     * 
+     * Post: A new Process Assessment object is created, linked to a process
+     * and linked to the user identified in the required assessmentVO
      * 
      * @param reqAssess 
      */
@@ -162,6 +174,18 @@ public class ProcessAssessmentManager {
 
     }
     
+    /**
+     * Used to associate a USer with a process assessment
+     * 
+     * Pre: An assessment and a user object exist
+     * 
+     * Post: the user identified is linked to the assessment identified 
+     * 
+     * 
+     * @param UserID
+     * @param AssessmentId 
+     */
+    
     public void addTeamMember(int UserID, int AssessmentId){
         
         ProcessAssessment assessment = pAFacade.find(AssessmentId);
@@ -175,6 +199,11 @@ public class ProcessAssessmentManager {
         
     }
     
+    /**
+     *  
+     * 
+     * @return
+     */
     public List<ProcessAssessment> getSubmittedAssessments(){
        List<ProcessAssessment> AssessmentsForApproval = new ArrayList();
        
@@ -188,6 +217,15 @@ public class ProcessAssessmentManager {
        return AssessmentsForApproval;
     }
     
+    /**
+     * Sets an assessment objects approved attribute to true
+     * 
+     * Pre: Assessment object exists
+     * 
+     * Post: The assessment objects approved attribute is set to true
+     * 
+     * @param assessmentId 
+     */
     @RolesAllowed("HSEManager")
     public void setApproved(int assessmentId){
         pAFacade.find(assessmentId).setApproved(true);

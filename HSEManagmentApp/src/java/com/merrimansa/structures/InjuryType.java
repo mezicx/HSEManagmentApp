@@ -11,23 +11,23 @@ package com.merrimansa.structures;
  */
 public enum InjuryType {
    
-    BURNS("Burns"),
-    CHEM_CONTAMINATION("Chemical Contamination"),
-    CONTACT_EQUIPOBJECTS("Contact with Equipment or Objects"),
-    CONTACT_MACHINARY("Contact wit Machinary"),
-    CONTACT_STATIONARYOBJECT("Contact with Stationary Object"),
-    FOREIGNBODY_EYE("Foreign Body in Eye"),
-    STRUCK_BY_EJECTED("Struck by Ejected Objects or Materials"),
-    KNIFE_INJURY("Knife Injury"),
-    MAN_HANDLING_LIFTING("Strains Whilst Lifting"),
-    OTHER("Other"),
-    SHARPS("Sharps Injury"),
-    SLIPS_TRIPS("Slips, Trips and Falls"),
-    STRUCK_MOVING_OBJECT("Struck by Moving or Falling Object"),
-    FALL("Falls from Height"),
-    SPRAIN_STRAIN("Sprains or Strains non Lifitng"),
-    ELECTRIC_SHOCK("Electrical Shock"),
-    OCUP_ILL_HEALTH("Occupational Ill Health");
+    BURNS("C1 Burns"),
+    CHEM_CONTAMINATION("C2 Chemical Contamination"),
+    CONTACT_EQUIPOBJECTS("C3 Contact with Equipment or Objects"),
+    CONTACT_MACHINARY("C4 Contact wit Machinary"),
+    CONTACT_STATIONARYOBJECT("C5 Contact with Stationary Object"),
+    FOREIGNBODY_EYE("C6 Foreign Body in Eye"),
+    STRUCK_BY_EJECTED("C7 Struck by Ejected Objects or Materials"),
+    KNIFE_INJURY("C8 Knife Injury"),
+    MAN_HANDLING_LIFTING("C9 Strains Whilst Lifting"),
+    OTHER("C10 Other"),
+    SHARPS("C11 Sharps Injury"),
+    SLIPS_TRIPS("C12 Slips, Trips and Falls"),
+    STRUCK_MOVING_OBJECT("C13 Struck by Moving or Falling Object"),
+    FALL("C14 Falls from Height"),
+    SPRAIN_STRAIN("C15 Sprains or Strains non Lifitng"),
+    ELECTRIC_SHOCK("C16 Electrical Shock"),
+    OCUP_ILL_HEALTH("C17 Occupational Ill Health");
     
     private String displayName;
     
