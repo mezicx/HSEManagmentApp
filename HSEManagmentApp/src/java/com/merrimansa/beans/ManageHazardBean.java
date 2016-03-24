@@ -90,16 +90,15 @@ public class ManageHazardBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        System.out.println("Init called");
+        //System.out.println("Init called");
 
         cats = new Categories();
         AssessmentCalc = new AssessmentCalculator();
 
-        // if (conversation.isTransient()) {
-        //   System.out.println("Conversation is transient");
+        
         conversation.begin();
         System.out.println("Conversation Id " + this.getConversationId());
-        //}
+        
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, String> params = externalContext.getRequestParameterMap();
@@ -297,21 +296,29 @@ public class ManageHazardBean implements Serializable {
         return emptyString;
     }
 
+    /**
+     * Adds Action to the selected control measure
+     */
     public void addAction() {
+        
         System.out.println("Add Action Called");
         FacesContext context = FacesContext.getCurrentInstance();
+        //if no action collection exists for current hazard create new one
         if (selectedControlMeasure.getActionCollection() == null) {
             Collection<Action> c = new ArrayList();
             selectedControlMeasure.setActionCollection(c);
         }
-
+        //Set User Id and Control Measure Id in placeholder action
         theAction.setUserId(HMF.getUser(theUserId));
         theAction.setControlId(selectedControlMeasure);
+        //Add place holder action to control measure action collection
         selectedControlMeasure.getActionCollection().add(theAction);
         System.out.println("Action " + theAction.getControlId().getControlId() + " ");
+        //Create new empty place holder Action object 
         theAction = new Action();
         theAction.setUserId(HMF.getUser(theUserId));
         theAction.setControlId(selectedControlMeasure);
+        //Add new message showing success
         System.out.println("Action Added Sucessfully");
         context.addMessage(null, new FacesMessage("Success", "Action added"));
 

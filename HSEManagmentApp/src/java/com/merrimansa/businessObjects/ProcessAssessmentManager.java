@@ -5,9 +5,13 @@
  */
 package com.merrimansa.businessObjects;
 
+import com.merrimansa.ejb.EmailSenderFacade;
 import com.merrimansa.ejb.ProcessAssessmentFacade;
 import com.merrimansa.ejb.ProcessFacade;
 import com.merrimansa.ejb.UserFacade;
+import com.merrimansa.entities.Action;
+import com.merrimansa.entities.ControlMeasure;
+import com.merrimansa.entities.Hazard;
 import com.merrimansa.entities.Process;
 import com.merrimansa.entities.ProcessAssessment;
 import com.merrimansa.entities.User;
@@ -32,6 +36,9 @@ public class ProcessAssessmentManager {
     
     @Inject
     private UserFacade userFacade;
+    
+    @Inject
+    private EmailSenderFacade ESF;
 
     /**
      *
@@ -49,10 +56,24 @@ public class ProcessAssessmentManager {
     }
     
     /**
-     *
+     *Used to update assessment details 
      * @param assessment
      */
     public void updateAssessment(ProcessAssessment assessment){
+        if(assessment.getApproved()){
+            for(Hazard h : assessment.getHazardCollection()){
+                for(ControlMeasure c :h.getControlMeasureCollection()){
+                    for(Action a :c.getActionCollection()){
+                        ESF.sendMail(a.getUserId().getEmail(), "RISK ASSESSMENT ACTION ISSUED",
+                                "The following action has been assigned to you for completion" +
+                                        a.getActionDescription()+
+                                        " This has been assigned in conjuction with Hazard "+
+                                        h.getProcessStepId().getProcessStepName());
+                    }
+                }
+            }
+        }
+        
         pAFacade.edit(assessment);
     }
     
@@ -175,7 +196,7 @@ public class ProcessAssessmentManager {
     }
     
     /**
-     * Used to associate a USer with a process assessment
+     * Used to associate a User with a process assessment
      * 
      * Pre: An assessment and a user object exist
      * 
@@ -200,9 +221,15 @@ public class ProcessAssessmentManager {
     }
     
     /**
-     *  
      * 
-     * @return
+     * Returns a list of submitted assessments
+     * 
+     * pre: At least one assessment exists
+     * 
+     * post: A list of assessment objects who's submitted attribute 
+     * is true and Approved attribute is false are returned
+     * 
+     * @return a list of assessments
      */
     public List<ProcessAssessment> getSubmittedAssessments(){
        List<ProcessAssessment> AssessmentsForApproval = new ArrayList();

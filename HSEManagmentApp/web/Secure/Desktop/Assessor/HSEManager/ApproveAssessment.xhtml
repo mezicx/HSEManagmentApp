@@ -3,31 +3,120 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Approve Assessment</title>
     </h:head>
     <h:body>
         <ui:composition template="/Templates/desktop/dtTemplate.xhtml">
-            <p:panelGrid>
-                <p:row>
-                    <p:column>Process Assessment</p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
+            <ui:define name="content">
+                <p:panelGrid >
+                    <f:facet name="header">
                         <p:row>
-                            <p:column>
-                                <h:outputText value="Assessor Name "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{approveAssessmentBean.theAssessment.userId.forename} 
-                                              #{approveAssessmentBean.theAssessment.userId.surname} "/>
-                            </p:column>
+                            <p:column colspan="2">Risk Assessment</p:column>
                         </p:row>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
+                    </f:facet>
+                    <p:row>
+                        <p:column colspan="1">
+                            <p:panelGrid>
+                                <p:row>
+
+                                    <p:column style="font-weight: bold">Assessors Name</p:column>
+
+                                    <p:column><h:outputText value="#{approveAssessmentBean.theAssessment.userId.surname}"/></p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column style="font-weight: bold">Assessment Date</p:column>
+                                    <p:column><h:outputText value="#{approveAssessmentBean.theAssessment.assessmentDate}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText></p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column style="font-weight: bold">Assessment Title</p:column>
+                                    <p:column><h:outputText value="#{approveAssessmentBean.theAssessment.title}"/></p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column style="font-weight: bold">Assessment Reference</p:column>
+                                    <p:column><h:outputText value="#{approveAssessmentBean.theAssessment.referenceNumber}"/></p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column style="font-weight: bold">Actions in Register</p:column>
+                                    <p:column></p:column>
+                                </p:row>     
+                            </p:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+
+                        <p:column colspan="2" style="font-weight: bold">Preamble</p:column>
+
+                    </p:row>
+                    <p:row>
+
+                        <p:column colspan="2" ><h:outputText value="#{approveAssessmentBean.theAssessment.preamble}"/></p:column>
+
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:dataTable value="#{approveAssessmentBean.theAssessment.hazardList}" var="hazard">
+                                <p:column headerText="Process Step">
+                                    <h:outputText value="#{hazard.processStepId.processStepName}"/>
+                                </p:column>
+                                <p:column headerText="Hazard Types">
+                                    <h:outputText value="#{hazard.category}"/><br/>
+                                    <h:outputText value="#{hazard.subCategory}"/>
+                                </p:column>
+                                <p:column headerText="Injury Type">
+                                    <h:outputText value="#{hazard.injuryType}"/>
+                                </p:column>
+                                <p:column headerText="How">
+                                    <h:outputText value="#{hazard.how}"/>
+                                </p:column>
+                                <p:column headerText="Routine">
+                                    <p:selectBooleanCheckbox value="#{hazard.routine}" disabled="true"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:dataTable value="#{approveAssessmentBean.theAssessment.hazardList}" var="hazard1">
+
+
+
+                                <p:column headerText="Image">
+                                    <p:graphicImage value="data:image/jpg;base64,#" width="500"  />
+                                </p:column>
+                                <p:column headerText="Persons At Risk">
+                                    <p:dataList value="#{hazard1.injuredPartyCollection}" var="ipl">
+                                        #{ipl}
+                                    </p:dataList>
+                                </p:column>
+                                <p:column headerText="Pre Control Risk">
+
+                                </p:column>
+                                <p:column headerText="Control Measures">
+
+                                </p:column>
+                                <p:column headerText="Post Control Risk">
+
+                                </p:column>
+                                <p:column headerText="Actions">
+
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </ui:define>
         </ui:composition>
     </h:body>
 </html>

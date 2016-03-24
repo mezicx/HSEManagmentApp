@@ -170,9 +170,9 @@ public class Hazard implements Serializable {
     public Collection<InjuredParty> getInjuredPartyCollection() {
         return injuredPartyCollection;
     }
-    
+    @XmlTransient
     public List<InjuredParty> getInjuredPartyList(){
-        return (List)this.getInjuredPartyCollection();
+        return (List<InjuredParty>)this.getInjuredPartyCollection();
     }
 
     public void setInjuredPartyCollection(Collection<InjuredParty> injuredPartyCollection) {

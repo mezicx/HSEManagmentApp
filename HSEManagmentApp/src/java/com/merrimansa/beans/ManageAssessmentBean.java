@@ -82,7 +82,7 @@ public class ManageAssessmentBean implements Serializable {
 
     }
     
-    public void submitAssessment() throws IOException{
+    public void submitAssessment() {
        FacesContext context = FacesContext.getCurrentInstance();
        ExternalContext externalContext = context.getExternalContext();
 
@@ -102,7 +102,10 @@ public class ManageAssessmentBean implements Serializable {
             context.addMessage(null, new FacesMessage("Error", "Problem Submitting Assessment " + theAssessment.getAssessmentId()));
         }
     }
-    
+    /**
+     * Gets a Map of active users
+     * @return 
+     */
      public Map<String, Integer> getAssessorList() {
         Map<String, Integer> userMap = new HashMap();
         for (UserVO u : UMF.getActiveUsers()) {
@@ -111,7 +114,9 @@ public class ManageAssessmentBean implements Serializable {
 
         return userMap;
     }
-    
+    /**
+     * Adds a team member to an assessment
+     */
     public void addTeamMember(){
          FacesContext context = FacesContext.getCurrentInstance();
          
@@ -136,9 +141,7 @@ public class ManageAssessmentBean implements Serializable {
     public List<Hazard> getHazards() {
 
         return (List) theAssessment.getHazardCollection();
-        
-        
-
+       
     }
 
     /**

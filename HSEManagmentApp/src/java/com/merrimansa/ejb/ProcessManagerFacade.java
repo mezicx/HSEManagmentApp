@@ -9,12 +9,14 @@ import com.merrimansa.businessObjects.ProcessManager;
 import com.merrimansa.entities.Department;
 import com.merrimansa.entities.Site;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
  *
  * @author Steve
  */
+@Stateless
 public class ProcessManagerFacade {
     
     @Inject

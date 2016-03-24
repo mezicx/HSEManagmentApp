@@ -52,7 +52,7 @@
 
                         <!--How Input -->
                         <p:tab id="howTab" title="How">
-                            <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How" />
+                            <p:inputTextarea id="how" value="#{manageHazardBean.theHazard.how}" title="How"  required="false"/>
                             <p:fileUpload value="#{manageHazardBean.theFile}" mode="simple" />
                             <p:graphicImage value="data:image/jpg;base64,#{manageHazardBean.image.imageData}" width="500"  />
                         </p:tab>

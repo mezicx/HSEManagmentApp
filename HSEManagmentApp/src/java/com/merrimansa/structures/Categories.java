@@ -47,6 +47,16 @@ public class Categories {
         
     }
 
+    /**
+     * Returns a map containing categories as keys and String Arrays of sub 
+     * categories as values 
+     * 
+     * Pre:None
+     * 
+     * Post:An Unmodifiable Map of String Arrays will have been returned
+     * 
+     * @return Unmodifiable Map of String Arrays
+     */
     public Map<String,String[]> getCat() {
         return Collections.unmodifiableMap(Cat);
     }

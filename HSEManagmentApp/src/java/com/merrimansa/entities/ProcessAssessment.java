@@ -172,6 +172,11 @@ public class ProcessAssessment implements Serializable {
     }
 
     @XmlTransient
+    public List<Hazard> getHazardList() {
+        return (List)hazardCollection;
+    }
+    
+    @XmlTransient
     public Collection<Hazard> getHazardCollection() {
         return hazardCollection;
     }

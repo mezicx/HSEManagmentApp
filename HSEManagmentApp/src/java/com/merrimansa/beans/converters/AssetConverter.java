@@ -45,14 +45,13 @@ public class AssetConverter implements Converter {
             return "";
         }
         
-        //System.out.println("Here it is"+value.getClass().toString());
-        //String foo = "";
+        
         
         if(value instanceof Asset){
             return String.valueOf(((Asset)value).getAssetId());
         }else{
             throw new ConverterException(new FacesMessage(String.format("%s is not a valid ID",value))); 
-            //return foo;
+           
         }
         
     }
